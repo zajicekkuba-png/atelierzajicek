@@ -233,3 +233,82 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;padding:12px 20px;background:var(--ink);color:#FFFFFF;display:none;max-width:calc(100% - 32px)}
 .toast.show{display:block}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ===== Mobilní optimalizace ===== */
+@media (max-width:640px){
+  body{font-size:1rem;line-height:1.6}
+  .wrap{padding:0 20px}
+  /* hlavička: vše se vejde, bez useknutých odkazů */
+  .site-head .wrap{min-height:56px;gap:8px;padding-inline:16px}
+  .brand{font-size:1rem}
+  .nav{gap:0;overflow:visible}
+  .nav a{padding:10px 8px;font-size:.95rem}
+  .nav a[href="#uvod"]{display:none}
+  html{scroll-padding-top:calc(60px + env(safe-area-inset-top,0px))}
+  section{scroll-margin-top:60px}
+  .gallery-sec .g-bar{top:calc(56px + env(safe-area-inset-top,0px))}
+
+  /* úvod */
+  .hero{padding:32px 20px 28px;gap:20px}
+  .hero .eyebrow{font-size:.78rem;letter-spacing:.16em;margin-bottom:10px}
+  .hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}
+  .hero blockquote{font-size:1rem}
+  .hero-side .actions{margin-top:20px;gap:10px}
+  .hero-side .actions .btn{flex:1 1 0;padding:0 12px}
+
+  /* pás fotek */
+  .film-sec{padding-bottom:40px}
+  .film-track{gap:10px}
+  .film-item img{height:min(62vw,300px)}
+  .film-item span{font-size:.82rem}
+
+  /* kdo jsem */
+  .who{padding:24px 20px 48px;gap:20px}
+  .portrait{order:-1;width:150px;height:150px;min-height:0;aspect-ratio:auto;border-radius:50%}
+  .portrait img{height:100%;max-height:none}
+  .who p{margin-top:16px}
+  .lists{grid-template-columns:minmax(0,1fr);gap:20px;margin-top:28px}
+  .lists h3{font-size:1.05rem}
+
+  /* programy: kompaktní štítky místo velkých dlaždic */
+  .tools{padding:0 20px 48px}
+  .tools h2{margin-bottom:18px}
+  .tool-grid{display:flex;flex-wrap:wrap;gap:8px}
+  .tool-grid span{min-height:0;padding:8px 14px;border-radius:999px;font-size:.9rem;font-weight:500}
+
+  /* galerie */
+  .gallery-sec{padding:8px 0 48px}
+  .g-head{margin-bottom:18px}
+  .g-head .eyebrow{margin-bottom:12px}
+  .filters{gap:2px 22px;margin-bottom:24px}
+  .chip{font-size:.98rem}
+  .admin-bar{margin:-8px 0 24px}
+  .vt{min-height:40px;padding:0 14px;font-size:.92rem}
+  .srow{margin-bottom:36px}
+  .cat-name{font-size:1.7rem}
+
+  /* zkušenosti */
+  .exp{padding:0 20px 40px}
+  .logos{justify-content:flex-start;gap:10px 22px;margin:24px 0 0;padding:20px 0}
+  .logos span{font-size:.95rem}
+
+  /* kontakt */
+  .contact{padding:24px 20px 56px;gap:28px}
+  .contact h2{font-size:1.7rem}
+  .contact .lead{margin:14px 0 20px;font-size:.98rem}
+  .c-item{min-height:48px;margin-bottom:6px}
+  .socials-h{margin-top:20px;font-size:1.05rem}
+  .form{padding:20px;margin-inline:-4px}
+  .form .btn-primary{width:100%}
+  .done .btn{width:100%}
+  textarea{min-height:120px}
+  input[type=text],input[type=email],textarea{font-size:16px}
+
+  /* patička */
+  .foot .wrap{gap:4px;padding-block:22px;font-size:.88rem}
+  .foot .wrap>*:nth-child(2){font-size:.95rem}
+}
+@media (max-width:360px){
+  .nav a{padding:10px 6px;font-size:.9rem}
+  .brand{font-size:.95rem}
+}
