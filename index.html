@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ateliér Zajíček – Jakub Zajíček, fotograf a grafický designér</title>
+<meta name="description" content="Portfolio Jakuba Zajíčka z Ostravy: produktová, portrétní a reportážní fotografie, video a grafický design.">
+<meta property="og:title" content="Ateliér Zajíček – Jakub Zajíček">
+<meta property="og:description" content="Fotografie, video a grafický design. Ostrava.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://atelierzajicek.cz/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231F4A36'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap">
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#uvod">Jakub Zajíček</a>
+    <span class="tagline">Fotograf a grafický designér</span>
+    <nav class="nav" aria-label="Hlavní navigace">
+      <a href="#uvod">Úvod</a>
+      <a href="#o-mne">O mně</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section id="uvod" class="wrap hero">
+  <div>
+    <span class="eyebrow">Jakub Zajíček</span>
+    <h1>Kreativita<br>Design<br>Fotografie</h1>
+  </div>
+  <div class="hero-side">
+    <blockquote>„Světlo, linie a kompozice – jazyk, kterým vyprávím svůj příběh.“</blockquote>
+    <div class="actions">
+      <a class="btn btn-primary" href="#portfolio">PORTFOLIO</a>
+      <a class="btn btn-ghost" href="#kontakt">KONTAKT</a>
+    </div>
+  </div>
+  <div class="hero-media" id="heroMedia" hidden></div>
+</section>
+<section class="film-sec" id="filmSec" hidden aria-label="Výběr z mé práce">
+  <div class="film" id="film"></div>
+</section>
+
+<section id="o-mne" class="wrap who">
+  <div>
+    <span class="eyebrow">Úvod</span>
+    <h2>Kdo jsem?</h2>
+    <p>Jmenuji se Jakub Zajíček a jsem fotograf, videomaker a grafický designér z Ostravy. Fotografii se věnuji 9 let, k ní jsem postupně přidal grafický design a video. Má práce se zaměřuje na hledání krásy v detailech a zachycení podstaty každého subjektu.</p>
+    <p>Můj fotografický styl se vyznačuje emocemi, promyšlenou kompozicí a citlivým okem pro hru světla a stínu. Jako grafický designér přináším stejnou pozornost detailům a tvořím vizuální řešení, která komunikují efektivně a krásně.</p>
+    <div class="lists">
+      <div><h3>Fotografie</h3><ul><li>Produktová a lifestyle</li><li>Portrétní fotografie</li><li>Architektura a krajina</li><li>Reportážní a redakční</li></ul></div>
+      <div><h3>Video</h3><ul><li>Produktová a reklamní videa</li><li>Edukativní obsah</li><li>Střih a motion design</li></ul></div>
+      <div><h3>Design</h3><ul><li>Vizuální styl značek</li><li>Reklamní kreativy pro Meta a YouTube</li><li>Ilustrace</li></ul></div>
+    </div>
+  </div>
+  <div class="portrait"><img id="avatar" alt="Jakub Zajíček" src="profil.jpg"></div>
+</section>
+
+<section class="wrap tools" aria-labelledby="tools-h">
+  <h2 id="tools-h">Programy, které používám</h2>
+  <div class="tool-grid">
+    <span>Adobe Photoshop</span><span>Adobe Lightroom</span><span>Adobe Illustrator</span><span>Adobe InDesign</span><span>Adobe Premiere</span><span>Adobe After Effects</span><span>Adobe Firefly</span><span>Figma</span><span>UXPin</span><span>Blender</span><span>Claude</span><span>ChatGPT</span>
+  </div>
+</section>
+
+<section id="portfolio" class="gallery-sec">
+  <div class="wrap">
+    <div class="g-head">
+      <span class="eyebrow">Moje práce</span>
+      <h2>Vybrané projekty</h2>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrovat podle oboru" id="filters"></div>
+    <div class="admin-bar"><div class="viewtog" role="group" aria-label="Zobrazení galerie" id="viewtog"><button type="button" class="vt" data-v="grid" aria-pressed="true">Mřížka</button><button type="button" class="vt" data-v="list" aria-pressed="false">Podle kategorií</button></div></div>
+
+    
+
+    <div id="grid" class="masonry"></div>
+    <div class="more" id="more"></div>
+  </div>
+</section>
+
+<section id="praxe" class="wrap exp">
+  <span class="eyebrow">O mně</span>
+  <h2>Mé zkušenosti</h2>
+  <div class="logos" aria-label="Firmy, se kterými jsem spolupracoval">
+    <span>TOPADROIT</span><span>Moravskoslezský kraj</span><span>Kantor’s Creative Club</span><span>Designbar</span><span>Erasmus+ Valencie</span><span>Kola pro Afriku</span>
+  </div>
+  <div class="jobs">
+    <article class="job">
+      <div class="when">od 09/2025<span class="now">Aktuálně</span></div>
+      <div><h3>TOPADROIT a. s.</h3><div class="role">Grafický designér, fotograf, videomaker</div></div>
+      <ul><li>Produktová fotografie, lifestyle i studiová</li><li>Koncept, natáčení a střih produktových videí</li><li>Reklamní kreativy pro Meta a YouTube</li><li>Edukativní videoobsah a postprodukce</li></ul>
+    </article>
+    <article class="job">
+      <div class="when">od 2025<span class="now">Aktuálně</span></div>
+      <div><h3>Moravskoslezský kraj</h3><div class="role">Redakční fotograf</div></div>
+      <p>Reportáže ze společenských a slavnostních událostí pro sociální sítě kraje, například předávání ocenění Vesnice roku nebo otevření točny v Chuchelné.</p>
+    </article>
+    <article class="job">
+      <div class="when">10–11/2024</div>
+      <div><h3>Kantor’s Creative Club</h3><div class="role">Odborná stáž, Ostrava</div></div>
+      <p>Animace a motion design, ilustrace a práce s fotografiemi.</p>
+    </article>
+    <article class="job">
+      <div class="when">10/2023</div>
+      <div><h3>Erasmus+, Universal Mobility</h3><div class="role">Odborná stáž, Valencie</div></div>
+      <p>Fotografie architektury, portrétů a produktů, postprodukce.</p>
+    </article>
+    <article class="job">
+      <div class="when">04–05/2023</div>
+      <div><h3>Designbar</h3><div class="role">Odborná stáž, Ostrava</div></div>
+      <p>Ilustrace a koncept vizuálního stylu.</p>
+    </article>
+  </div>
+  <div class="edu">
+    <h3>Vzdělání</h3>
+    <div><b>DiS., obor Multimedia – AVE ART Ostrava, VOŠ</b><span>2022–2025</span></div>
+    <div><b>Maturita – SPŠ Havířov-Šumbark</b><span>2019–2021</span></div>
+    <div><b>Výuční list – SPŠ Havířov-Šumbark</b><span>2016–2019</span></div>
+  </div>
+</section>
+
+<section id="kontakt" class="wrap contact">
+  <div>
+    <h2>Nezůstávej jen u snů. Napiš mi a proměníme je v realitu.</h2>
+    <p class="lead">Jsem vždy otevřen diskusi o nových projektech, kreativních nápadech nebo příležitostech být součástí vaší vize.</p>
+    <a class="c-item" href="tel:+420605105622"><span class="c-ico"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg></span><span><b>Telefon</b><span>+420 605 105 622</span></span></a>
+    <a class="c-item" href="mailto:zajicekkuba@seznam.cz"><span class="c-ico"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 2v.4l8 5 8-5V7z"></path></svg></span><span><b>E-mail</b><span>zajicekkuba@seznam.cz</span></span></a>
+    <div class="c-item"><span class="c-ico"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 1 7 7c0 5.2-7 13-7 13S5 14.2 5 9a7 7 0 0 1 7-7zm0 4.5A2.5 2.5 0 1 0 12 11.5 2.5 2.5 0 0 0 12 6.5z"></path></svg></span><span><b>Lokace</b><span>Ostrava, Česká republika</span></span></div>
+    <p class="socials-h">Sleduj mě na mých sociálních sítích</p>
+    <div class="socials">
+      <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8.5a.5.5 0 0 1 .5-.5z"></path></svg></a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg></a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4v12H4zM6 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm4 6h3.8v1.7c.6-1 1.9-2 3.9-2 4 0 4.3 2.6 4.3 6V21h-4v-5.4c0-1.5 0-3.3-2-3.3s-2.1 1.5-2.1 3.2V21h-4z"></path></svg></a>
+    </div>
+  </div>
+  <div class="form" id="form">
+    <div class="f-body">
+      <div class="f-grid">
+        <div class="field"><label for="fName">Jméno</label><input type="text" id="fName" autocomplete="name" placeholder="Vaše jméno"></div>
+        <div class="field"><label for="fEmail">E-mail</label><input type="email" id="fEmail" autocomplete="email" placeholder="Váš e-mail"></div>
+      </div>
+      <fieldset class="field">
+        <legend>Předmět</legend>
+        <div class="topics" id="topics">
+          <button type="button" class="chip" aria-pressed="false">Fotografie</button>
+          <button type="button" class="chip" aria-pressed="false">Video</button>
+          <button type="button" class="chip" aria-pressed="false">Grafický design</button>
+          <button type="button" class="chip" aria-pressed="false">Něco jiného</button>
+        </div>
+      </fieldset>
+      <div class="field"><label for="fMsg">Zpráva</label><textarea id="fMsg" placeholder="Vaše zpráva"></textarea></div>
+      <p class="err" id="fErr" role="alert"></p>
+      <button type="button" class="btn btn-primary" id="fSend">Odeslat zprávu</button>
+      <p class="hint">Otevře se vaše e-mailová aplikace s předvyplněnou zprávou.</p>
+    </div>
+    <div class="done">
+      <h3 style="font-size:1.4rem">Zpráva je připravená</h3>
+      <p style="margin:0;color:var(--muted)">Otevřete e-mail, zkontrolujte ho a odešlete.</p>
+      <a class="btn btn-primary" id="fMail" href="mailto:zajicekkuba@seznam.cz">Otevřít e-mail</a>
+      <button type="button" class="btn btn-ghost" id="fCopy">Zkopírovat text zprávy</button>
+      <button type="button" class="btn btn-small" id="fBack" style="padding:0">Upravit zprávu</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap"><a href="#uvod">Jakub Zajíček</a><span>Fotograf a grafický designér</span><span>© 2026 Jakub Zajíček</span></div></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Náhled fotografie">
+  <div class="lb-top">
+    <button type="button" class="lb-back" id="lbClose"><svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 4v16M4 12h16"></path></svg><span>ZPĚT</span></button>
+  </div>
+  <div class="lb-stage" id="lbStage">
+    <button type="button" class="lb-btn" id="lbPrev" aria-label="Předchozí fotka"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+    <img id="lbImg" alt="">
+    <button type="button" class="lb-btn" id="lbNext" aria-label="Další fotka"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button>
+  </div>
+  <div class="lb-cap"><b id="lbTitle"></b><span id="lbMeta"></span><span id="lbCount"></span></div>
+  <div class="lb-strip" id="lbStrip" role="group" aria-label="Další fotky"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
