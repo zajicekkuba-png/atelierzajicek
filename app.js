@@ -40,21 +40,44 @@
     f.innerHTML = defs.map(function (d) { return '<button type="button" class="chip" data-f="' + d.id + '" aria-pressed="' + (d.id === state.filter) + '">' + esc(d.label) + " <small>" + d.n + "</small></button>"; }).join("");
   }
   var MQ = window.matchMedia("(max-width:700px)");
-  var PAT_D = [[{ c: 1, s: 2 }, { c: 6, s: 2, a: "end" }, { c: 11, s: 2, a: "center" }], [{ c: 3, s: 3 }, { c: 8, s: 3, a: "center" }], [{ c: 1, s: 2, a: "center" }, { c: 5, s: 3 }, { c: 10, s: 2, a: "end" }], [{ c: 2, s: 3, a: "end" }, { c: 7, s: 2 }, { c: 11, s: 2, a: "center" }]];
-  var PAT_M = [[{ c: 1, s: 2 }, { c: 4, s: 2, a: "center" }, { c: 7, s: 2 }], [{ c: 2, s: 2 }, { c: 5, s: 3, a: "center" }], [{ c: 1, s: 3, a: "center" }, { c: 6, s: 3 }], [{ c: 2, s: 3 }, { c: 6, s: 2, a: "end" }]];
-  function scatterHTML(vis) {
-    var mob = MQ.matches, P = mob ? PAT_M : PAT_D, cols = mob ? 8 : 12, out = "", i = 0, r = 0;
-    while (i < vis.length) {
-      var pat = P[r % P.length], row = "";
-      pat.forEach(function (slot, k) {
-        if (i >= vis.length) return;
-        var p = vis[i], sp = slot.s, nextC = (pat[k + 1] || { c: cols + 1 }).c;
-        if (p.tw > p.th * 1.15 && slot.c + sp + 1 <= nextC) sp++;
-        row += '<button type="button" class="j" data-open="' + i + '" style="grid-column:' + slot.c + " / span " + sp + ";align-self:" + (slot.a || "start") + '" aria-label="Otevřít: ' + esc(titleOf(p)) + '">' +
-          '<img src="' + p.thumb + '" alt="' + esc(titleOf(p)) + '" width="' + p.tw + '" height="' + p.th + '" loading="lazy" decoding="async"></button>';
-        i++;
-      });
-      out += '<div class="srow" style="grid-template-columns:repeat(' + cols + ',minmax(0,1fr))">' + row + "</div>"; r++;
+  /* Fotky z projektu se v galerii ukáží jen jednou (první fotka), po kliknutí se otevře celý projekt. */
+  function items() {
+    var seen = {}, src = filtered().filter(function (p) { if (!p.proj) return true; if (seen[p.proj]) return false; seen[p.proj] = 1; return true; });
+    if (state.filter !== "vse") return src;
+    var order = {}; DATA.categories.forEach(function (c, k) { order[c.id] = k; });
+    var rank = function (p) { return order.hasOwnProperty(p.cat) ? order[p.cat] : 999; };
+    return src.map(function (p, k) { return [p, k]; }).sort(function (a, b) { return (rank(a[0]) - rank(b[0])) || (a[1] - b[1]); }).map(function (x) { return x[0]; });
+  }
+  function isWide(p) { return p.tw > p.th * 1.15; }
+  function tile(x, wide, mob) {
+    var p = x.p, c = catOf(p), y = new Date(p.t * 1000).getFullYear();
+    /* Na šířku: PC ořízne lehce na 16:9, panoramata a skoro čtvercové fotky neořezává (čtvercové jsou užší a na střed). */
+    var nat = p.tw / p.th, ratio = "2 / 3", fig = "";
+    if (wide && mob) ratio = p.tw + " / " + p.th;
+    else if (wide) { var R = 16 / 9; ratio = nat < R ? (nat < 1.4 ? p.tw + " / " + p.th : "16 / 9") : p.tw + " / " + p.th; if (nat < 1.4) fig = ' style="flex-basis:' + (nat / R * 100).toFixed(1) + '%"'; }
+    var sizes = wide ? "(max-width:700px) 100vw, 1184px" : (mob ? "50vw" : "(max-width:1232px) 33vw, 390px");
+    return '<figure class="e-item"' + fig + '><button type="button" class="j" data-open="' + x.i + '" style="aspect-ratio:' + ratio + '" aria-label="Otevřít: ' + esc(titleOf(p)) + '">' +
+      '<img src="' + p.thumb + '" srcset="' + p.thumb + " " + p.tw + "w, " + p.full + " " + p.w + 'w" sizes="' + sizes + '" alt="' + esc(titleOf(p)) + '" loading="lazy" decoding="async"></button>' +
+      "<figcaption><b>" + esc(titleOf(p)) + "</b><span>" + esc(c.kind) + ", " + y + "</span></figcaption>" + "</figure>";
+  }
+  /* Rytmus podle návrhu: fotka na šířku přes celou šířku, pak řada fotek na výšku (3 na PC, 2 na mobilu). */
+  function groupHTML(arr, mob) {
+    var n = mob ? 2 : 3, L = arr.filter(function (x) { return isWide(x.p); }), P = arr.filter(function (x) { return !isWide(x.p); }), out = "", turn = 0;
+    while (L.length || P.length) {
+      if ((turn % 2 === 0 && L.length) || !P.length) out += '<div class="e-row">' + tile(L.shift(), true, mob) + "</div>";
+      else out += '<div class="e-row" style="--n:' + n + '">' + P.splice(0, n).map(function (x) { return tile(x, false, mob); }).join("") + "</div>";
+      turn++;
+    }
+    return out;
+  }
+  function editorialHTML(vis) {
+    var mob = MQ.matches, all = vis.map(function (p, i) { return { p: p, i: i }; });
+    if (state.filter !== "vse") return groupHTML(all, mob);
+    var out = "", k = 0;
+    while (k < all.length) {
+      var cat = all[k].p.cat, grp = [];
+      while (k < all.length && all[k].p.cat === cat) grp.push(all[k++]);
+      out += '<h3 class="e-cat">' + esc(catOf(grp[0].p).label) + "</h3>" + groupHTML(grp, mob);
     }
     return out;
   }
@@ -69,9 +92,9 @@
       }).join("");
       return;
     }
-    var list = filtered(), vis = list.slice(0, state.shown);
-    g.className = "scatter"; g.innerHTML = scatterHTML(vis);
-    m.innerHTML = '<span>Zobrazeno ' + vis.length + " z " + list.length + "</span>" + (vis.length < list.length ? '<button type="button" class="btn btn-ghost btn-small" id="moreBtn">Načíst další</button>' : "");
+    var list = items(), vis = list.slice(0, state.shown);
+    g.className = "editorial"; g.innerHTML = editorialHTML(vis);
+    m.innerHTML = vis.length < list.length ? '<button type="button" class="btn btn-ghost btn-small" id="moreBtn">Načíst další</button>' : "";
     var mb = $("moreBtn"); if (mb) mb.onclick = function () { state.shown += PAGE; renderGrid(); };
   }
   function syncView() { Array.prototype.forEach.call($("viewtog").children, function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === state.view)); }); }
@@ -80,7 +103,7 @@
   $("grid").addEventListener("click", function (e) {
     var cr = e.target.closest("[data-cat]");
     if (cr) { state.filter = cr.dataset.cat; state.view = "grid"; state.shown = PAGE; syncView(); renderFilters(); renderGrid(); $("portfolio").scrollIntoView(); return; }
-    var o = e.target.closest("[data-open]"); if (o) openFrom(filtered(), +o.dataset.open);
+    var o = e.target.closest("[data-open]"); if (o) openFrom(items(), +o.dataset.open);
   });
   if (MQ.addEventListener) MQ.addEventListener("change", function () { if (state.view === "grid") renderGrid(); });
 
