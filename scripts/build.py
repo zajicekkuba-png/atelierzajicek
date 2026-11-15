@@ -20,7 +20,7 @@ KNOWN = {
     "ostatni": ("Ostatní", "Fotografie"),
 }
 EXT = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif", ".tif", ".tiff"}
-CAMERA = re.compile(r"^(img|dsc|dscf|dscn|_mg|_dsc|pxl|mvimg|photo|image|gopr|dji|screenshot|snimek|whatsapp|\d)", re.I)
+CAMERA = re.compile(r"^(img|dsc|dscf|dscn|_mg|_dsc|_dsf|dsf|pxl|mvimg|photo|image|gopr|dji|screenshot|snimek|whatsapp|\d|[_a-z]{1,5}\d{3,})", re.I)
 
 def slug(s):
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
@@ -38,6 +38,19 @@ def folder_title(folder, fallback):
             return text.splitlines()[0].strip()
     return fallback
 
+def load_names(folder):
+    """nazvy.txt: na každém řádku  soubor.jpg = Hezký název"""
+    names, f = {}, folder / "nazvy.txt"
+    if f.exists():
+        for line in f.read_text("utf-8").splitlines():
+            if "=" in line:
+                k, v = line.split("=", 1)
+                k, v = k.strip(), v.strip()
+                if k and v:
+                    names[k.lower()] = v
+                    names[Path(k).stem.lower()] = v
+    return names
+
 def added_time(path):
     try:
         out = subprocess.run(["git", "log", "-1", "--format=%ct", "--", str(path.relative_to(ROOT))],
@@ -54,7 +67,7 @@ def save(im, dest, max_px, quality):
     im.save(dest, "JPEG", quality=quality, optimize=True, progressive=True)
     return im.size
 
-def process(path, cat, proj, proj_title, img_dir):
+def process(path, cat, proj, proj_title, img_dir, names=None):
     key = hashlib.sha1(str(path.relative_to(SRC)).encode()).hexdigest()[:12]
     full, thumb = img_dir / f"{key}.jpg", img_dir / f"{key}-n.jpg"
     with Image.open(path) as im:
@@ -68,7 +81,9 @@ def process(path, cat, proj, proj_title, img_dir):
         w, h = save(im, full, 2400, 86)
         tw, th = save(im, thumb, 900, 80)
     stem = path.stem
-    title = proj_title or ("" if CAMERA.match(stem) else nice(stem))
+    names = names or {}
+    own = names.get(path.name.lower()) or names.get(stem.lower())
+    title = own or proj_title or ("" if CAMERA.match(stem) else nice(stem))
     return {"full": f"img/{full.name}", "thumb": f"img/{thumb.name}", "w": w, "h": h, "tw": tw, "th": th,
             "cat": cat, "title": title, "proj": proj, "t": added_time(path), "name": stem.lower()}
 
@@ -87,17 +102,19 @@ def main():
             label, kind = KNOWN.get(cid, (nice(cat_dir.name), "Fotografie"))
             label = folder_title(cat_dir, label)
             categories.append({"id": cid, "label": label, "kind": kind})
+            cat_names = load_names(cat_dir)
             for item in sorted(cat_dir.iterdir()):
                 try:
                     if item.is_file() and item.suffix.lower() in EXT:
-                        photos.append(process(item, cid, None, None, img_dir))
+                        photos.append(process(item, cid, None, None, img_dir, cat_names))
                     elif item.is_dir():
                         pid = cid + "/" + slug(item.name)
                         ptitle = folder_title(item, nice(item.name))
+                        pnames = load_names(item)
                         for f in sorted(item.iterdir()):
                             if f.is_file() and f.suffix.lower() in EXT:
                                 try:
-                                    photos.append(process(f, cid, pid, ptitle, img_dir))
+                                    photos.append(process(f, cid, pid, ptitle, img_dir, pnames))
                                 except Exception as e:
                                     failed.append(f"{f.relative_to(ROOT)}: {e}")
                 except Exception as e:
