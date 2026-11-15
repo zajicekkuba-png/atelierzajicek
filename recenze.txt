@@ -1,3 +1,3 @@
 # Recenze na webu. Jedna recenze = jeden řádek:
-# Jméno | Jaké focení | Hvězdičky 1–5 | Text recenze
+# Jméno | Hvězdičky 1–5 | Text recenze
 # Recenzi smažeš tak, že smažeš její řádek. Řádky začínající # se na webu nezobrazí.
