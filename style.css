@@ -312,3 +312,23 @@ fieldset{border:0;padding:0;margin:0 0 18px}
   .nav a{padding:10px 6px;font-size:.9rem}
   .brand{font-size:.95rem}
 }
+
+/* ---------- galerie podle návrhu z Figmy ---------- */
+.editorial{display:block}
+.e-cat{text-align:center;text-transform:uppercase;font-size:clamp(1.1rem,2vw,1.45rem);font-weight:800;letter-spacing:.02em;margin:clamp(48px,6vw,80px) 0 18px}
+.e-cat:first-child{margin-top:0}
+.e-row{display:flex;justify-content:center;gap:12px;margin-bottom:12px}
+.e-item{margin:0;min-width:0;flex:0 0 calc((100% - (var(--n,1) - 1) * 12px) / var(--n,1))}
+.e-item .j{width:100%}
+.e-item .j img{display:block;width:100%;height:100%;object-fit:cover}
+.e-item figcaption{padding:8px 2px 6px;line-height:1.35}
+.e-item figcaption b{display:block;font-weight:600;font-size:.95rem}
+.e-item figcaption span{font-size:.8rem;color:var(--muted)}
+@media (max-width:700px){
+  .editorial{margin-inline:-24px}
+  .e-row{gap:8px;margin-bottom:8px}
+  .e-item{flex-basis:calc((100% - (var(--n,1) - 1) * 8px) / var(--n,1))}
+  .e-item figcaption{padding:8px 14px 6px}
+  .e-cat{margin:44px 0 14px}
+}
+@media (max-width:640px){.editorial{margin-inline:-20px}}
