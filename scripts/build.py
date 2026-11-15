@@ -51,6 +51,27 @@ def load_names(folder):
                     names[Path(k).stem.lower()] = v
     return names
 
+def load_reviews():
+    """recenze.txt: jedna recenze na řádek ve tvaru  Jméno | Jaké focení | Hvězdičky 1–5 | Text"""
+    f, out = ROOT / "recenze.txt", []
+    if f.exists():
+        for line in f.read_text("utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = [x.strip() for x in line.split("|", 3)]
+            if len(parts) < 4:
+                continue
+            name, kind, stars, text = parts
+            try:
+                stars = max(1, min(5, int(stars)))
+            except ValueError:
+                stars = 5
+            text = text.strip(' "„“”')
+            if name and text:
+                out.append({"name": name, "kind": kind, "stars": stars, "text": text})
+    return out
+
 def added_time(path):
     try:
         out = subprocess.run(["git", "log", "-1", "--format=%ct", "--", str(path.relative_to(ROOT))],
@@ -124,7 +145,7 @@ def main():
     photos.sort(key=lambda p: (-p["t"], p["proj"] or "", p["name"]))
     for p in photos:
         p.pop("name")
-    (OUT / "gallery.json").write_text(json.dumps({"categories": categories, "photos": photos}, ensure_ascii=False), "utf-8")
+    (OUT / "gallery.json").write_text(json.dumps({"categories": categories, "photos": photos, "reviews": load_reviews()}, ensure_ascii=False), "utf-8")
     (OUT / ".nojekyll").write_text("")
     print(f"Hotovo: {len(photos)} fotek v {len(categories)} kategoriích.")
     for f in failed:
