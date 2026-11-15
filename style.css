@@ -346,3 +346,16 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 .rev figcaption small{color:var(--muted);font-size:.85rem}
 @media (max-width:900px){.rev-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.reviews{padding:0 20px 56px}.rev-grid{grid-template-columns:minmax(0,1fr);gap:12px;margin-top:24px}.rev{padding:26px 22px;gap:28px}}
+.jobs{margin-top:36px}
+.jobs .job{align-items:baseline}
+@media (max-width:860px){.jobs .job{gap:2px}.jobs{margin-top:24px}}
+.rev-cta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.rev-cta p{margin:0;color:var(--muted)}
+.rev-form{margin-top:20px;max-width:760px}
+.stars-in{display:flex;gap:2px}
+.stars-in button{all:unset;cursor:pointer;width:40px;height:40px;display:grid;place-items:center;color:#CFCFCF}
+.stars-in button.on{color:var(--ink)}
+.stars-in button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.rev-form .check{align-items:flex-start;margin-bottom:12px}
+.rev-form .check input{margin-top:2px;flex:none}
+@media (max-width:600px){.rev-cta .btn{width:100%}}
