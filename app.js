@@ -95,7 +95,7 @@
     var list = items(), vis = list.slice(0, state.shown);
     g.className = "editorial"; g.innerHTML = editorialHTML(vis);
     m.innerHTML = vis.length < list.length ? '<button type="button" class="btn btn-ghost btn-small" id="moreBtn">Načíst další</button>' : "";
-    var mb = $("moreBtn"); if (mb) mb.onclick = function () { state.shown += PAGE; renderGrid(); };
+    var mb = $("moreBtn"); if (mb) mb.onclick = function () { state.shown += PAGE; renderGrid(); nbsp($("grid")); };
   }
   function syncView() { Array.prototype.forEach.call($("viewtog").children, function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === state.view)); }); }
   $("viewtog").addEventListener("click", function (e) { var b = e.target.closest("[data-v]"); if (!b) return; state.view = b.dataset.v; if (state.view === "list") state.filter = "vse"; syncView(); renderFilters(); renderGrid(); });
@@ -178,8 +178,8 @@
     var r = DATA.reviews || [], g = $("revGrid");
     g.hidden = !r.length;
     g.innerHTML = r.map(function (x) {
-      x = { name: shortName(x.name), kind: x.kind, stars: x.stars, text: x.text };
-      return '<figure class="rev"><blockquote>„' + esc(x.text) + '“</blockquote><figcaption><span class="rev-av" aria-hidden="true">' + esc(initials(x.name)) + "</span>" + starsHTML(x.stars) + "<b>" + esc(x.name) + "</b>" + (x.kind ? "<small>" + esc(x.kind) + "</small>" : "") + "</figcaption></figure>";
+      x = { name: shortName(x.name), stars: x.stars, text: x.text };
+      return '<figure class="rev"><blockquote>„' + esc(x.text) + '“</blockquote><figcaption><span class="rev-av" aria-hidden="true">' + esc(initials(x.name)) + "</span>" + starsHTML(x.stars) + "<b>" + esc(x.name) + "</b></figcaption></figure>";
     }).join("");
     $("revLead").textContent = r.length ? "Fotil jsem vás? Budu rád za pár slov." : "Zatím tu žádné recenze nejsou. Fotil jsem vás? Budete první.";
   }
@@ -198,9 +198,9 @@
   $("rOpen").onclick = function () { var f = $("rForm"), open = f.hidden; f.hidden = !open; this.setAttribute("aria-expanded", String(open)); if (open) $("rName").focus(); };
   function clean(s) { return s.replace(/\|/g, "/").replace(/\s+/g, " ").trim(); }
   function revBody() {
-    var n = shortName($("rName").value), k = $("rKind").value.trim(), t = $("rText").value.trim();
-    return "Dobrý den,\n\nposílám recenzi na web.\n\nJméno: " + n + "\nFocení: " + (k || "-") + "\nHodnocení: " + rStars + "/5\nRecenze: " + t +
-      "\n\nSouhlasím se zveřejněním svého jména a recenze na webu atelierzajicek.cz.\n\n---\nŘádek pro recenze.txt:\n" + clean(n) + " | " + clean(k) + " | " + rStars + " | " + clean(t);
+    var n = shortName($("rName").value), t = $("rText").value.trim();
+    return "Dobrý den,\n\nposílám recenzi na web.\n\nJméno: " + n + "\nHodnocení: " + rStars + "/5\nRecenze: " + t +
+      "\n\nSouhlasím se zveřejněním svého jména a recenze na webu atelierzajicek.cz.\n\n---\nŘádek pro recenze.txt:\n" + clean(n) + " | " + rStars + " | " + clean(t);
   }
   $("rSend").onclick = function () {
     var err = $("rErr"), bad = null;
@@ -215,8 +215,20 @@
   $("rBack").onclick = function () { $("rForm").classList.remove("sent"); $("rText").focus(); };
   $("rCopy").onclick = function () { if (navigator.clipboard) navigator.clipboard.writeText(revBody()).then(function () { toast("Text recenze je zkopírovaný."); }, function () { toast("Kopírování se nepovedlo, označte text ručně."); }); };
 
+  /* ---------- typografie: jednopísmenná slova (a, i, k, o, s, u, v, z) nezůstanou na konci řádku ---------- */
+  var ONE = /(^|[\s\u00A0(„"'])([AaIiKkOoSsUuVvZz])[ \t\n\r]+(?=\S)/g;
+  function nbsp(root) {
+    var w = document.createTreeWalker(root || document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) { return n.parentNode.closest("script,style,textarea,pre,code,input") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }
+    }), n;
+    while ((n = w.nextNode())) {
+      var t = n.nodeValue, u = t.replace(ONE, "$1$2\u00A0").replace(ONE, "$1$2\u00A0");
+      if (u !== t) n.nodeValue = u;
+    }
+  }
+
   /* ---------- start ---------- */
-  function renderAll() { renderFilm(); renderFilters(); renderGrid(); renderReviews(); }
+  function renderAll() { renderFilm(); renderFilters(); renderGrid(); renderReviews(); nbsp(document.body); }
   renderAll();
   fetch("gallery.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) {
     DATA = d; CAT = {}; d.categories.forEach(function (c) { CAT[c.id] = c; }); renderAll();
