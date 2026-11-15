@@ -52,24 +52,26 @@ def load_names(folder):
     return names
 
 def load_reviews():
-    """recenze.txt: jedna recenze na řádek ve tvaru  Jméno | Jaké focení | Hvězdičky 1–5 | Text"""
+    """recenze.txt: jedna recenze na řádek ve tvaru  Jméno | Hvězdičky 1–5 | Text"""
     f, out = ROOT / "recenze.txt", []
     if f.exists():
         for line in f.read_text("utf-8").splitlines():
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
-            parts = [x.strip() for x in line.split("|", 3)]
-            if len(parts) < 4:
+            parts = [x.strip() for x in line.split("|")]
+            if len(parts) < 3:
                 continue
-            name, kind, stars, text = parts
+            if len(parts) >= 4 and not parts[1].isdigit():  # starší tvar s typem focení
+                parts = [parts[0], parts[2], "|".join(parts[3:])]
+            name, stars, text = parts[0], parts[1], " | ".join(parts[2:])
             try:
                 stars = max(1, min(5, int(stars)))
             except ValueError:
                 stars = 5
             text = text.strip(' "„“”')
             if name and text:
-                out.append({"name": name, "kind": kind, "stars": stars, "text": text})
+                out.append({"name": name, "stars": stars, "text": text})
     return out
 
 def added_time(path):
