@@ -90,8 +90,47 @@
 <section id="praxe" class="wrap exp">
   <span class="eyebrow">O mně</span>
   <h2>Mé zkušenosti</h2>
-  <div class="logos" aria-label="Firmy, se kterými jsem spolupracoval">
-    <span>TOPADROIT</span><span>Moravskoslezský kraj</span><span>Kantor’s Creative Club</span><span>Designbar</span><span>Erasmus+ Valencie</span><span>Kola pro Afriku</span>
+  <div class="jobs">
+    <article class="job"><span class="when">Zaměstnání</span><h3>Venira</h3><p class="role">Videomaker a grafik</p></article>
+    <article class="job"><span class="when">Zakázky</span><h3>Moravskoslezský kraj</h3><p class="role">Reportážní fotografie</p></article>
+    <article class="job"><span class="when">Stáž</span><h3>Kantor’s Creative Club</h3><p class="role">1 měsíc</p></article>
+    <article class="job"><span class="when">Stáž</span><h3>Designbar</h3><p class="role">1 měsíc</p></article>
+    <article class="job"><span class="when">Erasmus+</span><h3>Valencie</h3><p class="role">Fotografie · 2 týdny</p></article>
+    <article class="job"><span class="when">Spolupráce</span><h3>Kola pro Afriku</h3><p class="role">Animace pro projekt</p></article>
+  </div>
+</section>
+
+<section id="recenze" class="wrap reviews">
+  <span class="eyebrow">O mně</span>
+  <h2>Co o mně říkají mí klienti?</h2>
+  <div class="rev-grid" id="revGrid" hidden></div>
+  <div class="rev-cta">
+    <p id="revLead">Fotil jsem vás? Budu rád za pár slov.</p>
+    <button type="button" class="btn btn-ghost" id="rOpen" aria-expanded="false" aria-controls="rForm">Napsat recenzi</button>
+  </div>
+  <div class="form rev-form" id="rForm" hidden>
+    <div class="f-body">
+      <div class="f-grid">
+        <div class="field"><label for="rName">Jméno</label><input type="text" id="rName" autocomplete="name" placeholder="Stačí křestní jméno"></div>
+        <div class="field"><label for="rKind">Jaké focení</label><input type="text" id="rKind" placeholder="Např. portrétní focení"></div>
+      </div>
+      <fieldset class="field">
+        <legend>Hodnocení</legend>
+        <div class="stars-in" id="rStars" role="radiogroup" aria-label="Hodnocení"></div>
+      </fieldset>
+      <div class="field"><label for="rText">Recenze</label><textarea id="rText" maxlength="400" placeholder="Jak se vám se mnou spolupracovalo?"></textarea></div>
+      <label class="check"><input type="checkbox" id="rOk"><span>Souhlasím se zveřejněním svého jména a recenze na tomto webu.</span></label>
+      <p class="err" id="rErr" role="alert"></p>
+      <button type="button" class="btn btn-primary" id="rSend">Odeslat recenzi</button>
+      <p class="hint">Recenze se na webu objeví po schválení.</p>
+    </div>
+    <div class="done">
+      <h3 style="font-size:1.4rem">Děkuji!</h3>
+      <p style="margin:0;color:var(--muted)">Otevřete e-mail a odešlete ho, případně text zkopírujte a pošlete na zajicekkuba@seznam.cz. Recenzi zveřejním po schválení.</p>
+      <a class="btn btn-primary" id="rMail" href="mailto:zajicekkuba@seznam.cz">Otevřít e-mail</a>
+      <button type="button" class="btn btn-ghost" id="rCopy">Zkopírovat text recenze</button>
+      <button type="button" class="btn btn-small" id="rBack" style="padding:0">Upravit recenzi</button>
+    </div>
   </div>
 </section>
 
