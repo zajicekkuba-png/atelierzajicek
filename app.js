@@ -226,7 +226,36 @@
   }
 
   /* ---------- start ---------- */
-  function renderAll() { renderFilm(); renderFilters(); renderGrid(); renderReviews(); nbsp(document.body); }
+  /* ---------- menu: kategorie portfolia ---------- */
+  function renderMenu() {
+    var c = counts();
+    $("ddMenu").innerHTML = '<a href="#portfolio" data-go="vse">Všechny práce</a>' + DATA.categories.filter(function (x) { return c[x.id]; }).map(function (x) {
+      return '<a href="#' + x.id + '" data-go="' + x.id + '">' + esc(x.label) + "</a>";
+    }).join("");
+  }
+  function goCat(id) {
+    state.filter = id; state.view = "grid"; state.shown = PAGE;
+    syncView(); renderFilters(); renderGrid(); nbsp($("grid"));
+    $("portfolio").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }
+  function ddClose() { $("navDd").classList.remove("open"); $("ddBtn").setAttribute("aria-expanded", "false"); }
+  $("ddBtn").onclick = function (e) { e.stopPropagation(); var open = !$("navDd").classList.contains("open"); $("navDd").classList.toggle("open", open); this.setAttribute("aria-expanded", String(open)); if (open) { var f = $("ddMenu").querySelector("a"); if (f) f.focus(); } };
+  $("ddMenu").addEventListener("click", function (e) {
+    var a = e.target.closest("[data-go]"); if (!a) return;
+    e.preventDefault(); ddClose(); a.blur();
+    history.pushState(null, "", a.dataset.go === "vse" ? "#portfolio" : "#" + a.dataset.go);
+    goCat(a.dataset.go);
+  });
+  document.addEventListener("click", function (e) { if (!e.target.closest("#navDd")) ddClose(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && $("navDd").classList.contains("open")) { ddClose(); $("ddBtn").focus(); } });
+  function fromHash() { var h = decodeURIComponent(location.hash.slice(1)); if (h && CAT[h]) goCat(h); }
+  window.addEventListener("hashchange", fromHash);
+
+  var hashDone = false;
+  function renderAll() {
+    renderFilm(); renderFilters(); renderGrid(); renderReviews(); renderMenu(); nbsp(document.body);
+    if (!hashDone && DATA.categories.length) { hashDone = true; fromHash(); }
+  }
   renderAll();
   fetch("gallery.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) {
     DATA = d; CAT = {}; d.categories.forEach(function (c) { CAT[c.id] = c; }); renderAll();

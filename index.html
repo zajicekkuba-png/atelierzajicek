@@ -9,7 +9,7 @@
 <meta property="og:description" content="Fotografie, video a grafický design. Ostrava.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://atelierzajicek.cz/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231F4A36'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2336492E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap">
@@ -19,10 +19,13 @@
 <body>
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="#uvod">Jakub Zajíček</a>
+    <a class="brand" href="#uvod" aria-label="Jakub Zajíček – na začátek"><span>Jakub</span> <b>Zajíček</b></a>
     <span class="tagline">Fotograf, videomaker a grafik</span>
     <nav class="nav" aria-label="Hlavní navigace">
-      <a href="#portfolio">Portfolio</a>
+      <div class="nav-dd" id="navDd">
+        <a href="#portfolio">Portfolio</a><button type="button" class="dd-btn" id="ddBtn" aria-expanded="false" aria-controls="ddMenu" aria-label="Kategorie portfolia"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        <div class="dd" id="ddMenu"></div>
+      </div>
       <a href="#o-mne">O mně</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
@@ -33,10 +36,10 @@
 <section id="uvod" class="wrap hero">
   <div>
     <span class="eyebrow">Jakub Zajíček</span>
-    <h1>Foto<br>Video<br>Design</h1>
+    <h1>Fotím, točím<br>a navrhuji<br>pro lidi i značky</h1>
   </div>
   <div class="hero-side">
-    <p class="hero-lead">Lidé, produkty, architektura, příroda i značky. Ostrava a okolí.</p>
+    <p class="hero-lead">Portréty, produkty, architektura i příroda. Fotografie, video a grafika z Ostravy.</p>
     <div class="actions">
       <a class="btn btn-primary" href="#portfolio">PORTFOLIO</a>
       <a class="btn btn-ghost" href="#kontakt">KONTAKT</a>
@@ -167,7 +170,7 @@
 </section>
 </main>
 
-<footer class="foot"><div class="wrap"><a href="#uvod">Jakub Zajíček</a><span>Fotograf, videomaker a grafik</span><span>© 2026 Jakub Zajíček</span></div></footer>
+<footer class="foot"><div class="wrap"><a class="brand" href="#uvod"><span>Jakub</span> <b>Zajíček</b></a><span>Fotograf, videomaker a grafik</span><span>© 2026 Jakub Zajíček</span></div></footer>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Náhled fotografie">
   <div class="lb-top">

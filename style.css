@@ -368,3 +368,33 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 }
 .hero-lead{margin:0;color:var(--muted);font-size:1.15rem;line-height:1.55;max-width:34ch}
 @media (max-width:640px){.hero-lead{font-size:1rem}}
+.hero h1{font-size:clamp(2.4rem,5.2vw,4.6rem)}
+@media (max-width:640px){.hero h1{font-size:clamp(2.1rem,10vw,2.8rem)}}
+
+/* ---------- jméno jako logo ---------- */
+.brand{text-transform:uppercase;letter-spacing:.16em;font-weight:400;font-size:.95rem;line-height:1.1}
+.brand b{font-weight:800}
+.foot .brand{font-size:.85rem}
+
+/* ---------- menu: rozbalovací kategorie portfolia ---------- */
+.nav{overflow:visible}
+.nav-dd{position:relative;display:flex;align-items:center}
+.nav-dd > a{padding-right:2px}
+.dd-btn{all:unset;cursor:pointer;width:28px;height:40px;display:grid;place-items:center;border-radius:6px;color:var(--ink)}
+.dd-btn:hover{color:var(--green)}
+.dd-btn:focus-visible{outline:2px solid var(--green);outline-offset:-2px}
+.dd-btn svg{transition:transform .2s}
+.nav-dd.open .dd-btn svg{transform:rotate(180deg)}
+.dd{display:none;position:absolute;top:100%;left:0;min-width:210px;background:#FFFFFF;border:1px solid var(--line);border-radius:10px;padding:6px;box-shadow:0 14px 34px rgba(0,0,0,.08);z-index:30}
+.nav-dd.open .dd{display:block}
+@media (hover:hover) and (min-width:641px){.nav-dd:hover .dd{display:block}}
+.dd a{display:block;padding:10px 12px;border-radius:6px;white-space:nowrap}
+.dd a:hover,.dd a:focus-visible{background:var(--ph);color:var(--green)}
+@media (max-width:640px){
+  .brand{display:grid;letter-spacing:.12em;font-size:.82rem}
+  .brand span,.brand b{display:block}
+  .nav-dd > a{padding-right:0}
+  .dd-btn{width:24px}
+  .dd{position:fixed;left:12px;right:12px;top:calc(60px + env(safe-area-inset-top,0px));min-width:0}
+  .dd a{padding:13px 14px}
+}
