@@ -398,3 +398,10 @@ fieldset{border:0;padding:0;margin:0 0 18px}
   .dd{position:fixed;left:12px;right:12px;top:calc(60px + env(safe-area-inset-top,0px));min-width:0}
   .dd a{padding:13px 14px}
 }
+
+/* ikony v kontaktu a sociální sítě v barvě značky */
+.c-ico{background:var(--green);color:#FFFFFF}
+.c-item:hover .c-ico{background:var(--green-hi)}
+.socials a{background:var(--green);color:#FFFFFF}
+.socials a:hover{background:var(--green-hi);color:#FFFFFF}
+.socials a:focus-visible{outline:2px solid var(--green);outline-offset:3px}
