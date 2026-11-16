@@ -359,3 +359,10 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 .rev-form .check{align-items:flex-start;margin-bottom:12px}
 .rev-form .check input{margin-top:2px;flex:none}
 @media (max-width:600px){.rev-cta .btn{width:100%}}
+/* Kdo jsem – tři obory pod textem i fotkou, vedle sebe na střed (jen PC) */
+@media (min-width:861px){
+  .who > .lists{grid-column:1 / -1;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:8px;padding-top:44px;border-top:1px solid var(--line);text-align:center}
+  .who > div:first-child{align-self:center}
+  .who > .lists ul{list-style:none;padding:0}
+  .who > .lists li + li{margin-top:4px}
+}
