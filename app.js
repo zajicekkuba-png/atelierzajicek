@@ -147,8 +147,6 @@
   })();
 
   /* ---------- contact ---------- */
-  var topic = "";
-  $("topics").addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (!b) return; var on = b.getAttribute("aria-pressed") !== "true"; Array.prototype.forEach.call(this.children, function (x) { x.setAttribute("aria-pressed", "false"); }); b.setAttribute("aria-pressed", String(on)); topic = on ? b.textContent : ""; });
   function mailBody() { return "Dobrý den,\n\n" + $("fMsg").value.trim() + "\n\n" + $("fName").value.trim() + "\n" + $("fEmail").value.trim(); }
   $("fSend").onclick = function () {
     var err = $("fErr"), name = $("fName").value.trim(), mail = $("fEmail").value.trim(), msg = $("fMsg").value.trim(), bad = null;
@@ -157,7 +155,7 @@
     else if (!msg) bad = ["Napište prosím pár slov o tom, co potřebujete.", "fMsg"];
     if (bad) { err.textContent = bad[0]; err.classList.add("show"); $(bad[1]).focus(); return; }
     err.classList.remove("show");
-    var subj = "Poptávka" + (topic ? ": " + topic : "") + " – " + name;
+    var topic = $("fSubj").value.trim(), subj = (topic || "Poptávka") + " – " + name;
     $("fMail").href = "mailto:zajicekkuba@seznam.cz?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(mailBody());
     $("form").classList.add("sent"); $("fMail").focus();
   };
