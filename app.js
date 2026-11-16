@@ -251,6 +251,18 @@
   function fromHash() { var h = decodeURIComponent(location.hash.slice(1)); if (h && CAT[h]) goCat(h); }
   window.addEventListener("hashchange", fromHash);
 
+  /* ---------- tlačítko „Přeskočit portfolio“: ukáže se jen při procházení dlouhé galerie ---------- */
+  var skipTick = false;
+  function skipCheck() {
+    skipTick = false;
+    var sec = $("portfolio"), r = sec.getBoundingClientRect(), vh = window.innerHeight;
+    var show = $("grid").offsetHeight > vh && r.top < vh * 0.25 && r.bottom > vh * 1.2;
+    $("skipPf").classList.toggle("show", show);
+    $("skipPf").tabIndex = show ? 0 : -1;
+  }
+  window.addEventListener("scroll", function () { if (!skipTick) { skipTick = true; requestAnimationFrame(skipCheck); } }, { passive: true });
+  window.addEventListener("resize", skipCheck);
+
   var hashDone = false;
   function renderAll() {
     renderFilm(); renderFilters(); renderGrid(); renderReviews(); renderMenu(); nbsp(document.body);

@@ -405,3 +405,10 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 .socials a{background:var(--green);color:#FFFFFF}
 .socials a:hover{background:var(--green-hi);color:#FFFFFF}
 .socials a:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+/* tlačítko „Přeskočit portfolio“ */
+.skip-pf{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:15;display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;background:var(--green);color:#FFFFFF;font-weight:600;font-size:.9rem;text-decoration:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.18);opacity:0;pointer-events:none;transform:translate(-50%,12px);transition:opacity .2s,transform .2s,background .2s}
+.skip-pf.show{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.skip-pf:hover{background:var(--green-hi);color:#FFFFFF}
+.skip-pf:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.skip-pf{transition:none}}
