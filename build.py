@@ -10,13 +10,14 @@ except Exception:
 ROOT = Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "fotky", ROOT / "_site"
 SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg"]
-KNOWN = {
-    "produkt": ("Produkt", "Fotografie"),
+KNOWN = {  # pořadí tady = pořadí kategorií na webu
     "portrety": ("Portréty a lidé", "Fotografie"),
-    "reportaz": ("Reportáž", "Fotografie"),
-    "architektura": ("Architektura", "Fotografie"),
+    "produkt": ("Produkty a značky", "Fotografie"),
+    "architektura": ("Architektura a prostor", "Fotografie"),
     "priroda": ("Příroda", "Fotografie"),
-    "design": ("Grafický design", "Design"),
+    "volna-tvorba": ("Volná tvorba", "Fotografie"),
+    "design": ("Design", "Design"),
+    "reportaz": ("Reportáž", "Fotografie"),
     "ostatni": ("Ostatní", "Fotografie"),
 }
 EXT = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif", ".tif", ".tiff"}
@@ -132,7 +133,9 @@ def main():
         page.write_text(html, "utf-8")
     categories, photos, failed = [], [], []
     if SRC.exists():
-        for cat_dir in sorted(p for p in SRC.iterdir() if p.is_dir() and not p.name.startswith(".")):
+        order = list(KNOWN)
+        rank = lambda p: (order.index(slug(p.name)) if slug(p.name) in order else len(order), p.name)
+        for cat_dir in sorted((p for p in SRC.iterdir() if p.is_dir() and not p.name.startswith(".")), key=rank):
             cid = slug(cat_dir.name)
             label, kind = KNOWN.get(cid, (nice(cat_dir.name), "Fotografie"))
             label = folder_title(cat_dir, label)
