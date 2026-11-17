@@ -119,18 +119,6 @@ def main():
     for f in SITE_FILES:
         if (ROOT / f).exists():
             shutil.copy2(ROOT / f, OUT / f)
-    # Nový název CSS a JS po každé změně (např. style.3fa9c1d2.css), aby prohlížeč nikdy nepoužil starou verzi z mezipaměti.
-    page = OUT / "index.html"
-    if page.exists():
-        html = page.read_text("utf-8")
-        for f in ("style.css", "app.js"):
-            if (ROOT / f).exists():
-                v = hashlib.sha1((ROOT / f).read_bytes()).hexdigest()[:8]
-                stem, ext = f.rsplit(".", 1)
-                named = f"{stem}.{v}.{ext}"
-                shutil.copy2(ROOT / f, OUT / named)
-                html = html.replace(f'"{f}"', f'"{named}"')
-        page.write_text(html, "utf-8")
     categories, photos, failed = [], [], []
     if SRC.exists():
         order = list(KNOWN)
