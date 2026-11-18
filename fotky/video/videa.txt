@@ -1,0 +1,3 @@
+# Videa z YouTube nebo Vimea. Jedno video = jeden řádek:
+# Název videa | odkaz
+# Nahoře = zobrazí se jako první. Řádky začínající # se na webu nezobrazí.
