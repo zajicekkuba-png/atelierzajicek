@@ -1,3 +1,4 @@
 # Recenze na webu. Jedna recenze = jeden řádek:
 # Jméno | Hvězdičky 1–5 | Text recenze
 # Recenzi smažeš tak, že smažeš její řádek. Řádky začínající # se na webu nezobrazí.
+Ivana | 5 | S Kubou jsme fotili několikrát a vždy jsem byla maximálně spokojená. Oceňuji jeho umělecké cítění - ať už se jednalo o fantasy focení (šaty, paruka, netradiční lokace) nebo profesionální fotografie na můj web, které měly působit autenticky. Každá fotka měla jeho specifický podpis, byla něčím výjimečná, a přesně tímto se liší od ostatních fotografů. Kuba fotí s láskou a je to vidět. Díky!🖤
