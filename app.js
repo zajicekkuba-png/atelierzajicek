@@ -13,9 +13,12 @@
 
   /* ---------- filmstrip ---------- */
   function renderFilm() {
-    var sec = $("filmSec"), film = $("film"), list = DATA.photos;
+    var sec = $("filmSec"), film = $("film"), list = DATA.photos.filter(function (p) { return !p.vid; });
     if (list.length < 3) { sec.hidden = true; return; }
-    var pick = list.slice(0, 14);
+    /* Náhodné pořadí při každém načtení stránky (Fisher–Yates) */
+    var mix = list.slice();
+    for (var k = mix.length - 1; k > 0; k--) { var r = Math.floor(Math.random() * (k + 1)), t = mix[k]; mix[k] = mix[r]; mix[r] = t; }
+    var pick = mix.slice(0, 14);
     var item = function (p, i, dup) {
       return '<button type="button" class="film-item" data-film="' + i + '"' + (dup ? ' aria-hidden="true" tabindex="-1"' : ' aria-label="Otevřít: ' + esc(titleOf(p)) + '"') + '>' +
         '<img src="' + p.thumb + '" alt="" width="' + p.tw + '" height="' + p.th + '"' + (i < 4 && !dup ? "" : ' loading="lazy"') + '>' +
@@ -48,6 +51,15 @@
     var rank = function (p) { return order.hasOwnProperty(p.cat) ? order[p.cat] : 999; };
     return src.map(function (p, k) { return [p, k]; }).sort(function (a, b) { return (rank(a[0]) - rank(b[0])) || (a[1] - b[1]); }).map(function (x) { return x[0]; });
   }
+  var PLAY = '<span class="play" aria-hidden="true"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg></i></span>';
+  function media(p, sizes) {
+    if (p.vid) {
+      var inner = p.thumb ? '<img src="' + p.thumb + '" alt="' + esc(titleOf(p)) + '" loading="lazy" decoding="async">'
+        : p.vid.type === "file" ? '<video src="' + p.vid.src + '#t=0.1" muted playsinline preload="metadata" aria-hidden="true"></video>' : '<span class="vid-ph" aria-hidden="true"></span>';
+      return inner + PLAY;
+    }
+    return '<img src="' + p.thumb + '" srcset="' + p.thumb + " " + p.tw + "w, " + p.full + " " + p.w + 'w" sizes="' + sizes + '" alt="' + esc(titleOf(p)) + '" loading="lazy" decoding="async">';
+  }
   function isWide(p) { return p.tw > p.th * 1.15; }
   function tile(x, wide, mob) {
     var p = x.p, c = catOf(p), y = new Date(p.t * 1000).getFullYear();
@@ -57,7 +69,7 @@
     else if (wide) { var R = 16 / 9; ratio = nat < R ? (nat < 1.4 ? p.tw + " / " + p.th : "16 / 9") : p.tw + " / " + p.th; if (nat < 1.4) fig = ' style="flex-basis:' + (nat / R * 100).toFixed(1) + '%"'; }
     var sizes = wide ? "(max-width:700px) 100vw, 1184px" : (mob ? "50vw" : "(max-width:1232px) 33vw, 390px");
     return '<figure class="e-item"' + fig + '><button type="button" class="j" data-open="' + x.i + '" style="aspect-ratio:' + ratio + '" aria-label="Otevřít: ' + esc(titleOf(p)) + '">' +
-      '<img src="' + p.thumb + '" srcset="' + p.thumb + " " + p.tw + "w, " + p.full + " " + p.w + 'w" sizes="' + sizes + '" alt="' + esc(titleOf(p)) + '" loading="lazy" decoding="async"></button>' +
+      media(p, sizes) + "</button>" +
       "<figcaption><b>" + esc(titleOf(p)) + "</b><span>" + esc(c.kind) + ", " + y + "</span></figcaption>" + "</figure>";
   }
   /* Rytmus podle návrhu: fotka na šířku přes celou šířku, pak řada fotek na výšku (3 na PC, 2 na mobilu). */
@@ -87,8 +99,8 @@
     if (state.view === "list") {
       var c = counts(); g.className = "catlist"; m.innerHTML = "";
       g.innerHTML = DATA.categories.filter(function (x) { return c[x.id]; }).map(function (x) {
-        var cover = DATA.photos.filter(function (p) { return p.cat === x.id; })[0];
-        return '<button type="button" class="cat-row" data-cat="' + x.id + '"><span class="cat-name">' + esc(x.label) + '</span><span class="cat-n">' + c[x.id] + '</span><img class="cat-cover" src="' + cover.thumb + '" alt="" loading="lazy"></button>';
+        var cover = DATA.photos.filter(function (p) { return p.cat === x.id && p.thumb; })[0];
+        return '<button type="button" class="cat-row" data-cat="' + x.id + '"><span class="cat-name">' + esc(x.label) + '</span><span class="cat-n">' + c[x.id] + '</span>' + (cover ? '<img class="cat-cover" src="' + cover.thumb + '" alt="" loading="lazy">' : "") + "</button>";
       }).join("");
       return;
     }
@@ -115,23 +127,31 @@
   }
   function renderStrip() {
     var st = $("lbStrip"), l = state.lbList; st.hidden = l.length < 2;
-    st.innerHTML = l.length < 2 ? "" : l.map(function (p, k) { return '<button type="button" class="lb-th" data-i="' + k + '" aria-label="Fotka ' + (k + 1) + ": " + esc(titleOf(p)) + '"><img src="' + p.thumb + '" alt="" width="' + p.tw + '" height="' + p.th + '" loading="lazy"></button>'; }).join("");
+    st.innerHTML = l.length < 2 ? "" : l.map(function (p, k) { return '<button type="button" class="lb-th" data-i="' + k + '" aria-label="Fotka ' + (k + 1) + ": " + esc(titleOf(p)) + '">' + (p.thumb ? '<img src="' + p.thumb + '" alt="" width="' + p.tw + '" height="' + p.th + '" loading="lazy">' : '<span class="vid-ph"></span>') + "</button>"; }).join("");
   }
   function openLb(list, i) { state.lbList = list; state.lbIndex = i; renderStrip(); state.lastFocus = document.activeElement; $("lb").classList.add("open"); document.body.style.overflow = "hidden"; showLb(); $("lbClose").focus(); }
   function showLb() {
     var l = state.lbList, i = state.lbIndex, p = l[i]; if (!p) return; var c = catOf(p);
-    var img = $("lbImg"); img.classList.add("loading"); img.onload = function () { img.classList.remove("loading"); }; img.src = p.thumb; img.alt = titleOf(p);
-    var full = new Image(); full.onload = function () { if (state.lbList[state.lbIndex] === p) img.src = full.src; }; full.src = p.full;
+    var img = $("lbImg"), box = $("lbVid");
+    box.innerHTML = ""; box.hidden = !p.vid; img.hidden = !!p.vid;
+    if (p.vid) {
+      var v = p.vid, tall = p.h > p.w;
+      box.classList.toggle("tall", tall);
+      box.innerHTML = v.type === "file" ? '<video src="' + v.src + '" controls autoplay playsinline></video>'
+        : '<iframe src="' + (v.type === "yt" ? "https://www.youtube-nocookie.com/embed/" + v.id + "?autoplay=1&rel=0&playsinline=1" : "https://player.vimeo.com/video/" + v.id + "?autoplay=1") +
+          '" title="' + esc(titleOf(p)) + '" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>';
+    } else { img.classList.add("loading"); img.onload = function () { img.classList.remove("loading"); }; img.src = p.thumb; img.alt = titleOf(p);
+    var full = new Image(); full.onload = function () { if (state.lbList[state.lbIndex] === p) img.src = full.src; }; full.src = p.full; }
     $("lbTitle").textContent = titleOf(p); $("lbMeta").textContent = p.title ? c.kind + ", " + c.label : c.kind;
     var st = $("lbStrip"), cur = null;
     Array.prototype.forEach.call(st.children, function (b, k) { var on = k === i; b.setAttribute("aria-current", String(on)); if (on) cur = b; });
     if (cur) requestAnimationFrame(function () { st.scrollLeft = cur.offsetLeft - st.clientWidth / 2 + cur.clientWidth / 2; });
     $("lbCount").textContent = l.length > 1 ? (p.proj && l.every(function (x) { return x.proj === p.proj; }) ? "Projekt, " : "") + (i + 1) + " / " + l.length : "";
     $("lbPrev").style.visibility = $("lbNext").style.visibility = l.length > 1 ? "visible" : "hidden";
-    if (l[i + 1]) { var n = new Image(); n.src = l[i + 1].thumb; }
+    if (l[i + 1] && l[i + 1].thumb) { var n = new Image(); n.src = l[i + 1].thumb; }
   }
   function stepLb(d) { var n = state.lbList.length; if (n < 2) return; state.lbIndex = (state.lbIndex + d + n) % n; showLb(); }
-  function closeLb() { $("lb").classList.remove("open"); document.body.style.overflow = ""; if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus(); }
+  function closeLb() { $("lbVid").innerHTML = ""; $("lb").classList.remove("open"); document.body.style.overflow = ""; if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus(); }
   $("lbStrip").addEventListener("click", function (e) { var b = e.target.closest("[data-i]"); if (!b) return; state.lbIndex = +b.dataset.i; showLb(); });
   $("lbClose").onclick = closeLb; $("lbPrev").onclick = function () { stepLb(-1); }; $("lbNext").onclick = function () { stepLb(1); };
   $("lb").addEventListener("click", function (e) { if (e.target.id === "lbStage") closeLb(); });
