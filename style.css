@@ -437,3 +437,8 @@ fieldset{border:0;padding:0;margin:0 0 18px}
   .lb-stage #lbPrev{left:clamp(16px,4vw,48px)}
   .lb-stage #lbNext{right:clamp(16px,4vw,48px)}
 }
+
+/* Pás fotek: popisek nesmí roztáhnout úzkou fotku – šířku určuje jen fotka, dlouhý popisek se zkrátí */
+.film-item{align-items:flex-start;width:min-content}
+.film-item img{object-fit:cover;align-self:flex-start}
+.film-item span{display:block;width:0;min-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
