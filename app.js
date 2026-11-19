@@ -70,7 +70,7 @@
     var sizes = wide ? "(max-width:700px) 100vw, 1184px" : (mob ? "50vw" : "(max-width:1232px) 33vw, 390px");
     return '<figure class="e-item"' + fig + '><button type="button" class="j" data-open="' + x.i + '" style="aspect-ratio:' + ratio + '" aria-label="Otevřít: ' + esc(titleOf(p)) + '">' +
       media(p, sizes) + "</button>" +
-      "<figcaption><b>" + esc(titleOf(p)) + "</b><span>" + esc(c.kind) + ", " + y + "</span></figcaption>" + "</figure>";
+      "<figcaption><b>" + esc(titleOf(p)) + "</b><span>" + esc(p.d || c.kind) + ", " + esc(p.y || y) + "</span></figcaption>" + "</figure>";
   }
   /* Rytmus podle návrhu: fotka na šířku přes celou šířku, pak řada fotek na výšku (3 na PC, 2 na mobilu). */
   function groupHTML(arr, mob) {
@@ -142,7 +142,7 @@
           '" title="' + esc(titleOf(p)) + '" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>';
     } else { img.classList.add("loading"); img.onload = function () { img.classList.remove("loading"); }; img.src = p.thumb; img.alt = titleOf(p);
     var full = new Image(); full.onload = function () { if (state.lbList[state.lbIndex] === p) img.src = full.src; }; full.src = p.full; }
-    $("lbTitle").textContent = titleOf(p); $("lbMeta").textContent = p.title ? c.kind + ", " + c.label : c.kind;
+    $("lbTitle").textContent = titleOf(p); $("lbMeta").textContent = [p.d || c.kind, p.y || (p.title ? c.label : "")].filter(Boolean).join(", ");
     var st = $("lbStrip"), cur = null;
     Array.prototype.forEach.call(st.children, function (b, k) { var on = k === i; b.setAttribute("aria-current", String(on)); if (on) cur = b; });
     if (cur) requestAnimationFrame(function () { st.scrollLeft = cur.offsetLeft - st.clientWidth / 2 + cur.clientWidth / 2; });
