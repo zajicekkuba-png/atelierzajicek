@@ -1,0 +1,19 @@
+# Názvy prací v designu. Jeden řádek = jedna práce:
+# soubor.jpg = Název | rok | popis   (rok a popis jsou nepovinné)
+# Číslo na začátku názvu souboru (1_, 2_ …) psát nemusíš.
+
+michelangelo-final.jpg = Michelangelo 550 | 2025 | Plakát
+michelangelo-pokus-2.jpg = Michelangelo 550 | 2025 | Plakát, varianta na výšku
+loga-kreslici-platno-1-kopie-7.jpg = Kafeza – znak | 2025 | Vizuální identita
+logo-finalni-02.jpg = Hefaiston Helfštýn – logo | 2023 | Vizuální identita
+kelimky-s-drzakem-barevna.jpg = Kafeza – kelímky a nosič | 2025 | Vizuální identita
+simple-wooden-stand-mockup-1cerna-veerze-pozadi.jpg = Kafeza – menu | 2025 | Vizuální identita
+plakat-2.jpg = Kafeza – manuál identity | 2025 | Vizuální identita
+mockup-hefaiston.jpg = Hefaiston Helfštýn – vizitky | 2023 | Vizuální identita
+velky-plakat.jpg = Hefaiston Helfštýn – manuál identity | 2023 | Vizuální identita
+banner-300x600.jpg = Hefaiston Helfštýn – banner | 2023 | Online reklama
+loho-vertikal-11.jpg = AVE ART – školní televize | | Logo
+mockup-vizitky.jpg = AVE ART – školní televize | | Visačky
+tmava-varianta-bez-spadavek-new-page-0001.jpg = Morphies | | Obal na sušenky
+tmava-varianta-bez-spadavek-new-page-0002.jpg = Morphies – konstrukce | | Obal na sušenky
+infografika-final.jpg = Včela medonosná | | Infografika

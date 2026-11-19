@@ -1,0 +1,43 @@
+# Názvy fotek v této kategorii. Jeden řádek = jedna fotka:
+# soubor.jpg = Název | rok | popis   (rok a popis jsou nepovinné, např. „Kovář | 2024 | Reportáž“)
+# Názvy jsou jen návrhy podle toho, co je na fotce – klidně je přepiš.
+# Řádky začínající # se na webu nezobrazí.
+
+1746000242424.jpg = Lamely
+1746000242433.jpg = Rezavé soukolí
+1746000242441.jpg = Ozubené kolo
+1746000242468.jpg = Věž Nové radnice
+1746000242475.jpg = Oblouk nad městem
+1746000242480.jpg = Světlo v hale
+1746000242502.jpg = Věž ve stínu
+1746000242520.jpg = Gotická katedrála
+1746000242718.jpg = Zelená báň
+1746000242770.jpg = Kašna
+1746000242836.jpg = Mezi nosníky
+1746000242881.jpg = Instalace v hale
+1746000242918.jpg = Obraz mezi řetězy
+1746000242990.jpg = Úzké okno
+1795030337354.jpg = Křivky fasády
+1795030339066.jpg = Ocelová konstrukce
+1795030878774.jpg = Betonová křivka
+1795030878956.jpg = Vlna
+1795033402755.jpg = Pod obloukem
+# ↓ Tenhle obrázek je podle názvu z Adobe Firefly (AI). Doporučuji ho z portfolia smazat.
+Firefly 20240620124532 (1).jpg = Bílá stěna
+dsc05884.jpg = Komín
+dsf0444.jpg = Věž kostela
+dsf5075.jpg = Ostnatý drát
+dsf5086.jpg = 1. nástupiště
+dsf7880.jpg = Aréna v Pule
+dsf7918.jpg = Aréna v noci
+dsf8445.jpg = Do výšky
+img-1252.jpg = Cihlová fasáda
+img-20231020-071841-180.jpg = Svět ve skleněné kouli
+img-4514.jpg = Trojúhelník světla
+img-4619.jpg = Lamely v oblouku
+img-4942.jpg = Arkády
+img-6248.jpg = Kašna ve Valencii
+img-6270-pano-2.jpg = Kupole ve Valencii
+img-9275.jpg = Mariánský sloup
+img-9798.jpg = Kupole věže
+porubsky-oblouk-1.jpg = Porubský oblouk

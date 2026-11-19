@@ -1,0 +1,17 @@
+# Názvy fotek v této kategorii. Jeden řádek = jedna fotka:
+# soubor.jpg = Název | rok | popis   (rok a popis jsou nepovinné, např. „Kovář | 2024 | Reportáž“)
+# Názvy jsou jen návrhy podle toho, co je na fotce – klidně je přepiš.
+# Řádky začínající # se na webu nezobrazí.
+
+1746000242566.jpg = Medúza
+1746000242791.jpg = Slunečnice
+1746000242807.jpg = Kobylka
+1795030335686.jpg = Osamělý strom
+1795030338595.jpg = Listí proti světlu
+20240508151709_img_8229.jpg = Holub
+dsf7628.jpg = Bouřlivé moře
+dsf7873.jpg = Pinie
+dsf8021.jpg = Listy
+img_6461_1.jpg = Volavka
+img_6693_1.jpg = Plameňák
+img_6726_1.jpg = Jeřáb panenský

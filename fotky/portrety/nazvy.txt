@@ -1,0 +1,26 @@
+# Názvy fotek v této kategorii. Jeden řádek = jedna fotka:
+# soubor.jpg = Název | rok | popis   (rok a popis jsou nepovinné, např. „Kovář | 2024 | Reportáž“)
+# Názvy jsou jen návrhy podle toho, co je na fotce – klidně je přepiš.
+# Řádky začínající # se na webu nezobrazí.
+
+1665413471317.jpg = Kouř a světlo
+1746000242606.jpg = Portrét v ulici
+1746000242625.jpg = Kovář
+1746000242900.jpg = Pohled skrz kolo
+1746000243072.jpg = Odpočinek v ateliéru
+1746000243079.jpg = V ateliéru kresby
+1792645728302 (1).jpg = Ve stínu
+6IMG7263.jpg = Westernový styl
+6IMG7413 (3).jpg = Neonový pohled
+6IMG7415 (3).jpg = Neon
+IMG_0224 (2).jpg = Světlo a stín
+IMG_0301.jpg = V lese
+IMG_1135 (3).jpg = Malíř v ateliéru
+IMG_20230818_071149_279.jpg = Proti nebi
+IMG_2803 (2).jpg = Za plotem
+IMG_4851 (2).jpg = Tichá chvíle
+_DSF0676 (2).jpg = Mezi náhrobky
+_DSF0682 (1).jpg = Sprej
+_DSF0907 (1).jpg = Na pódiu
+_DSF0938.jpg = Oheň a barva
+_DSF0941.jpg = Plamen
