@@ -4,15 +4,13 @@
 # Řádky začínající # se na webu nezobrazí.
 
 1746000242725.jpg = Svatozář
-# ↓ Socha – pokud je od MojDy, doplň do popisu např. „socha: David Moješčík“.
-1784443394641.jpg = Ucho
+1784443394641.jpg = Ucho|socha: David Moješčík
 1795030336711.jpg = Textura
-1795030336782.jpg = Popraskaná zeď
+1795030336782.jpg = Detail zdi
 1795030337036.jpg = Barevný ateliér
-1795033403120.jpg = Koule
+1795033403120.jpg = Detail sloupku
 dsf0368.jpg = Změna majetku
 dsf1027.jpg = Plamen a barva
-# ↓ Socha – pokud je od MojDy, doplň do popisu např. „socha: David Moješčík“.
-dsf7006_1.jpg = Socha v prostoru
+dsf7006_1.jpg = Socha v prostoru|socha: David Moješčík
 img_8352-enhanced-nr_1794982580362.jpg = Studie nohy
 img_8745.jpg = Na schodech
