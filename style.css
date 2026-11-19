@@ -429,3 +429,11 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 /* „Zpět“ v prohlížení fotek ve stejném stylu jako tlačítka webu */
 .lb-back{font-weight:700;font-size:.92rem;letter-spacing:.06em;gap:4px}
 .lb-back svg{width:28px;height:28px}
+
+/* Šipky v prohlížení fotek vždy na stejném místě u okrajů, bez ohledu na formát fotky */
+@media (min-width:641px){
+  .lb-stage{position:relative;padding-inline:calc(clamp(16px,4vw,48px) + 72px)}
+  .lb-stage .lb-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2}
+  .lb-stage #lbPrev{left:clamp(16px,4vw,48px)}
+  .lb-stage #lbNext{right:clamp(16px,4vw,48px)}
+}
