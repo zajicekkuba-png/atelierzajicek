@@ -133,6 +133,7 @@
   function showLb() {
     var l = state.lbList, i = state.lbIndex, p = l[i]; if (!p) return; var c = catOf(p);
     var img = $("lbImg"), box = $("lbVid");
+    if (!box) { box = document.createElement("div"); box.className = "lb-vid"; box.id = "lbVid"; box.hidden = true; img.after(box); }
     box.innerHTML = ""; box.hidden = !p.vid; img.hidden = !!p.vid;
     if (p.vid) {
       var v = p.vid, tall = p.h > p.w;

@@ -179,7 +179,7 @@ a.c-item:hover b{color:var(--green)}
 .socials-h{font-size:1.15rem;font-weight:500;margin:28px 0 12px}
 .socials{display:flex;gap:10px}
 .socials a{width:48px;height:48px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center}
-.socials a:hover{background:var(--green);color:#FFFFFF}
+@media (hover:hover){.socials a:hover{background:var(--green-hi);color:#FFFFFF}}
 .form{background:var(--panel);padding:32px}
 .form input,.form textarea{background:#FFFFFF}
 .f-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 20px}
@@ -401,9 +401,9 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 
 /* ikony v kontaktu a sociální sítě v barvě značky */
 .c-ico{background:var(--green);color:#FFFFFF}
-.c-item:hover .c-ico{background:var(--green-hi)}
 .socials a{background:var(--green);color:#FFFFFF}
-.socials a:hover{background:var(--green-hi);color:#FFFFFF}
+/* Zesvětlení jen u zařízení s myší – na mobilu by po klepnutí zůstalo „viset“. */
+@media (hover:hover){.c-item:hover .c-ico,.socials a:hover{background:var(--green-hi);color:#FFFFFF}}
 .socials a:focus-visible{outline:2px solid var(--green);outline-offset:3px}
 
 /* tlačítko „Přeskočit portfolio“ */
@@ -412,3 +412,28 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 .skip-pf:hover{background:var(--green-hi);color:#FFFFFF}
 .skip-pf:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){.skip-pf{transition:none}}
+
+/* ---------- video ---------- */
+.j{position:relative}
+.e-item .j video,.e-item .j .vid-ph{display:block;width:100%;height:100%;object-fit:cover;background:#111}
+.vid-ph{display:block;width:100%;height:100%;background:#111}
+.play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.play i{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.5);color:#FFFFFF;display:grid;place-items:center;transition:background .2s,transform .2s}
+.play svg{margin-left:3px}
+@media (hover:hover){.j:hover .play i{background:var(--green);transform:scale(1.06)}}
+.lb-vid{flex:1 1 auto;min-width:0;max-width:min(100%,1400px);max-height:100%;aspect-ratio:16 / 9;background:#000}
+.lb-vid.tall{flex:0 1 auto;height:100%;aspect-ratio:9 / 16}
+.lb-vid iframe,.lb-vid video{display:block;width:100%;height:100%;border:0;background:#000}
+.lb-th .vid-ph{width:100%;height:100%}
+
+/* „Zpět“ v prohlížení fotek ve stejném stylu jako tlačítka webu */
+.lb-back{font-weight:700;font-size:.92rem;letter-spacing:.06em;gap:4px}
+.lb-back svg{width:28px;height:28px}
+
+/* Šipky v prohlížení fotek vždy na stejném místě u okrajů, bez ohledu na formát fotky */
+@media (min-width:641px){
+  .lb-stage{position:relative;padding-inline:calc(clamp(16px,4vw,48px) + 72px)}
+  .lb-stage .lb-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2}
+  .lb-stage #lbPrev{left:clamp(16px,4vw,48px)}
+  .lb-stage #lbNext{right:clamp(16px,4vw,48px)}
+}
