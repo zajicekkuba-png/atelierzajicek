@@ -41,26 +41,54 @@ def folder_title(folder, fallback):
             return text.splitlines()[0].strip()
     return fallback
 
+YEAR = re.compile(r"^(?:19|20)\d{2}(?:\s*[–-]\s*(?:(?:19|20)?\d{2}|současnost|dosud))?$", re.I)
+
 def name_meta(value):
-    """„Název | 2024 | Popis“ -> (název, rok, popis). Rok i popis jsou nepovinné."""
+    """„Název | 2024 | Popis“ -> (název, rok, popis).
+    Rok i popis jsou nepovinné a nezáleží na pořadí: rok se pozná podle čísla (2024, 2023–2024),
+    všechno ostatní za názvem je popis. Prázdná pole a mezery navíc nevadí."""
     parts = [x.strip() for x in (value or "").split("|")]
     title = parts[0] if parts else ""
-    year = parts[1] if len(parts) > 1 else ""
-    desc = " | ".join(parts[2:]) if len(parts) > 2 else ""
-    return title, year, desc
+    year, desc = "", []
+    for p in parts[1:]:
+        if not p:
+            continue
+        if not year and YEAR.match(p):
+            year = p
+        else:
+            desc.append(p)
+    return title, year, ", ".join(desc)
+
+def norm(s):
+    """Porovnání názvů souborů bez ohledu na velká písmena, diakritiku, koncovku,
+    číslo pořadí na začátku, „(1)“ na konci a mezery/podtržítka/pomlčky."""
+    s = Path(str(s).strip()).name
+    s = re.sub(r"\.(jpe?g|png|webp|heic|heif|tiff?|mp4|webm)$", "", s, flags=re.I)
+    s = re.sub(r"^\d{1,4}[ _.\-]+", "", s)
+    s = re.sub(r"\s*\(\d+\)$", "", s)
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[\s_.\-]+", " ", s).strip()
 
 def load_names(folder):
-    """nazvy.txt: na každém řádku  soubor.jpg = Název | rok | popis  (rok a popis nepovinné)"""
+    """nazvy.txt: na každém řádku  soubor.jpg = Název | rok | popis  (rok a popis nepovinné).
+    Řádek se najde i podle názvu, když soubor mezitím přejmenuješ přímo na ten název."""
     names, f = {}, folder / "nazvy.txt"
     if f.exists():
-        for line in f.read_text("utf-8").splitlines():
-            if "=" in line:
-                k, v = line.split("=", 1)
-                k, v = k.strip(), v.strip()
-                if k and v:
-                    names[k.lower()] = v
-                    names[Path(k).stem.lower()] = v
+        for line in f.read_text("utf-8-sig").splitlines():
+            if line.strip().startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            k, v = k.strip(), v.strip()
+            if k and v:
+                names.setdefault(norm(k), v)
+                t = name_meta(v)[0]
+                if t:
+                    names.setdefault("title:" + norm(t), v)
     return names
+
+def find_name(names, path):
+    key = norm(path.name)
+    return names.get(key) or names.get("title:" + key)
 
 def yt_or_vimeo(url):
     """Vrátí (typ, id, na_výšku) pro odkaz z YouTube nebo Vimea."""
@@ -98,7 +126,7 @@ def video_file(path, cat, out_dir, names):
     dest = out_dir / f"{key}{path.suffix.lower()}"
     shutil.copy2(path, dest)
     order, clean = split_order(path.stem)
-    own_title, year, desc = name_meta(names.get(path.name.lower()) or names.get(path.stem.lower()) or names.get(clean.lower()))
+    own_title, year, desc = name_meta(find_name(names, path))
     title = own_title or ("" if CAMERA.match(clean) else nice(clean))
     return {"full": "", "thumb": "", "w": 1600, "h": 900, "tw": 1600, "th": 900, "cat": cat, "title": title,
             "proj": None, "t": added_time(path), "o": order, "y": year, "d": desc, "name": path.stem.lower(), "vid": {"type": "file", "src": f"video/{dest.name}"}}
@@ -165,7 +193,7 @@ def process(path, cat, proj, proj_title, img_dir, names=None):
     stem = path.stem
     names = names or {}
     order, clean = split_order(stem)
-    own_title, year, desc = name_meta(names.get(path.name.lower()) or names.get(stem.lower()) or names.get(clean.lower()))
+    own_title, year, desc = name_meta(find_name(names, path))
     title = own_title or proj_title or ("" if CAMERA.match(clean) else nice(clean))
     return {"o": order, "y": year, "d": desc, "full": f"img/{full.name}", "thumb": f"img/{thumb.name}", "w": w, "h": h, "tw": tw, "th": th,
             "cat": cat, "title": title, "proj": proj, "t": added_time(path), "name": stem.lower()}
