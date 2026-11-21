@@ -252,7 +252,7 @@
     var c = counts();
     $("ddMenu").innerHTML = '<a href="#portfolio" data-go="vse">Všechny práce</a>' + DATA.categories.filter(function (x) { return c[x.id]; }).map(function (x) {
       return '<a href="#' + x.id + '" data-go="' + x.id + '">' + esc(x.label) + "</a>";
-    }).join("");
+    }).join("") + ((DATA.projects || []).length ? '<a href="#projekty" class="dd-proj">Projekty</a>' : "");
   }
   function goCat(id) {
     state.filter = id; state.view = "grid"; state.shown = PAGE;
@@ -262,6 +262,7 @@
   function ddClose() { $("navDd").classList.remove("open"); $("ddBtn").setAttribute("aria-expanded", "false"); }
   $("ddBtn").onclick = function (e) { e.stopPropagation(); var open = !$("navDd").classList.contains("open"); $("navDd").classList.toggle("open", open); this.setAttribute("aria-expanded", String(open)); if (open) { var f = $("ddMenu").querySelector("a"); if (f) f.focus(); } };
   $("ddMenu").addEventListener("click", function (e) {
+    if (e.target.closest(".dd-proj")) { ddClose(); return; }
     var a = e.target.closest("[data-go]"); if (!a) return;
     e.preventDefault(); ddClose(); a.blur();
     history.pushState(null, "", a.dataset.go === "vse" ? "#portfolio" : "#" + a.dataset.go);
@@ -284,9 +285,25 @@
   window.addEventListener("scroll", function () { if (!skipTick) { skipTick = true; requestAnimationFrame(skipCheck); } }, { passive: true });
   window.addEventListener("resize", skipCheck);
 
+  /* ---------- projekty: karty odkazující na podstránky /projekty/<nazev>/ ---------- */
+  function renderProjects() {
+    var list = (DATA && DATA.projects) || [], sec = $("projekty");
+    if (!sec) return;
+    sec.hidden = !list.length;
+    if ($("navProj")) $("navProj").hidden = !list.length;
+    $("prGrid").innerHTML = list.map(function (p) {
+      var meta = [p.field, p.year].filter(Boolean).join(" · ");
+      return '<a class="pr-card" href="projekty/' + encodeURIComponent(p.id) + '/">' +
+        '<span class="pr-img"><img src="' + esc(p.thumb) + '" width="' + p.tw + '" height="' + p.th + '" loading="lazy" decoding="async" alt=""></span>' +
+        '<span class="pr-txt">' + (meta ? '<span class="pr-meta">' + esc(meta) + '</span>' : '') +
+        '<b>' + esc(p.title) + '</b>' + (p.sub ? '<span class="pr-sub">' + esc(p.sub) + '</span>' : '') +
+        '<span class="pr-go">Zobrazit projekt <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>';
+    }).join("");
+  }
+
   var hashDone = false;
   function renderAll() {
-    renderFilm(); renderFilters(); renderGrid(); renderReviews(); renderMenu(); nbsp(document.body);
+    renderFilm(); renderFilters(); renderGrid(); renderReviews(); renderMenu(); renderProjects(); nbsp(document.body);
     if (!hashDone && DATA.categories.length) { hashDone = true; fromHash(); }
   }
   renderAll();

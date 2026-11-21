@@ -121,7 +121,7 @@ def load_videos(folder, cat):
 
 def video_file(path, cat, out_dir, names):
     """Krátké video (.mp4/.webm) přímo na webu – do 25 MB."""
-    key = hashlib.sha1(str(path.relative_to(SRC)).encode()).hexdigest()[:12]
+    key = hashlib.sha1(str(path.relative_to(ROOT)).encode()).hexdigest()[:12]
     out_dir.mkdir(exist_ok=True)
     dest = out_dir / f"{key}{path.suffix.lower()}"
     shutil.copy2(path, dest)
@@ -178,7 +178,7 @@ def split_order(stem):
     return (int(m.group(1)), m.group(2)) if m else (BIG, stem)
 
 def process(path, cat, proj, proj_title, img_dir, names=None):
-    key = hashlib.sha1(str(path.relative_to(SRC)).encode()).hexdigest()[:12]
+    key = hashlib.sha1(str(path.relative_to(ROOT)).encode()).hexdigest()[:12]
     full, thumb = img_dir / f"{key}.jpg", img_dir / f"{key}-n.jpg"
     with Image.open(path) as im:
         im = ImageOps.exif_transpose(im)
@@ -197,6 +197,198 @@ def process(path, cat, proj, proj_title, img_dir, names=None):
     title = own_title or proj_title or ("" if CAMERA.match(clean) else nice(clean))
     return {"o": order, "y": year, "d": desc, "full": f"img/{full.name}", "thumb": f"img/{thumb.name}", "w": w, "h": h, "tw": tw, "th": th,
             "cat": cat, "title": title, "proj": proj, "t": added_time(path), "name": stem.lower()}
+
+# ---------- Projekty: složka projekty/<nazev>/ s projekt.txt a fotkami -> podstránka /projekty/<nazev>/ ----------
+PROJ_SRC = ROOT / "projekty"
+SITE_URL = "https://atelierzajicek.cz"
+FIELDS = {"nazev": "title", "název": "title", "podtitul": "sub", "rok": "year", "klient": "client",
+          "obor": "field", "role": "role", "obal": "cover", "popis": "desc"}
+
+def esc(s):
+    return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
+
+ONE = re.compile(r"(^|[\s(„\"'])([AaIiKkOoSsUuVvZz])\s+(?=\S)")
+def nb(s):
+    """Jednopísmenná slova (a, i, k, o, s, u, v, z) spojí s dalším slovem nezlomitelnou mezerou."""
+    s = esc(s)
+    return ONE.sub(lambda m: m.group(1) + m.group(2) + "&nbsp;", ONE.sub(lambda m: m.group(1) + m.group(2) + "&nbsp;", s))
+
+def read_project(folder):
+    f = folder / "projekt.txt"
+    meta, body = {}, []
+    if f.exists():
+        lines = f.read_text("utf-8-sig").splitlines()
+        in_body = False
+        for line in lines:
+            if line.strip().startswith("#") and not line.strip().startswith("##"):
+                continue
+            if not in_body:
+                if line.strip() == "---":
+                    in_body = True
+                    continue
+                if ":" in line:
+                    k, v = line.split(":", 1)
+                    key = FIELDS.get(k.strip().lower())
+                    if key and v.strip():
+                        meta[key] = v.strip()
+            else:
+                body.append(line)
+    meta.setdefault("title", nice(split_order(folder.name)[1]))
+    return meta, "\n".join(body).strip()
+
+def body_html(text):
+    out = []
+    for block in re.split(r"\n\s*\n", text):
+        block = block.strip()
+        if not block:
+            continue
+        lines = block.splitlines()
+        if lines[0].startswith("## "):
+            out.append(f"<h2>{nb(lines[0][3:].strip())}</h2>")
+            lines = lines[1:]
+        if lines:
+            out.append("<p>" + "<br>".join(nb(l.strip()) for l in lines) + "</p>")
+    return "\n".join(out)
+
+def page_head(title, desc, image, url, css):
+    return f"""<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{esc(title)} – Jakub Zajíček</title>
+<meta name="description" content="{esc(desc)}">
+<meta property="og:title" content="{esc(title)} – Jakub Zajíček">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{url}">
+{f'<meta property="og:image" content="{image}">' if image else ''}
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2336492E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap">
+<link rel="stylesheet" href="/{css}">
+</head>
+<body class="proj-page">
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Jakub Zajíček – hlavní stránka"><span>Jakub</span> <b>Zajíček</b></a>
+    <span class="tagline">Fotograf, videomaker a grafik</span>
+    <nav class="nav" aria-label="Hlavní navigace">
+      <a href="/#portfolio">Portfolio</a>
+      <a class="nav-proj" href="/#projekty">Projekty</a>
+      <a href="/#o-mne">O mně</a>
+      <a href="/#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+"""
+
+def build_projects(img_dir, css):
+    projects, failed = [], []
+    if not PROJ_SRC.exists():
+        return projects, failed
+    folders = sorted((p for p in PROJ_SRC.iterdir() if p.is_dir() and not p.name.startswith((".", "_"))),
+                     key=lambda p: (split_order(p.name)[0], p.name))
+    for folder in folders:
+        meta, text = read_project(folder)
+        pid = slug(split_order(folder.name)[1])
+        names = load_names(folder)
+        imgs = []
+        for f in sorted(folder.iterdir(), key=lambda f: (split_order(f.stem)[0], f.name.lower())):
+            if f.is_file() and f.suffix.lower() in EXT:
+                try:
+                    p = process(f, "projekt", pid, None, img_dir, names)
+                    t, y, d = name_meta(find_name(names, f))
+                    p["cap"] = ", ".join(x for x in (t, d, y) if x)
+                    p["file"] = f.name.lower()
+                    imgs.append(p)
+                except Exception as e:
+                    failed.append(f"{f.relative_to(ROOT)}: {e}")
+        if not imgs:
+            continue
+        cover = imgs[0]
+        if meta.get("cover"):
+            want = norm(meta["cover"])
+            cover = next((p for p in imgs if norm(p["file"]) == want), cover)
+        projects.append({"id": pid, "meta": meta, "text": text, "imgs": imgs, "cover": cover})
+
+    for i, pr in enumerate(projects):
+        m, cover = pr["meta"], pr["cover"]
+        nxt = projects[(i + 1) % len(projects)] if len(projects) > 1 else None
+        sub = m.get("sub", "")
+        desc = m.get("desc") or sub or f"Projekt {m['title']} – Jakub Zajíček, fotograf, videomaker a grafik."
+        rows = [(k, m[v]) for k, v in (("Klient", "client"), ("Obor", "field"), ("Role", "role"), ("Rok", "year")) if m.get(v)]
+        # Rozložení: fotky na šířku přes celou šířku, ostatní (na výšku, čtverce) po dvou vedle sebe.
+        # Osamocená fotka na výšku se vycentruje, aby vedle ní nezůstalo prázdné místo.
+        rest = [p for p in pr["imgs"] if p is not cover]
+        kinds = ["wide" if p["w"] / p["h"] >= 1.25 else "half" for p in rest]
+        cls, i = [], 0
+        while i < len(rest):
+            if kinds[i] == "wide":
+                cls.append("wide"); i += 1
+            elif i + 1 < len(rest) and kinds[i + 1] == "half":
+                cls += ["", ""]; i += 2
+            else:
+                cls.append("solo"); i += 1
+        figs = []
+        for p, c in zip(rest, cls):
+            cap = f"<figcaption>{nb(p['cap'])}</figcaption>" if p["cap"] else ""
+            figs.append(f'<figure class="pj-img {c}"><img src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" loading="lazy" decoding="async" alt="{esc(p["cap"] or m["title"])}">{cap}</figure>')
+        html = page_head(m["title"], desc, f"{SITE_URL}/{cover['full']}", f"{SITE_URL}/projekty/{pr['id']}/", css)
+        html += f"""
+<main class="pj">
+  <div class="wrap">
+    <a class="pj-back" href="/#projekty"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M11 7H3M6.5 3.5 3 7l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Všechny projekty</a>
+    <header class="pj-head">
+      <span class="eyebrow">{nb(m.get('field', 'Projekt'))}</span>
+      <h1>{nb(m['title'])}</h1>
+      {f'<p class="pj-sub">{nb(sub)}</p>' if sub else ''}
+      {('<dl class="pj-meta">' + ''.join(f'<div><dt>{k}</dt><dd>{nb(v)}</dd></div>' for k, v in rows) + '</dl>') if rows else ''}
+    </header>
+  </div>
+  <figure class="pj-cover"><img src="/{cover['full']}" width="{cover['w']}" height="{cover['h']}" alt="{esc(m['title'])}" fetchpriority="high"></figure>
+  {f'<div class="wrap pj-text">{body_html(pr["text"])}</div>' if pr["text"] else ''}
+  {f'<div class="wrap pj-grid">{"".join(figs)}</div>' if figs else ''}
+  <div class="wrap pj-end">
+    <div class="pj-cta">
+      <h2>Máte podobný projekt?</h2>
+      <p>Napište mi, co máte v plánu, a domluvíme se.</p>
+      <a class="btn btn-primary" href="/#kontakt">Napsat mi</a>
+    </div>
+    {f'<a class="pj-next" href="/projekty/{nxt["id"]}/"><span>Další projekt</span><b>{nb(nxt["meta"]["title"])}</b></a>' if nxt else ''}
+  </div>
+</main>
+<footer class="foot"><div class="wrap"><a class="brand" href="/"><span>Jakub</span> <b>Zajíček</b></a><span>Fotograf, videomaker a grafik</span><span>© 2026 Jakub Zajíček</span></div></footer>
+</body>
+</html>
+"""
+        d = OUT / "projekty" / pr["id"]
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "index.html").write_text(html, "utf-8")
+
+    cards = [{"id": pr["id"], "title": pr["meta"]["title"], "sub": pr["meta"].get("sub", ""),
+              "field": pr["meta"].get("field", ""), "year": pr["meta"].get("year", ""),
+              "thumb": pr["cover"]["thumb"], "tw": pr["cover"]["tw"], "th": pr["cover"]["th"]} for pr in projects]
+    return cards, failed
+
+def bust_cache():
+    """style.css a app.js dostanou v názvu otisk obsahu, aby prohlížeče vždy načetly novou verzi."""
+    names = {}
+    for f in ("style.css", "app.js"):
+        src = OUT / f
+        if src.exists():
+            h = hashlib.sha1(src.read_bytes()).hexdigest()[:8]
+            new = f"{src.stem}.{h}{src.suffix}"
+            src.rename(OUT / new)
+            names[f] = new
+    idx = OUT / "index.html"
+    if idx.exists():
+        s = idx.read_text("utf-8")
+        for old, new in names.items():
+            s = s.replace(f'"{old}"', f'"{new}"')
+        idx.write_text(s, "utf-8")
+    return names
 
 def main():
     if OUT.exists():
@@ -241,9 +433,12 @@ def main():
     photos.sort(key=lambda p: (p.get("o", BIG), -p["t"], p["proj"] or "", p["name"]))
     for p in photos:
         p.pop("name")
-    (OUT / "gallery.json").write_text(json.dumps({"categories": categories, "photos": photos, "reviews": load_reviews()}, ensure_ascii=False), "utf-8")
+    assets = bust_cache()
+    projects, pfail = build_projects(img_dir, assets.get("style.css", "style.css"))
+    failed += pfail
+    (OUT / "gallery.json").write_text(json.dumps({"categories": categories, "photos": photos, "projects": projects, "reviews": load_reviews()}, ensure_ascii=False), "utf-8")
     (OUT / ".nojekyll").write_text("")
-    print(f"Hotovo: {len(photos)} fotek v {len(categories)} kategoriích.")
+    print(f"Hotovo: {len(photos)} fotek v {len(categories)} kategoriích, {len(projects)} projektů.")
     for f in failed:
         print("Nepodařilo se zpracovat:", f)
 
