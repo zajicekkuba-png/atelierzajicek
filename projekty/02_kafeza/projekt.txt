@@ -1,0 +1,15 @@
+# Text je návrh – klidně ho přepiš. Řádky začínající # se na webu nezobrazí.
+Název: Kaféza
+Podtitul: Značka pro kavárnu – od znaku po kelímky
+Obor: Vizuální identita
+Role: Znak, logo, obaly a manuál identity
+Rok: 2025
+Obal: 3_kelimky.jpg
+---
+Kaféza je návrh vizuální identity pro kavárnu. Cílem bylo vytvořit značku, která je hravá, ale zároveň čistá a dobře použitelná na všem, s čím se zákazník v kavárně potká.
+
+## Řešení
+Základem je znak odvozený z písmene K s měkkými, organickými tvary. Doplňuje ho výrazný logotyp a jednoduchá černobílá paleta, díky které značka funguje na kelímcích, nosičích i menu.
+
+## Výsledek
+Vznikl manuál identity a sada aplikací – kelímky s nosičem, menu a další materiály pro provoz kavárny.

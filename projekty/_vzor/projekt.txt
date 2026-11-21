@@ -1,0 +1,26 @@
+# VZOR PROJEKTU – složky začínající podtržítkem se na webu nezobrazí.
+# Nový projekt: zkopíruj tuhle složku, přejmenuj ji (např. 03_venira) a vlož do ní fotky.
+#
+# Číslo na začátku názvu složky = pořadí projektů na webu (01_, 02_, 03_ …).
+# Číslo na začátku názvu fotky = pořadí fotek v projektu (1_, 2_, 3_ …).
+# První fotka je titulní (nebo ji určíš řádkem „Obal: soubor.jpg“).
+# Popisky pod fotkami můžeš přidat souborem nazvy.txt jako v galerii (nepovinné).
+#
+# Pole nahoře jsou nepovinná, kromě názvu. Pod čárou --- je text projektu:
+# prázdný řádek = nový odstavec, řádek začínající „## “ = mezititulek.
+
+Název: Název projektu
+Podtitul: Jedna věta, o co jde
+Obor: Fotografie
+Klient: Název klienta
+Role: Focení a postprodukce
+Rok: 2025
+---
+## Zadání
+Co klient potřeboval a proč.
+
+## Řešení
+Jak jsi to vymyslel a udělal.
+
+## Výsledek
+Co vzniklo a jak se to použilo.
