@@ -273,7 +273,6 @@ def page_head(title, desc, image, url, css):
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="/" aria-label="Jakub Zajíček – hlavní stránka"><span>Jakub</span> <b>Zajíček</b></a>
-    <span class="tagline">Fotograf, videomaker a grafik</span>
     <nav class="nav" aria-label="Hlavní navigace">
       <a href="/#portfolio">Portfolio</a>
       <a class="nav-proj" href="/#projekty">Projekty</a>
@@ -382,7 +381,6 @@ def build_projects(img_dir, css):
   <div class="wrap">
     <a class="pj-back" href="/#projekty"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M11 7H3M6.5 3.5 3 7l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Všechny projekty</a>
     <header class="pj-head">
-      <span class="eyebrow">{nb(m.get('field', 'Projekt'))}</span>
       <h1>{nb(m['title'])}</h1>
       {f'<p class="pj-sub">{nb(sub)}</p>' if sub else ''}
       {('<dl class="pj-meta">' + ''.join(f'<div><dt>{k}</dt><dd>{nb(v)}</dd></div>' for k, v in rows) + '</dl>') if rows else ''}
