@@ -1,6 +1,6 @@
-# Text je návrh – klidně ho přepiš. Řádky začínající # se na webu nezobrazí.
 Název: Hefaiston Helfštýn
-Podtitul: Redesign loga a tvorba propagačních materiá pro největší setkání kovářů na hradě Helfštýn
+Podtitul: Redesign loga a tvorba propagačních materiálů pro největší setkání kovářů na hradě Helfštýn
+Klient: Muzeum Komenského v Přerově
 Obor: Vizuální identita
 Role: Logo, vizuální styl, tiskoviny a online reklama
 Rok: 2023
@@ -9,7 +9,7 @@ Obal: 3_vizitky.jpg
 Hefaiston je největší setkání kovářů, které se koná na hradě Helfštýn. Pro ročník 2023 jsem navrhl kompletní vizuální identitu, od loga a barev přes plakáty a online bannery až po vizitky a diplomy.
 
 ## Řešení
-Identita stojí na kontrastu výrazné červené a černé, kdy červená připomíná rozpálenou pec a ocel, a černá uhly. Logo vychází z původního loga festivalu a modernizuje ho, spojuje motiv tváře s liniemi, které připomínají rozžhavené železo, a velká typografická číslice dává všem materiálům jednotný a snadno rozpoznatelný rytmus.
+Identita stojí na kontrastu výrazné červené a černé, kdy červená připomíná rozpálenou pec a ocel a černá uhlí. Logo vychází z původního loga festivalu a modernizuje ho. Spojuje motiv tváře s liniemi, které připomínají rozžhavené železo, a velká typografická číslice dává všem materiálům jednotný a snadno rozpoznatelný rytmus.
 
 ## Výsledek
 Nové logo a sada materiálů, které fungují na plakátech, v online reklamě i na tiskovinách pro propagaci festivalu.
