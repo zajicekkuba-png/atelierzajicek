@@ -544,3 +544,4 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 .admin-bar{justify-content:flex-start}
 .e-cat{text-align:left;text-transform:none;letter-spacing:-.01em;font-size:clamp(1.3rem,2.4vw,1.75rem)}
 @media (max-width:640px){.e-cat{padding-inline:20px}}
+.hero-sub{margin:0;color:var(--muted);font-size:1.1rem;max-width:36ch}
