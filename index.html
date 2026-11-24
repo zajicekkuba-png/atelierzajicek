@@ -1,8 +1,54 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jakub Zajíček – fotograf, videomaker a grafik | Ostrava</title>
+<meta name="description" content="Fotografie, video a grafický design pro lidi i značky. Portréty, produkty, architektura a vizuální identity. Jakub Zajíček, Ostrava a celá Česká republika.">
+<link rel="canonical" href="https://atelierzajicek.cz/">
+<meta property="og:title" content="Jakub Zajíček – fotograf, videomaker a grafik">
+<meta property="og:description" content="Dívám se na svět po svém. Fotograf, videomaker a grafik z Ostravy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://atelierzajicek.cz/">
+<meta property="og:image" content="https://atelierzajicek.cz/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="cs_CZ">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Jakub Zajíček","jobTitle":"Fotograf, videomaker a grafický designér","url":"https://atelierzajicek.cz/","image":"https://atelierzajicek.cz/profil.jpg","email":"mailto:zajicekkuba@seznam.cz","telephone":"+420605105622","address":{"@type":"PostalAddress","addressLocality":"Ostrava","addressCountry":"CZ"},"knowsAbout":["Fotografie","Portrétní fotografie","Produktová fotografie","Video","Grafický design","Vizuální identita"],"sameAs":["https://www.instagram.com/jakub_zajicek_/","https://www.linkedin.com/in/jakub-zaj%C3%AD%C4%8Dek-038086252/"]}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2336492E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap">
+<link rel="preload" href="fonts/Gambarino-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+<link rel="stylesheet" href="hero-foto.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#uvod" aria-label="Jakub Zajíček – na začátek"><span>Jakub</span> <b>Zajíček</b></a>
+    <nav class="nav" aria-label="Hlavní navigace">
+      <div class="nav-dd" id="navDd">
+        <a href="#portfolio">Portfolio</a><button type="button" class="dd-btn" id="ddBtn" aria-expanded="false" aria-controls="ddMenu" aria-label="Kategorie portfolia"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+        <div class="dd" id="ddMenu"></div>
+      </div>
+      <a class="nav-proj" href="#projekty" id="navProj" hidden>Projekty</a>
+      <a href="#o-mne">O mně</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main>
 <section id="uvod" class="hero-photo">
   <!-- Úvodní fotka. Později ji lze nahradit videem (<video autoplay muted loop playsinline>) ve stejném místě. -->
   <picture class="hp-media">
     <source media="(max-width: 700px)" srcset="hero-m.jpg" width="1080" height="1350">
-    <img src="hero.jpg" width="2400" height="1350" alt="Jakub Zajíček sedí na betonových schodech" fetchpriority="high" decoding="async">
+    <img src="hero.jpg" width="2400" height="1600" alt="Kruh a prostor – portrét ženy v klobouku v černém kruhu" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap hp-text">
     <h1>Dívám se<br>na svět po svém</h1>
@@ -12,9 +58,6 @@
       <a class="hero-link" href="#kontakt">Napsat mi<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
-</section>
-<section class="film-sec" id="filmSec" hidden aria-label="Výběr z mé práce">
-  <div class="film" id="film"></div>
 </section>
 
 <section id="portfolio" class="gallery-sec">
@@ -55,7 +98,7 @@
 </section>
 
 <section id="praxe" class="wrap exp">
-  <h2>Kde jsem pracoval</h2>
+  <h2>Mé zkušenosti</h2>
   <div class="jobs">
     <article class="job"><span class="when">Zaměstnání</span><h3>Venira</h3><p class="role">Videomaker a grafik · září 2025 – současnost</p></article>
     <article class="job"><span class="when">Zakázky</span><h3>Moravskoslezský kraj</h3><p class="role">Reportážní fotografie</p></article>
@@ -81,10 +124,6 @@
   <div class="form rev-form" id="rForm" hidden>
     <div class="f-body">
       <div class="field"><label for="rName">Jméno</label><input type="text" id="rName" autocomplete="given-name" placeholder="Stačí křestní jméno"></div>
-      <fieldset class="field">
-        <legend>Hodnocení</legend>
-        <div class="stars-in" id="rStars" role="radiogroup" aria-label="Hodnocení"></div>
-      </fieldset>
       <div class="field"><label for="rText">Recenze</label><textarea id="rText" maxlength="400" placeholder="Jak se vám se mnou spolupracovalo?"></textarea></div>
       <label class="check"><input type="checkbox" id="rOk"><span>Souhlasím se zveřejněním svého jména a recenze na tomto webu.</span></label>
       <p class="err" id="rErr" role="alert"></p>
@@ -183,4 +222,3 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
->>>>>>> 65aa6baef33d59e3cff75ec02dc80623273ccff0

@@ -1,5 +1,6 @@
 import hashlib, json, re, shutil, subprocess, unicodedata
 from pathlib import Path
+from PIL import ImageStat
 from PIL import Image, ImageOps
 try:
     from pillow_heif import register_heif_opener
@@ -9,7 +10,7 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "fotky", ROOT / "_site"
-SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg", "og.jpg", "hero.jpg", "hero-m.jpg", "fonts/Boska-Variable.woff2"]
+SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg", "og.jpg", "hero.jpg", "hero-m.jpg", "fonts/Gambarino-Regular.woff2"]
 KNOWN = {  # pořadí tady = pořadí kategorií na webu
     "portrety": ("Portréty a lidé", "Fotografie"),
     "produkt": ("Produkty a značky", "Fotografie"),
@@ -132,26 +133,22 @@ def video_file(path, cat, out_dir, names):
             "proj": None, "t": added_time(path), "o": order, "y": year, "d": desc, "name": path.stem.lower(), "vid": {"type": "file", "src": f"video/{dest.name}"}}
 
 def load_reviews():
-    """recenze.txt: jedna recenze na řádek ve tvaru  Jméno | Hvězdičky 1–5 | Text"""
+    """recenze.txt: jedna recenze na řádek ve tvaru  Jméno | Text
+    (starší tvar s hvězdičkami „Jméno | 5 | Text“ funguje taky, hvězdičky se ignorují)"""
     f, out = ROOT / "recenze.txt", []
     if f.exists():
-        for line in f.read_text("utf-8").splitlines():
+        for line in f.read_text("utf-8-sig").splitlines():
             line = line.strip()
-            if not line or line.startswith("#"):
+            if not line or line.startswith("#") or "|" not in line:
                 continue
             parts = [x.strip() for x in line.split("|")]
-            if len(parts) < 3:
-                continue
-            if len(parts) >= 4 and not parts[1].isdigit():  # starší tvar s typem focení
-                parts = [parts[0], parts[2], "|".join(parts[3:])]
-            name, stars, text = parts[0], parts[1], " | ".join(parts[2:])
-            try:
-                stars = max(1, min(5, int(stars)))
-            except ValueError:
-                stars = 5
-            text = text.strip(' "„“”')
+            name = parts[0]
+            rest = parts[1:]
+            if len(rest) >= 2 and (rest[0].isdigit() or rest[0] == ""):
+                rest = rest[1:]  # starý sloupec s hvězdičkami
+            text = " | ".join(rest).strip(' "„“”')
             if name and text:
-                out.append({"name": name, "stars": stars, "text": text})
+                out.append({"name": name, "text": text})
     return out
 
 def added_time(path):
@@ -412,6 +409,128 @@ def build_projects(img_dir, css):
               "thumb": pr["cover"]["thumb"], "tw": pr["cover"]["tw"], "th": pr["cover"]["th"]} for pr in projects]
     return cards, failed
 
+def find_photo(spec):
+    """Najde fotku podle cesty (fotky/…/soubor.jpg) nebo podle názvu z nazvy.txt či názvu souboru."""
+    spec = spec.strip()
+    p = ROOT / spec
+    if "/" in spec and p.exists():
+        return p
+    want = norm(spec)
+    if not SRC.exists():
+        return None
+    for folder in sorted(SRC.iterdir()):
+        if not folder.is_dir():
+            continue
+        names = load_names(folder)
+        for f in sorted(folder.iterdir()):
+            if f.is_file() and f.suffix.lower() in EXT:
+                if norm(f.name) == want or norm(name_meta(find_name(names, f))[0]) == want:
+                    return f
+    return None
+
+def build_hero_slides():
+    """uvod.txt -> prezentace fotek v úvodu. Vrací True, když vznikla."""
+    cfg, idx = ROOT / "uvod.txt", OUT / "index.html"
+    if not (cfg.exists() and idx.exists()):
+        return False
+    items = []
+    for line in cfg.read_text("utf-8-sig").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = [x.strip() for x in line.split("|")]
+        spec, opts = parts[0], [x.lower() for x in parts[1:] if x]
+        f = find_photo(spec)
+        if not f:
+            print(f"Úvod: fotku „{spec}“ jsem nenašel, přeskakuji.")
+            continue
+        xpos, side = 50, False
+        for o in opts:
+            if o.isdigit():
+                xpos = max(0, min(100, int(o)))
+            elif o in ("vpravo", "celá", "cela", "bokem"):
+                side = True  # celá fotka vpravo, vlevo navazuje barva jejího pozadí
+        items.append((f, xpos, side))
+    if not items:
+        return False
+    out = OUT / "hero"
+    out.mkdir(parents=True, exist_ok=True)
+    slides, dots = [], []
+    for i, (f, xpos, side) in enumerate(items[:8]):
+        with Image.open(f) as im0:
+            im = ImageOps.exif_transpose(im0).convert("RGB")
+        w, h = im.size
+        big = im.copy()
+        if side:
+            # u snímku „vpravo“ ořízneme prázdné pozadí po stranách, aby motiv mohl být větší
+            g0 = im.convert("L")
+            sm = g0.resize((200, max(1, round(200 * h / w))))
+            bgL = ImageStat.Stat(g0.crop((0, 0, max(1, w // 40), h))).mean[0]
+            cols = [x for x in range(sm.width) if any(abs(sm.getpixel((x, y)) - bgL) > 28 for y in range(sm.height))]
+            if cols:
+                pad = 0.03 * w
+                x0 = max(0, int(cols[0] / sm.width * w - pad)); x1 = min(w, int((cols[-1] + 1) / sm.width * w + pad))
+                big = im.crop((x0, 0, x1, h))
+        big.thumbnail((2400, 2400), Image.LANCZOS)
+        key = hashlib.sha1(f"{f.relative_to(ROOT)}{xpos}".encode()).hexdigest()[:8]
+        big.save(out / f"{key}.jpg", "JPEG", quality=84, optimize=True, progressive=True)
+        # výřez na mobil 4:5
+        cw = min(w, int(h * 4 / 5)); ch = min(h, int(w * 5 / 4))
+        left = int((w - cw) * xpos / 100); top = (h - ch) // 2
+        im.crop((left, top, left + cw, top + ch)).resize((1080, 1350), Image.LANCZOS).save(out / f"{key}-m.jpg", "JPEG", quality=82, optimize=True, progressive=True)
+        # jas v místě textu (dole vlevo) -> barva textu
+        g = im.convert("L")
+        light = ImageStat.Stat(g.crop((0, int(h * 0.5), int(w * 0.5), h))).mean[0] / 255 > 0.55
+        extra = ""
+        if side:
+            edge = ImageStat.Stat(im.crop((0, 0, max(1, w // 40), h))).mean
+            extra = ' style="--slide-bg:#%02x%02x%02x"' % tuple(round(v) for v in edge[:3])
+            light = sum(edge[:3]) / 3 / 255 > 0.55
+        tone = "light" if light else "dark"
+        title = name_meta(find_name(load_names(f.parent), f))[0] or nice(split_order(f.stem)[1])
+        first = i == 0
+        load_attr = ' fetchpriority="high"' if first else ' loading="lazy"'
+        pos_attr = "" if side else f' style="object-position:{xpos}% 50%"'
+        slides.append(
+            f'<figure class="hp-slide{" is-active" if first else ""}{" is-side" if side else ""}" data-tone="{tone}"{extra}>'
+            f'<picture><source media="(max-width: 700px)" srcset="hero/{key}-m.jpg" width="1080" height="1350">'
+            f'<img src="hero/{key}.jpg" width="{big.width}" height="{big.height}" alt="{esc(title)}"{pos_attr}'
+            f'{load_attr} decoding="async"></picture></figure>')
+        dots.append(f'<button type="button" class="hp-dot{" is-active" if first else ""}" aria-label="Fotka {i + 1}: {esc(title)}"><span></span></button>')
+    first_tone = "tone-light" if 'data-tone="light"' in slides[0] else "tone-dark"
+    media = (f'<div class="hp-slides">{"".join(slides)}'
+             f'<div class="hp-dots">{"".join(dots) if len(slides) > 1 else ""}</div></div>')
+    s = idx.read_text("utf-8")
+    m = re.search(r'<picture class="hp-media">.*?</picture>', s, re.S)
+    if not m:
+        return False
+    s = s[:m.start()] + media + s[m.end():]
+    s = s.replace('class="hero-photo"', f'class="hero-photo has-slides {first_tone}"', 1)
+    idx.write_text(s, "utf-8")
+    return True
+
+def hero_tone():
+    """Podle jasu hero.jpg v místě textu (dole vlevo) nastaví světlý nebo tmavý text v úvodu."""
+    f, idx = ROOT / "hero.jpg", OUT / "index.html"
+    if not (f.exists() and idx.exists()):
+        return
+    try:
+        with Image.open(f) as im:
+            g = im.convert("L")
+            w, h = g.size
+            r = g.crop((0, int(h * 0.45), int(w * 0.5), h))
+            light = ImageStat.Stat(r).mean[0] / 255 > 0.55
+        with Image.open(f) as im:
+            rgb = im.convert("RGB")
+            w, h = rgb.size
+            edge = ImageStat.Stat(rgb.crop((0, 0, max(1, w // 40), h))).mean  # barva levého okraje fotky
+        bg = "#%02x%02x%02x" % tuple(round(v) for v in edge[:3])
+        s = idx.read_text("utf-8")
+        s = s.replace('class="hero-photo"', f'class="hero-photo {"tone-light" if light else "tone-dark"}" style="--hero-bg:{bg}"', 1)
+        idx.write_text(s, "utf-8")
+    except Exception:
+        pass
+
 def bust_cache():
     """style.css a app.js dostanou v názvu otisk obsahu, aby prohlížeče vždy načetly novou verzi."""
     names = {}
@@ -474,6 +593,8 @@ def main():
     photos.sort(key=lambda p: (p.get("o", BIG), -p["t"], p["proj"] or "", p["name"]))
     for p in photos:
         p.pop("name")
+    if not build_hero_slides():
+        hero_tone()
     assets = bust_cache()
     projects, pfail = build_projects(img_dir, assets.get("style.css", "style.css"))
     failed += pfail
