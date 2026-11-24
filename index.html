@@ -3,16 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ateliér Zajíček – Jakub Zajíček, fotograf a grafický designér</title>
-<meta name="description" content="Portfolio Jakuba Zajíčka z Ostravy: produktová, portrétní a reportážní fotografie, video a grafický design.">
-<meta property="og:title" content="Ateliér Zajíček – Jakub Zajíček">
-<meta property="og:description" content="Fotografie, video a grafický design. Ostrava.">
+<title>Jakub Zajíček – fotograf, videomaker a grafik | Ostrava</title>
+<meta name="description" content="Fotografie, video a grafický design pro lidi i značky. Portréty, produkty, architektura a vizuální identity. Jakub Zajíček, Ostrava a celá Česká republika.">
+<link rel="canonical" href="https://atelierzajicek.cz/">
+<meta property="og:title" content="Jakub Zajíček – fotograf, videomaker a grafik">
+<meta property="og:description" content="Dívám se na svět po svém. Fotograf, videomaker a grafik z Ostravy.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://atelierzajicek.cz/">
+<meta property="og:image" content="https://atelierzajicek.cz/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="cs_CZ">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Jakub Zajíček","jobTitle":"Fotograf, videomaker a grafický designér","url":"https://atelierzajicek.cz/","image":"https://atelierzajicek.cz/profil.jpg","email":"mailto:zajicekkuba@seznam.cz","telephone":"+420605105622","address":{"@type":"PostalAddress","addressLocality":"Ostrava","addressCountry":"CZ"},"knowsAbout":["Fotografie","Portrétní fotografie","Produktová fotografie","Video","Grafický design","Vizuální identita"],"sameAs":["https://www.instagram.com/jakub_zajicek_/","https://www.linkedin.com/in/jakub-zaj%C3%AD%C4%8Dek-038086252/"]}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2336492E'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap">
+<link rel="preload" href="fonts/Boska-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 <script src="app.js" defer></script>
 </head>
@@ -20,7 +30,6 @@
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="#uvod" aria-label="Jakub Zajíček – na začátek"><span>Jakub</span> <b>Zajíček</b></a>
-    <span class="tagline">Fotograf, videomaker a grafik</span>
     <nav class="nav" aria-label="Hlavní navigace">
       <div class="nav-dd" id="navDd">
         <a href="#portfolio">Portfolio</a><button type="button" class="dd-btn" id="ddBtn" aria-expanded="false" aria-controls="ddMenu" aria-label="Kategorie portfolia"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
@@ -34,19 +43,20 @@
 </header>
 
 <main>
-<section id="uvod" class="wrap hero">
-  <div>
-    <span class="eyebrow">Jakub Zajíček</span>
-    <h1>Fotím, točím<br>a navrhuji<br>pro lidi i značky</h1>
-  </div>
-  <div class="hero-side">
-    <p class="hero-lead">Od portrétu po kampaň: vizuály, které o vás řeknou víc než slova.</p>
+<section id="uvod" class="hero-photo">
+  <!-- Úvodní fotka. Později ji lze nahradit videem (<video autoplay muted loop playsinline>) ve stejném místě. -->
+  <picture class="hp-media">
+    <source media="(max-width: 700px)" srcset="hero-m.jpg" width="1080" height="1350">
+    <img src="hero.jpg" width="2400" height="1350" alt="Jakub Zajíček sedí na betonových schodech" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap hp-text">
+    <h1>Dívám se<br>na svět po svém</h1>
+    <p class="hero-sub">Fotograf, videomaker a grafik z Ostravy. Kromě fotek točím videa a navrhuji vizuální identity značek.</p>
     <div class="actions">
-      <a class="btn btn-primary" href="#portfolio">PORTFOLIO</a>
-      <a class="btn btn-ghost" href="#kontakt">KONTAKT</a>
+      <a class="hero-link" href="#portfolio">Prohlédnout práci<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="hero-link" href="#kontakt">Napsat mi<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
-  <div class="hero-media" id="heroMedia" hidden></div>
 </section>
 <section class="film-sec" id="filmSec" hidden aria-label="Výběr z mé práce">
   <div class="film" id="film"></div>
@@ -55,7 +65,6 @@
 <section id="portfolio" class="gallery-sec">
   <div class="wrap">
     <div class="g-head">
-      <span class="eyebrow">Moje práce</span>
       <h2>Vybrané práce</h2>
     </div>
     <div class="filters" role="group" aria-label="Filtrovat podle oboru" id="filters"></div>
@@ -70,20 +79,19 @@
 </section>
 
 <section id="projekty" class="wrap projects" hidden>
-  <span class="eyebrow">Projekty</span>
-  <h2>Příběhy za mou prací</h2>
-  <p class="pr-lead">Vybrané zakázky od zadání po výsledek.</p>
+  <h2>Projekty</h2>
+  <p class="pr-lead">Zakázky, u kterých stojí za to ukázat víc než jednu fotku.</p>
   <div class="pr-grid" id="prGrid"></div>
 </section>
 
 <section id="o-mne" class="wrap who">
   <div>
-    <span class="eyebrow">O mně</span>
-    <h2>Kdo jsem?</h2>
-    <p>Jmenuji se Jakub Zajíček a jsem fotograf, videomaker a grafický designér z Ostravy. Fotografii se aktivně věnuji od roku 2017, k ní jsem postupně přidal grafický design a video. Má práce se zaměřuje na hledání krásy v detailech a zachycení podstaty každého subjektu.</p>
-    <p>Můj fotografický styl se vyznačuje emocemi, promyšlenou kompozicí a citlivým okem pro hru světla a stínu. Jako grafický designér přináším stejnou pozornost detailům a tvořím vizuální řešení, která komunikují efektivně a krásně.</p>
+    <h2>Proč fotím</h2>
+    <p>Doma mám staré foťáky po tátovi. Fotil jako koníček, stejně jako děda. I když už tu nejsou, pozorovat svět mě naučili právě oni, skrze staré fotografie, které po nich zůstaly. Aktivně fotím od roku 2017 a postupně jsem k tomu přidal video a grafický design.</p>
+    <p>Miluju geometrii, křivky a vertikály v architektuře, ale stejně tak přírodu a barvy oblohy při východu nebo západu slunce. Vracím se ke starým fotkám Sudka a Drtikola nebo k solarizacím Man Raye. A často mě táhne téma samoty ve velkém světě.</p>
+    <p>Nejradši fotím lidi, kteří mají za sebou silný příběh, vlastní vizi a nebojí se experimentovat. Prý mají moje fotky duši. Snažím se, aby v nich byly opravdové emoce a výrazný kontrast.</p>
   </div>
-  <div class="portrait"><img id="avatar" alt="Jakub Zajíček" src="profil.jpg"></div>
+  <div class="portrait"><img id="avatar" alt="Jakub Zajíček" src="profil.jpg" width="1000" height="1000" loading="lazy" decoding="async"></div>
   <div class="lists">
     <div><h3>Fotografie</h3><ul><li>Produktová a lifestyle</li><li>Portrétní fotografie</li><li>Architektura a krajina</li><li>Reportážní a redakční</li></ul></div>
     <div><h3>Video</h3><ul><li>Produktová a reklamní videa</li><li>Edukativní obsah</li><li>Střih a motion design</li></ul></div>
@@ -92,8 +100,7 @@
 </section>
 
 <section id="praxe" class="wrap exp">
-  <span class="eyebrow">O mně</span>
-  <h2>Mé zkušenosti</h2>
+  <h2>Kde jsem pracoval</h2>
   <div class="jobs">
     <article class="job"><span class="when">Zaměstnání</span><h3>Venira</h3><p class="role">Videomaker a grafik · září 2025 – současnost</p></article>
     <article class="job"><span class="when">Zakázky</span><h3>Moravskoslezský kraj</h3><p class="role">Reportážní fotografie</p></article>
@@ -104,16 +111,13 @@
   </div>
 </section>
 
-<section class="wrap tools" aria-labelledby="tools-h">
-  <h2 id="tools-h">Programy, které používám</h2>
-  <div class="tool-grid">
-    <span>Adobe Photoshop</span><span>Adobe Lightroom</span><span>Adobe Illustrator</span><span>Adobe InDesign</span><span>Adobe Premiere</span><span>Adobe After Effects</span><span>DaVinci Resolve</span><span>Adobe Firefly</span><span>Figma</span><span>UXPin</span><span>Blender</span><span>Claude</span><span>ChatGPT</span>
-  </div>
+<section class="wrap tools" aria-label="Nástroje">
+  <span class="when">Nástroje</span>
+  <p>Photoshop, Lightroom, Illustrator, InDesign, Premiere Pro, After Effects, DaVinci Resolve, Firefly, Figma, UXPin, Blender, Claude a&nbsp;ChatGPT</p>
 </section>
 
 <section id="recenze" class="wrap reviews">
-  <span class="eyebrow">Recenze</span>
-  <h2>Co o mně říkají mí klienti?</h2>
+  <h2>Řekli o mně</h2>
   <div class="rev-grid" id="revGrid" hidden></div>
   <div class="rev-cta">
     <p id="revLead">Fotil jsem vás? Budu rád za pár slov.</p>
@@ -143,49 +147,45 @@
 </section>
 
 <section id="faq" class="wrap faq">
-  <span class="eyebrow">Časté otázky</span>
   <h2>Než mi napíšete</h2>
   <div class="faq-list">
     <details>
       <summary>Kolik stojí spolupráce?</summary>
-      <p>Cenu připravuji vždy na míru. Záleží na rozsahu a náročnosti projektu, na tom, kde a jak se výsledky použijí, a na místě focení – jestli fotíme venku, v ateliéru, nebo je potřeba cestovat. Napište mi, co máte v plánu, a pošlu vám nabídku.</p>
+      <p>Cenu připravuji vždy na míru. Záleží na rozsahu a náročnosti projektu, na tom, kde a jak se výsledky použijí. Napište mi, co máte v plánu, a pošlu vám nabídku.</p>
     </details>
     <details>
       <summary>Jak probíhá portrétní focení?</summary>
-      <p>Focení trvá zhruba hodinu a půl. Předem se domluvíme na stylu, oblečení a místě – venku, v interiéru nebo v ateliéru. Z focení dostanete 10 nejlepších fotografií v plné úpravě.</p>
+      <p>Nezačínáme hned focením. Nejdřív si popovídáme, zjistím, jaký styl fotek se vám líbí, a pustíme si hudbu, kterou máme rádi. Uvolněný člověk je ten nejlepší model. Samotné focení trvá zhruba hodinu a půl a na stylu, oblečení a místě se domluvíme předem. Z focení dostanete 10 nejlepších fotografií v plné úpravě, případně více dle domluvy.</p>
+    </details>
+    <details>
+      <summary>Za jak dlouho dostanu fotky?</summary>
+      <p>Hotové fotografie většinou dodávám do týdne od focení. U větších projektů se na termínu domluvíme předem.</p>
     </details>
     <details>
       <summary>Fotíte jen v Ostravě?</summary>
       <p>Sídlím v Ostravě, ale za zajímavým projektem rád vycestuji. Případné cestovné zahrnu do nabídky.</p>
     </details>
     <details>
-      <summary>Zajistíte fotky, video i grafiku najednou?</summary>
-      <p>Ano. Fotografii, video i grafický design dělám sám, takže všechno vzniká v jednotném stylu a nemusíte koordinovat víc lidí.</p>
-    </details>
-    <details>
       <summary>Můžu výsledky použít na web, sociální sítě nebo v reklamě?</summary>
-      <p>Ano. Rozsah použití – web, sociální sítě, tisk nebo reklama – si domluvíme předem a zohledním ho v nabídce.</p>
+      <p>Ano. Rozsah použití si domluvíme předem a zohledním ho v nabídce.</p>
     </details>
     <details>
       <summary>Jak začít?</summary>
-      <p>Napište mi přes formulář níže, e-mailem nebo na WhatsApp: co potřebujete, kdy a kde, a pokud máte, i představu o rozpočtu. Projektů beru jen tolik, kolika se můžu věnovat naplno, proto je dobré ozvat se s předstihem.</p>
+      <p>Napište mi přes formulář níže, na instagram, e-mailem nebo na WhatsApp: co potřebujete, kdy a kde, a pokud máte, i představu o rozpočtu.</p>
     </details>
   </div>
 </section>
 
 <section id="kontakt" class="wrap contact">
   <div>
-    <h2>Nezůstávejte jen u snů. Napište mi a proměníme je v realitu.</h2>
-    <p class="lead">Jsem vždy otevřen diskusi o nových projektech, kreativních nápadech nebo příležitostech být součástí vaší vize.</p>
-    <a class="c-item" href="tel:+420605105622"><span class="c-ico"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg></span><span><b>Telefon</b><span>+420 605 105 622</span></span></a>
-    <a class="c-item" href="mailto:zajicekkuba@seznam.cz"><span class="c-ico"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 2v.4l8 5 8-5V7z"></path></svg></span><span><b>E-mail</b><span>zajicekkuba@seznam.cz</span></span></a>
-    <div class="c-item"><span class="c-ico"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 1 7 7c0 5.2-7 13-7 13S5 14.2 5 9a7 7 0 0 1 7-7zm0 4.5A2.5 2.5 0 1 0 12 11.5 2.5 2.5 0 0 0 12 6.5z"></path></svg></span><span><b>Lokace</b><span>Ostrava, Česká republika</span></span></div>
-    <p class="socials-h">Najdete mě také na</p>
-    <div class="socials">
-      <a href="https://www.instagram.com/jakub_zajicek_/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg></a>
-      <a href="https://wa.me/420605105622" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"></path></svg></a>
-      <a href="https://www.linkedin.com/in/jakub-zaj%C3%AD%C4%8Dek-038086252/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4v12H4zM6 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm4 6h3.8v1.7c.6-1 1.9-2 3.9-2 4 0 4.3 2.6 4.3 6V21h-4v-5.4c0-1.5 0-3.3-2-3.3s-2.1 1.5-2.1 3.2V21h-4z"></path></svg></a>
-    </div>
+    <h2>Máte zajímavé místo nebo nápad na focení? Napište mi.</h2>
+    <p class="lead">Klidně i s neurčitou představou. Nejradši fotím portréty na místech, která mají atmosféru, ať je to industriál v Ostravě, nebo hory. Ozvat se můžete i s videem nebo grafikou.</p>
+    <dl class="c-rows">
+      <div><dt>Telefon</dt><dd><a href="tel:+420605105622">+420 605 105 622</a></dd></div>
+      <div><dt>E-mail</dt><dd><a href="mailto:zajicekkuba@seznam.cz">zajicekkuba@seznam.cz</a></dd></div>
+      <div><dt>Kde</dt><dd>Ostrava a okolí, za projekty i dál</dd></div>
+      <div><dt>Jinde</dt><dd class="c-social"><a href="https://www.instagram.com/jakub_zajicek_/" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/420605105622" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.linkedin.com/in/jakub-zaj%C3%AD%C4%8Dek-038086252/" target="_blank" rel="noopener">LinkedIn</a></dd></div>
+    </dl>
   </div>
   <div class="form" id="form">
     <div class="f-body">

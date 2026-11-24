@@ -9,7 +9,7 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "fotky", ROOT / "_site"
-SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg"]
+SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg", "og.jpg", "hero.jpg", "hero-m.jpg", "fonts/Boska-Variable.woff2"]
 KNOWN = {  # pořadí tady = pořadí kategorií na webu
     "portrety": ("Portréty a lidé", "Fotografie"),
     "produkt": ("Produkty a značky", "Fotografie"),
@@ -273,7 +273,6 @@ def page_head(title, desc, image, url, css):
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="/" aria-label="Jakub Zajíček – hlavní stránka"><span>Jakub</span> <b>Zajíček</b></a>
-    <span class="tagline">Fotograf, videomaker a grafik</span>
     <nav class="nav" aria-label="Hlavní navigace">
       <a href="/#portfolio">Portfolio</a>
       <a class="nav-proj" href="/#projekty">Projekty</a>
@@ -283,6 +282,15 @@ def page_head(title, desc, image, url, css):
   </div>
 </header>
 """
+
+def video_size(path):
+    try:
+        out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+                              "-of", "csv=p=0", str(path)], capture_output=True, text=True).stdout.strip()
+        w, h = (int(x) for x in out.split(",")[:2])
+        return w, h
+    except Exception:
+        return 16, 9
 
 def build_projects(img_dir, css):
     projects, failed = [], []
@@ -294,24 +302,51 @@ def build_projects(img_dir, css):
         meta, text = read_project(folder)
         pid = slug(split_order(folder.name)[1])
         names = load_names(folder)
-        imgs = []
+        imgs, files = [], []
         for f in sorted(folder.iterdir(), key=lambda f: (split_order(f.stem)[0], f.name.lower())):
-            if f.is_file() and f.suffix.lower() in EXT:
+            if not f.is_file():
+                continue
+            ext = f.suffix.lower()
+            key = hashlib.sha1(str(f.relative_to(ROOT)).encode()).hexdigest()[:12]
+            t, y, d = name_meta(find_name(names, f))
+            cap = ", ".join(x for x in (t, d, y) if x)
+            if ext == ".pdf":
+                # PDF (např. manuál identity) -> tlačítko ke stažení
+                dest = OUT / "files" / f"{slug(split_order(f.stem)[1])}-{key[:6]}.pdf"
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(f, dest)
+                files.append({"href": "files/" + dest.name, "label": t or nice(split_order(f.stem)[1]),
+                              "size": f"{f.stat().st_size / 1e6:.0f} MB" if f.stat().st_size >= 1e6 else f"{f.stat().st_size // 1000} kB"})
+                continue
+            if ext == ".gif" or ext in VIDEO_EXT:
+                # animovaný GIF a video se kopírují beze změny, aby zůstal pohyb
+                sub = "img" if ext == ".gif" else "video"
+                dest = OUT / sub / f"{key}{ext}"
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(f, dest)
+                if ext == ".gif":
+                    with Image.open(f) as im:
+                        w, h = im.size
+                else:
+                    w, h = video_size(f)
+                imgs.append({"full": f"{sub}/{dest.name}", "thumb": f"{sub}/{dest.name}", "w": w, "h": h, "tw": w, "th": h,
+                             "cap": cap, "file": f.name.lower(), "kind": "video" if ext in VIDEO_EXT else "gif"})
+                continue
+            if ext in EXT:
                 try:
                     p = process(f, "projekt", pid, None, img_dir, names)
-                    t, y, d = name_meta(find_name(names, f))
-                    p["cap"] = ", ".join(x for x in (t, d, y) if x)
+                    p["cap"] = cap
                     p["file"] = f.name.lower()
                     imgs.append(p)
                 except Exception as e:
                     failed.append(f"{f.relative_to(ROOT)}: {e}")
         if not imgs:
             continue
-        cover = imgs[0]
+        cover = next((p for p in imgs if p.get("kind") != "video"), imgs[0])
         if meta.get("cover"):
             want = norm(meta["cover"])
             cover = next((p for p in imgs if norm(p["file"]) == want), cover)
-        projects.append({"id": pid, "meta": meta, "text": text, "imgs": imgs, "cover": cover})
+        projects.append({"id": pid, "meta": meta, "text": text, "imgs": imgs, "cover": cover, "files": files})
 
     for i, pr in enumerate(projects):
         m, cover = pr["meta"], pr["cover"]
@@ -322,7 +357,7 @@ def build_projects(img_dir, css):
         # Rozložení: fotky na šířku přes celou šířku, ostatní (na výšku, čtverce) po dvou vedle sebe.
         # Osamocená fotka na výšku se vycentruje, aby vedle ní nezůstalo prázdné místo.
         rest = [p for p in pr["imgs"] if p is not cover]
-        kinds = ["wide" if p["w"] / p["h"] >= 1.25 else "half" for p in rest]
+        kinds = ["wide" if p["w"] / p["h"] >= 1.25 and p["w"] >= 1400 else "half" for p in rest]  # malé obrázky neroztahovat přes celou šířku
         cls, i = [], 0
         while i < len(rest):
             if kinds[i] == "wide":
@@ -334,14 +369,18 @@ def build_projects(img_dir, css):
         figs = []
         for p, c in zip(rest, cls):
             cap = f"<figcaption>{nb(p['cap'])}</figcaption>" if p["cap"] else ""
-            figs.append(f'<figure class="pj-img {c}"><img src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" loading="lazy" decoding="async" alt="{esc(p["cap"] or m["title"])}">{cap}</figure>')
+            if p.get("kind") == "video":
+                media = f'<video src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" controls playsinline preload="metadata"></video>'
+            else:
+                media = f'<img src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" loading="lazy" decoding="async" alt="{esc(p["cap"] or m["title"])}">'
+            figs.append(f'<figure class="pj-img {c}">{media}{cap}</figure>')
+        dl = "".join(f'<a class="pj-file" href="/{x["href"]}" download><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 2.5v9M5 8l4 4 4-4M3 15.5h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>{nb(x["label"])}</b><small>PDF · {x["size"]}</small></span></a>' for x in pr["files"])
         html = page_head(m["title"], desc, f"{SITE_URL}/{cover['full']}", f"{SITE_URL}/projekty/{pr['id']}/", css)
         html += f"""
 <main class="pj">
   <div class="wrap">
     <a class="pj-back" href="/#projekty"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M11 7H3M6.5 3.5 3 7l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Všechny projekty</a>
     <header class="pj-head">
-      <span class="eyebrow">{nb(m.get('field', 'Projekt'))}</span>
       <h1>{nb(m['title'])}</h1>
       {f'<p class="pj-sub">{nb(sub)}</p>' if sub else ''}
       {('<dl class="pj-meta">' + ''.join(f'<div><dt>{k}</dt><dd>{nb(v)}</dd></div>' for k, v in rows) + '</dl>') if rows else ''}
@@ -349,6 +388,7 @@ def build_projects(img_dir, css):
   </div>
   <figure class="pj-cover"><img src="/{cover['full']}" width="{cover['w']}" height="{cover['h']}" alt="{esc(m['title'])}" fetchpriority="high"></figure>
   {f'<div class="wrap pj-text">{body_html(pr["text"])}</div>' if pr["text"] else ''}
+  {f'<div class="wrap pj-files">{dl}</div>' if dl else ''}
   {f'<div class="wrap pj-grid">{"".join(figs)}</div>' if figs else ''}
   <div class="wrap pj-end">
     <div class="pj-cta">
@@ -397,6 +437,7 @@ def main():
     img_dir.mkdir(parents=True)
     for f in SITE_FILES:
         if (ROOT / f).exists():
+            (OUT / f).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / f, OUT / f)
     categories, photos, failed = [], [], []
     if SRC.exists():

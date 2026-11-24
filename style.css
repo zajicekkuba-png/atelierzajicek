@@ -510,3 +510,67 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 }
 .pj-img.solo{grid-column:1 / -1;justify-self:center;width:calc(50% - 12px)}
 @media (max-width:640px){.pj-img.solo{width:100%}}
+.pj-img video{display:block;width:100%;height:auto;border-radius:4px;background:#000}
+.pj-files{max-width:760px;display:flex;flex-wrap:wrap;gap:12px;padding-bottom:8px}
+.pj-file{display:inline-flex;align-items:center;gap:14px;padding:14px 22px 14px 18px;border:1.5px solid var(--line);border-radius:6px;text-decoration:none;color:inherit;transition:border-color .2s,color .2s}
+.pj-file:hover{border-color:var(--green);color:var(--green)}
+.pj-file svg{flex:0 0 auto;color:var(--green)}
+.pj-file span{display:flex;flex-direction:column;line-height:1.3}
+.pj-file small{color:var(--muted);font-size:.82rem}
+.pj-img img[src$=".gif"]{width:auto;max-width:100%;margin:0 auto}
+
+/* ---------- Méně šablony: bez štítků nad nadpisy, bez ikon v kolečkách, text místo dlaždic ---------- */
+.g-head{text-align:left}
+.g-head h2{margin-bottom:8px}
+.hero .actions{gap:28px;margin-top:28px}
+.hero-link{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:1.05rem;color:var(--ink);text-decoration:none;padding-bottom:4px;border-bottom:2px solid var(--ink);transition:color .2s,border-color .2s}
+.hero-link:hover{color:var(--green);border-color:var(--green)}
+.hero-link svg{transition:transform .2s}
+.hero-link:hover svg{transform:translate(2px,2px)}
+.tools{display:grid;grid-template-columns:minmax(0,160px) minmax(0,1fr);gap:6px 32px;padding:22px 24px 96px}
+.tools .when{color:var(--muted)}
+.tools p{margin:0;max-width:70ch}
+.c-rows{margin:32px 0 0;border-top:1px solid var(--line)}
+.c-rows div{display:grid;grid-template-columns:90px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.c-rows dt{color:var(--muted)}
+.c-rows dd{margin:0;font-weight:500}
+.c-rows a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.c-rows a:hover{color:var(--green);border-color:var(--green)}
+.c-social{display:flex;flex-wrap:wrap;gap:6px 18px}
+@media (max-width:640px){.tools{grid-template-columns:minmax(0,1fr);padding:16px 20px 56px}}
+.site-head .wrap{grid-template-columns:auto minmax(0,1fr)}
+.site-head .nav{justify-self:end}
+.filters{justify-content:flex-start;gap:4px 32px}
+.admin-bar{justify-content:flex-start}
+.e-cat{text-align:left;text-transform:none;letter-spacing:-.01em;font-size:clamp(1.3rem,2.4vw,1.75rem)}
+@media (max-width:640px){.e-cat{padding-inline:20px}}
+.hero-sub{margin:0;color:var(--muted);font-size:1.1rem;max-width:36ch}
+
+/* ---------- Písmo nadpisů: Boska (Indian Type Foundry, Fontshare, ITF Free Font License) ---------- */
+@font-face{font-family:"Boska";src:url("fonts/Boska-Variable.woff2") format("woff2");font-weight:200 900;font-style:normal;font-display:swap}
+h1,h2,.e-cat,.cat-name,.pj-head h1,.pj-cta h2{font-family:"Boska",Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:-.015em}
+h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Boska",Georgia,serif;font-weight:600;letter-spacing:-.005em}
+.faq summary{font-size:1.2rem}
+.brand,.brand span,.brand b{font-family:"Boska",Georgia,serif}
+.job h3{font-size:1.3rem}
+
+/* ---------- Úvod s velkou fotkou ---------- */
+.hero-photo{position:relative;overflow:hidden;background:#cfcfcf}
+.hp-media img{display:block;width:100%;height:min(86vh,56.25vw);min-height:520px;object-fit:cover;object-position:70% 50%}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,245,243,.62) 0%,rgba(245,245,243,.38) 32%,rgba(245,245,243,0) 58%);pointer-events:none}
+.hp-text{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;padding-top:24px;padding-bottom:24px}
+.hp-text h1{font-size:clamp(3rem,6.6vw,6.4rem);line-height:.98;letter-spacing:-.025em;max-width:9.5em}
+.hp-text .hero-sub{color:#2b2b2b;margin-top:24px;max-width:34ch;font-size:1.12rem}
+.hp-text .actions{display:flex;flex-wrap:wrap;gap:28px;margin-top:28px}
+@media (max-width:700px){
+  .hp-media img{height:auto;min-height:0;aspect-ratio:4 / 5}
+  .hero-photo::after{display:none}
+  .hero-photo{background:none}
+  .hp-text{position:static;padding:28px 20px 36px}
+  .hp-text h1{font-size:clamp(2.6rem,12vw,3.4rem)}
+  .hp-text .hero-sub{margin-top:16px;font-size:1rem;color:var(--muted)}
+  .hp-text .actions{gap:22px;margin-top:22px}
+}
+.pj-cover img{width:auto;max-width:100%;max-height:86vh;margin:0 auto;display:block}
+.brand span{font-weight:500;letter-spacing:.1em}
+.brand b{font-weight:700;letter-spacing:.06em}
