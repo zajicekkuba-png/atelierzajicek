@@ -663,3 +663,4 @@ h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weigh
   .hp-slide.is-side img{width:52%;height:min(86vh,56.25vw);min-height:520px;margin-left:auto;margin-right:2%;object-fit:contain;object-position:50% 100%}
   .hero-photo.has-slides .hp-text h1{font-size:clamp(2.6rem,4.2vw,4.4rem)}
 }
+.rev figcaption{display:flex;align-items:center;gap:12px}

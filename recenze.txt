@@ -1,6 +1,5 @@
 # Recenze na webu. Jedna recenze = jeden řádek:
-# Jméno | Hvězdičky 1–5 | Text recenze
-# Hvězdičky jsou nepovinné: když klient hodnocení nedal, nech pole prázdné (Jméno | | Text).
+# Jméno | Text recenze
 # Recenzi smažeš tak, že smažeš její řádek. Řádky začínající # se na webu nezobrazí.
-Ivana | 5 | S Kubou jsme fotili několikrát a vždy jsem byla maximálně spokojená. Oceňuji jeho umělecké cítění - ať už se jednalo o fantasy focení (šaty, paruka, netradiční lokace) nebo profesionální fotografie na můj web, které měly působit autenticky. Každá fotka měla jeho specifický podpis, byla něčím výjimečná, a přesně tímto se liší od ostatních fotografů. Kuba fotí s láskou a je to vidět. Díky!🖤
-Lukáš Staš | | S Kubou mě seznámil kamarád z mé umělecké školy AVEART v Ostravě a hned jsem věděl, že započneme spolupráci na všech kreativních úrovních. Máme za sebou již několik focení v ateliéru, grafické práce, foto edit na web a již brzy nás toho čeká mnohem víc. Výsledek dopadl vždy naprosto bezvadně dle našeho očekávání. Těším se na další super akce a děkuji moc! 🎨🌈
+Ivana | S Kubou jsme fotili několikrát a vždy jsem byla maximálně spokojená. Oceňuji jeho umělecké cítění - ať už se jednalo o fantasy focení (šaty, paruka, netradiční lokace) nebo profesionální fotografie na můj web, které měly působit autenticky. Každá fotka měla jeho specifický podpis, byla něčím výjimečná, a přesně tímto se liší od ostatních fotografů. Kuba fotí s láskou a je to vidět. Díky!🖤
+Lukáš Staš | S Kubou mě seznámil kamarád z mé umělecké školy AVEART v Ostravě a hned jsem věděl, že započneme spolupráci na všech kreativních úrovních. Máme za sebou již několik focení v ateliéru, grafické práce, foto edit na web a již brzy nás toho čeká mnohem víc. Výsledek dopadl vždy naprosto bezvadně dle našeho očekávání. Těším se na další super akce a děkuji moc! 🎨🌈
