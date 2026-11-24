@@ -133,26 +133,22 @@ def video_file(path, cat, out_dir, names):
             "proj": None, "t": added_time(path), "o": order, "y": year, "d": desc, "name": path.stem.lower(), "vid": {"type": "file", "src": f"video/{dest.name}"}}
 
 def load_reviews():
-    """recenze.txt: jedna recenze na řádek ve tvaru  Jméno | Hvězdičky 1–5 | Text"""
+    """recenze.txt: jedna recenze na řádek ve tvaru  Jméno | Text
+    (starší tvar s hvězdičkami „Jméno | 5 | Text“ funguje taky, hvězdičky se ignorují)"""
     f, out = ROOT / "recenze.txt", []
     if f.exists():
-        for line in f.read_text("utf-8").splitlines():
+        for line in f.read_text("utf-8-sig").splitlines():
             line = line.strip()
-            if not line or line.startswith("#"):
+            if not line or line.startswith("#") or "|" not in line:
                 continue
             parts = [x.strip() for x in line.split("|")]
-            if len(parts) < 3:
-                continue
-            if len(parts) >= 4 and not parts[1].isdigit():  # starší tvar s typem focení
-                parts = [parts[0], parts[2], "|".join(parts[3:])]
-            name, stars, text = parts[0], parts[1], " | ".join(parts[2:])
-            try:
-                stars = max(1, min(5, int(stars)))
-            except ValueError:
-                stars = 0  # bez hvězdiček (pole necháno prázdné)
-            text = text.strip(' "„“”')
+            name = parts[0]
+            rest = parts[1:]
+            if len(rest) >= 2 and (rest[0].isdigit() or rest[0] == ""):
+                rest = rest[1:]  # starý sloupec s hvězdičkami
+            text = " | ".join(rest).strip(' "„“”')
             if name and text:
-                out.append({"name": name, "stars": stars, "text": text})
+                out.append({"name": name, "text": text})
     return out
 
 def added_time(path):
