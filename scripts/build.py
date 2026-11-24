@@ -442,22 +442,25 @@ def build_hero_slides():
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-        spec, _, pos = line.partition("|")
+        parts = [x.strip() for x in line.split("|")]
+        spec, opts = parts[0], [x.lower() for x in parts[1:] if x]
         f = find_photo(spec)
         if not f:
-            print(f"Úvod: fotku „{spec.strip()}“ jsem nenašel, přeskakuji.")
+            print(f"Úvod: fotku „{spec}“ jsem nenašel, přeskakuji.")
             continue
-        try:
-            xpos = max(0, min(100, int(pos.strip()))) if pos.strip() else 50
-        except ValueError:
-            xpos = 50
-        items.append((f, xpos))
+        xpos, side = 50, False
+        for o in opts:
+            if o.isdigit():
+                xpos = max(0, min(100, int(o)))
+            elif o in ("vpravo", "celá", "cela", "bokem"):
+                side = True  # celá fotka vpravo, vlevo navazuje barva jejího pozadí
+        items.append((f, xpos, side))
     if not items:
         return False
     out = OUT / "hero"
     out.mkdir(parents=True, exist_ok=True)
     slides, dots = [], []
-    for i, (f, xpos) in enumerate(items[:8]):
+    for i, (f, xpos, side) in enumerate(items[:8]):
         with Image.open(f) as im0:
             im = ImageOps.exif_transpose(im0).convert("RGB")
         w, h = im.size
@@ -472,12 +475,17 @@ def build_hero_slides():
         # jas v místě textu (dole vlevo) -> barva textu
         g = im.convert("L")
         light = ImageStat.Stat(g.crop((0, int(h * 0.5), int(w * 0.5), h))).mean[0] / 255 > 0.55
+        extra = ""
+        if side:
+            edge = ImageStat.Stat(im.crop((0, 0, max(1, w // 40), h))).mean
+            extra = ' style="--slide-bg:#%02x%02x%02x"' % tuple(round(v) for v in edge[:3])
+            light = sum(edge[:3]) / 3 / 255 > 0.55
         tone = "light" if light else "dark"
         title = name_meta(find_name(load_names(f.parent), f))[0] or nice(split_order(f.stem)[1])
         first = i == 0
         load_attr = ' fetchpriority="high"' if first else ' loading="lazy"'
         slides.append(
-            f'<figure class="hp-slide{" is-active" if first else ""}" data-tone="{tone}">'
+            f'<figure class="hp-slide{" is-active" if first else ""}{" is-side" if side else ""}" data-tone="{tone}"{extra}>'
             f'<picture><source media="(max-width: 700px)" srcset="hero/{key}-m.jpg" width="1080" height="1350">'
             f'<img src="hero/{key}.jpg" width="{big.width}" height="{big.height}" alt="{esc(title)}" style="object-position:{xpos}% 50%"'
             f'{load_attr} decoding="async"></picture></figure>')
