@@ -10,7 +10,7 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "fotky", ROOT / "_site"
-SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg", "og.jpg", "hero.jpg", "hero-m.jpg", "fonts/Boska-Variable.woff2"]
+SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg", "og.jpg", "hero.jpg", "hero-m.jpg", "fonts/Neco-Variable.woff2"]
 KNOWN = {  # pořadí tady = pořadí kategorií na webu
     "portrety": ("Portréty a lidé", "Fotografie"),
     "produkt": ("Produkty a značky", "Fotografie"),
