@@ -8,9 +8,13 @@
 # Nepovinně můžeš za svislou čáru napsat, kam posunout výřez (0–100 %):
 #   Pod obloukem | 60
 # 0 = levý okraj fotky, 50 = střed, 100 = pravý okraj.
+#
+# Slovo „vpravo“ ukáže na počítači celou fotku zmenšenou vpravo a vlevo nechá
+# místo pro text (hodí se pro fotky s jednolitým pozadím, třeba Kruh a prostor):
+#   Kruh a prostor | vpravo
 # Když soubor smažeš nebo necháš prázdný, použije se jedna fotka hero.jpg.
 
-Kruh a prostor
+Kruh a prostor | vpravo
 Pod obloukem
 Bouřlivé moře
 Za plotem

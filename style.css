@@ -651,3 +651,10 @@ h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weigh
   .hero-photo .hp-dot span{background:rgba(255,255,255,.45)}
   .hero-photo .hp-dot span::after{background:#fff}
 }
+/* Snímek „vpravo“: celá fotka zmenšená vpravo, vlevo barva jejího pozadí (text nepřekrývá motiv) */
+@media (min-width:701px){
+  .hp-slide.is-side{background:var(--slide-bg,#f3f3f3)}
+  .hp-slide.is-side img{width:55%;margin-left:auto;object-fit:contain;object-position:100% 50%}
+  .hero-photo.has-slides .hp-text h1{font-size:clamp(2.8rem,4.6vw,4.8rem)}
+  .hero-photo.has-slides.side-active::after{display:none}
+}

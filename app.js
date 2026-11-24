@@ -356,6 +356,7 @@
     var light = slides[cur].getAttribute("data-tone") === "light";
     sec.classList.toggle("tone-light", light);
     sec.classList.toggle("tone-dark", !light);
+    sec.classList.toggle("side-active", slides[cur].classList.contains("is-side"));
     var next = slides[(cur + 1) % slides.length].querySelector("img");
     if (next && next.loading === "lazy") next.loading = "eager"; /* další fotku načíst dopředu */
     schedule(TIME);
