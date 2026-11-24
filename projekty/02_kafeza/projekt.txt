@@ -1,6 +1,5 @@
-# Text je návrh – klidně ho přepiš. Řádky začínající # se na webu nezobrazí.
 Název: Kaféza
-Podtitul: Korporátní identita pro neexistující kavárnu.
+Podtitul: Korporátní identita pro neexistující kavárnu
 Obor: Vizuální identita
 Role: Znak, logo, obaly a manuál identity
 Rok: 2025
@@ -9,7 +8,7 @@ Obal: 3_kelimky.jpg
 Kaféza je má absolventská práce, návrh vizuální identity pro kavárnu. Svou práci jsem opíral o konzultace s majiteli lokálních kaváren.
 
 ## Řešení
-Základem je znak odvozený z písmene K s měkkými, organickými tvary připomínající tekoucí kávu. Doplňuje ho výrazný logotyp a jednoduchá černobílá paleta, díky které značka funguje na kelímcích, nosičích i menu.
+Základem je znak odvozený z písmene K s měkkými, organickými tvary připomínajícími tekoucí kávu. Doplňuje ho výrazný logotyp a jednoduchá černobílá paleta, díky které značka funguje na kelímcích, nosičích i menu.
 
 ## Výsledek
-Vznikl manuál identity a sada aplikací, kelímky s nosičem, menu a další materiály pro provoz kavárny.
+Vznikl manuál identity a sada aplikací: kelímky s nosičem, menu a další materiály pro provoz kavárny.
