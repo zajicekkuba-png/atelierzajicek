@@ -465,6 +465,16 @@ def build_hero_slides():
             im = ImageOps.exif_transpose(im0).convert("RGB")
         w, h = im.size
         big = im.copy()
+        if side:
+            # u snímku „vpravo“ ořízneme prázdné pozadí po stranách, aby motiv mohl být větší
+            g0 = im.convert("L")
+            sm = g0.resize((200, max(1, round(200 * h / w))))
+            bgL = ImageStat.Stat(g0.crop((0, 0, max(1, w // 40), h))).mean[0]
+            cols = [x for x in range(sm.width) if any(abs(sm.getpixel((x, y)) - bgL) > 28 for y in range(sm.height))]
+            if cols:
+                pad = 0.03 * w
+                x0 = max(0, int(cols[0] / sm.width * w - pad)); x1 = min(w, int((cols[-1] + 1) / sm.width * w + pad))
+                big = im.crop((x0, 0, x1, h))
         big.thumbnail((2400, 2400), Image.LANCZOS)
         key = hashlib.sha1(f"{f.relative_to(ROOT)}{xpos}".encode()).hexdigest()[:8]
         big.save(out / f"{key}.jpg", "JPEG", quality=84, optimize=True, progressive=True)
