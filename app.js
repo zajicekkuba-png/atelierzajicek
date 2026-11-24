@@ -186,6 +186,7 @@
   /* ---------- reviews ---------- */
   var STAR = "M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z";
   function starsHTML(n) {
+    if (!n) return "";
     var s = "";
     for (var i = 1; i <= 5; i++) s += '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"' + (i > n ? ' style="opacity:.2"' : "") + '><path d="' + STAR + '"></path></svg>';
     return '<span class="rev-stars" role="img" aria-label="Hodnocení ' + n + ' z 5">' + s + "</span>";
