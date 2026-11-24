@@ -1,0 +1,21 @@
+# Fotky v úvodní prezentaci na hlavní stránce (střídají se po 5 sekundách).
+# Jeden řádek = jedna fotka, pořadí = pořadí na webu. Ideálně 3–5 fotek na šířku.
+#
+# Napiš název fotky (jak je v nazvy.txt) nebo cestu k souboru, třeba:
+#   Kruh a prostor
+#   fotky/priroda/dsf7628.jpg
+#
+# Nepovinně můžeš za svislou čáru napsat, kam posunout výřez (0–100 %):
+#   Pod obloukem | 60
+# 0 = levý okraj fotky, 50 = střed, 100 = pravý okraj.
+#
+# Slovo „vpravo“ ukáže na počítači celou fotku zmenšenou vpravo a vlevo nechá
+# místo pro text (hodí se pro fotky s jednolitým pozadím, třeba Kruh a prostor):
+#   Kruh a prostor | vpravo
+# Když soubor smažeš nebo necháš prázdný, použije se jedna fotka hero.jpg.
+
+Kruh a prostor | vpravo
+Pod obloukem
+Bouřlivé moře
+Za plotem
+Plamen a barva

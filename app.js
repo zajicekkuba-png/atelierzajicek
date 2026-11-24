@@ -14,6 +14,7 @@
   /* ---------- filmstrip ---------- */
   function renderFilm() {
     var sec = $("filmSec"), film = $("film"), list = DATA.photos.filter(function (p) { return !p.vid; });
+    if (!sec || !film) return; /* pás fotek je z hlavní stránky odstraněný */
     if (list.length < 3) { sec.hidden = true; return; }
     /* Náhodné pořadí při každém načtení stránky (Fisher–Yates) */
     var mix = list.slice();
@@ -29,7 +30,7 @@
       pick.map(function (p, i) { return item(p, i, true); }).join("") + "</div>";
     film._list = pick; sec.hidden = false;
   }
-  $("film").addEventListener("click", function (e) { var b = e.target.closest("[data-film]"); if (b) openFrom(this._list, +b.dataset.film); });
+  if ($("film")) $("film").addEventListener("click", function (e) { var b = e.target.closest("[data-film]"); if (b) openFrom(this._list, +b.dataset.film); });
 
   /* ---------- gallery ---------- */
   function counts() { var c = {}; DATA.photos.forEach(function (p) { c[p.cat] = (c[p.cat] || 0) + 1; }); return c; }
@@ -184,12 +185,6 @@
   $("fCopy").onclick = function () { if (navigator.clipboard) navigator.clipboard.writeText(mailBody()).then(function () { toast("Text zprávy je zkopírovaný."); }, function () { toast("Kopírování se nepovedlo, označte text ručně."); }); };
 
   /* ---------- reviews ---------- */
-  var STAR = "M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z";
-  function starsHTML(n) {
-    var s = "";
-    for (var i = 1; i <= 5; i++) s += '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"' + (i > n ? ' style="opacity:.2"' : "") + '><path d="' + STAR + '"></path></svg>';
-    return '<span class="rev-stars" role="img" aria-label="Hodnocení ' + n + ' z 5">' + s + "</span>";
-  }
   /* Jen křestní jméno a první písmeno příjmení: „Jakub Zajíček“ → „Jakub Z.“ */
   function shortName(n) { var w = String(n).trim().split(/\s+/).filter(Boolean); return w.length > 1 ? w[0] + " " + w[w.length - 1].charAt(0).toUpperCase() + "." : (w[0] || ""); }
   function initials(n) { return n.split(/\s+/).filter(Boolean).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join(""); }
@@ -197,29 +192,17 @@
     var r = DATA.reviews || [], g = $("revGrid");
     g.hidden = !r.length;
     g.innerHTML = r.map(function (x) {
-      x = { name: shortName(x.name), stars: x.stars, text: x.text };
-      return '<figure class="rev"><blockquote>„' + esc(x.text) + '“</blockquote><figcaption><span class="rev-av" aria-hidden="true">' + esc(initials(x.name)) + "</span>" + starsHTML(x.stars) + "<b>" + esc(x.name) + "</b></figcaption></figure>";
+      x = { name: shortName(x.name), text: x.text };
+      return '<figure class="rev"><blockquote>„' + esc(x.text) + '“</blockquote><figcaption><span class="rev-av" aria-hidden="true">' + esc(initials(x.name)) + "</span><b>" + esc(x.name) + "</b></figcaption></figure>";
     }).join("");
     $("revLead").textContent = r.length ? "Fotil jsem vás? Budu rád za pár slov." : "Zatím tu žádné recenze nejsou. Fotil jsem vás? Budete první.";
   }
-  var rStars = 5;
-  function paintStars() {
-    $("rStars").innerHTML = [1, 2, 3, 4, 5].map(function (i) {
-      return '<button type="button" role="radio" aria-checked="' + (i === rStars) + '" aria-label="' + i + " z 5" + '" data-v="' + i + '" class="' + (i <= rStars ? "on" : "") + '" tabindex="' + (i === rStars ? 0 : -1) + '"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="' + STAR + '"></path></svg></button>';
-    }).join("");
-  }
-  paintStars();
-  $("rStars").addEventListener("click", function (e) { var b = e.target.closest("[data-v]"); if (!b) return; rStars = +b.dataset.v; paintStars(); this.querySelector('[data-v="' + rStars + '"]').focus(); });
-  $("rStars").addEventListener("keydown", function (e) {
-    var d = (e.key === "ArrowRight" || e.key === "ArrowUp") ? 1 : (e.key === "ArrowLeft" || e.key === "ArrowDown") ? -1 : 0;
-    if (!d) return; e.preventDefault(); rStars = Math.min(5, Math.max(1, rStars + d)); paintStars(); this.querySelector('[data-v="' + rStars + '"]').focus();
-  });
   $("rOpen").onclick = function () { var f = $("rForm"), open = f.hidden; f.hidden = !open; this.setAttribute("aria-expanded", String(open)); if (open) $("rName").focus(); };
   function clean(s) { return s.replace(/\|/g, "/").replace(/\s+/g, " ").trim(); }
   function revBody() {
     var n = shortName($("rName").value), t = $("rText").value.trim();
-    return "Dobrý den,\n\nposílám recenzi na web.\n\nJméno: " + n + "\nHodnocení: " + rStars + "/5\nRecenze: " + t +
-      "\n\nSouhlasím se zveřejněním svého jména a recenze na webu atelierzajicek.cz.\n\n---\nŘádek pro recenze.txt:\n" + clean(n) + " | " + rStars + " | " + clean(t);
+    return "Dobrý den,\n\nposílám recenzi na web.\n\nJméno: " + n + "\nRecenze: " + t +
+      "\n\nSouhlasím se zveřejněním svého jména a recenze na webu atelierzajicek.cz.\n\n---\nŘádek pro recenze.txt:\n" + clean(n) + " | " + clean(t);
   }
   $("rSend").onclick = function () {
     var err = $("rErr"), bad = null;
@@ -310,4 +293,80 @@
   fetch("gallery.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) {
     DATA = d; CAT = {}; d.categories.forEach(function (c) { CAT[c.id] = c; }); renderAll();
   }).catch(function () { renderAll(); });
+})();
+
+/* Úvodní fotka: barva textu podle jasu fotky v místě, kde je text (dole vlevo). */
+(function () {
+  var sec = document.querySelector(".hero-photo");
+  var img = sec && sec.querySelector(".hp-media img");
+  if (!img) return;
+  function tone() {
+    try {
+      var W = 64, H = 36, c = document.createElement("canvas");
+      c.width = W; c.height = H;
+      var x = c.getContext("2d", { willReadFrequently: true });
+      x.drawImage(img, 0, 0, W, H);
+      var y0 = Math.round(H * 0.45), d = x.getImageData(0, y0, Math.round(W * 0.5), H - y0).data, s = 0, n = 0;
+      for (var i = 0; i < d.length; i += 4) { s += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]; n++; }
+      var light = s / n / 255 > 0.55;
+      sec.classList.toggle("tone-light", light);
+      sec.classList.toggle("tone-dark", !light);
+    } catch (e) {}
+  }
+  if (img.complete && img.naturalWidth) tone(); else img.addEventListener("load", tone);
+})();
+
+/* Úvodní prezentace: fotky se střídají po 5 s, pruhy dole ukazují průběh a dají se kliknout, na mobilu jde i přejet prstem. */
+(function () {
+  var sec = document.querySelector(".hero-photo.has-slides");
+  if (!sec) return;
+  var slides = [].slice.call(sec.querySelectorAll(".hp-slide")),
+      dots = [].slice.call(sec.querySelectorAll(".hp-dot"));
+  if (slides.length < 2) return;
+  var TIME = 5000, cur = 0, timer = null, started = 0, left = TIME,
+      still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  sec.style.setProperty("--hp-time", TIME / 1000 + "s");
+  function show(i) {
+    cur = (i + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle("is-active", k === cur); });
+    dots.forEach(function (d, k) {
+      d.classList.remove("is-active");
+      d.classList.toggle("is-done", k < cur);
+      d.setAttribute("aria-current", k === cur ? "true" : "false");
+    });
+    void (dots[cur] && dots[cur].offsetWidth); /* restart animace pruhu */
+    if (dots[cur]) dots[cur].classList.add("is-active");
+    var light = slides[cur].getAttribute("data-tone") === "light";
+    sec.classList.toggle("tone-light", light);
+    sec.classList.toggle("tone-dark", !light);
+    sec.classList.toggle("side-active", slides[cur].classList.contains("is-side"));
+    var next = slides[(cur + 1) % slides.length].querySelector("img");
+    if (next && next.loading === "lazy") next.loading = "eager"; /* další fotku načíst dopředu */
+    schedule(TIME);
+  }
+  function schedule(ms) {
+    clearTimeout(timer);
+    if (still) return;
+    left = ms; started = Date.now();
+    timer = setTimeout(function () { show(cur + 1); }, ms);
+  }
+  function pause() {
+    if (sec.classList.contains("is-paused")) return;
+    clearTimeout(timer); left = Math.max(0, left - (Date.now() - started));
+    sec.classList.add("is-paused");
+  }
+  function resume() {
+    if (!sec.classList.contains("is-paused")) return;
+    sec.classList.remove("is-paused"); schedule(left);
+  }
+  dots.forEach(function (d, k) { d.addEventListener("click", function () { sec.classList.remove("is-paused"); show(k); }); });
+  document.addEventListener("visibilitychange", function () { document.hidden ? pause() : resume(); });
+  var x0 = null;
+  sec.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  sec.addEventListener("touchend", function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 45) show(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+  show(0);
 })();
