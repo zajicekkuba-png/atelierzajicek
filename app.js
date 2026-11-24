@@ -14,6 +14,7 @@
   /* ---------- filmstrip ---------- */
   function renderFilm() {
     var sec = $("filmSec"), film = $("film"), list = DATA.photos.filter(function (p) { return !p.vid; });
+    if (!sec || !film) return; /* pás fotek je z hlavní stránky odstraněný */
     if (list.length < 3) { sec.hidden = true; return; }
     /* Náhodné pořadí při každém načtení stránky (Fisher–Yates) */
     var mix = list.slice();
@@ -29,7 +30,7 @@
       pick.map(function (p, i) { return item(p, i, true); }).join("") + "</div>";
     film._list = pick; sec.hidden = false;
   }
-  $("film").addEventListener("click", function (e) { var b = e.target.closest("[data-film]"); if (b) openFrom(this._list, +b.dataset.film); });
+  if ($("film")) $("film").addEventListener("click", function (e) { var b = e.target.closest("[data-film]"); if (b) openFrom(this._list, +b.dataset.film); });
 
   /* ---------- gallery ---------- */
   function counts() { var c = {}; DATA.photos.forEach(function (p) { c[p.cat] = (c[p.cat] || 0) + 1; }); return c; }

@@ -664,3 +664,5 @@ h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weigh
   .hero-photo.has-slides .hp-text h1{font-size:clamp(2.6rem,4.2vw,4.4rem)}
 }
 .rev figcaption{display:flex;align-items:center;gap:12px}
+/* Bez pásu fotek: portfolio začíná s odstupem pod úvodem */
+.gallery-sec{padding-top:clamp(56px,8vw,96px)}
