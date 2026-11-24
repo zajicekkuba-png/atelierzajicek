@@ -545,3 +545,35 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 .e-cat{text-align:left;text-transform:none;letter-spacing:-.01em;font-size:clamp(1.3rem,2.4vw,1.75rem)}
 @media (max-width:640px){.e-cat{padding-inline:20px}}
 .hero-sub{margin:0;color:var(--muted);font-size:1.1rem;max-width:36ch}
+<<<<<<< HEAD
+
+/* ---------- Písmo nadpisů: Boska (Indian Type Foundry, Fontshare, ITF Free Font License) ---------- */
+@font-face{font-family:"Boska";src:url("fonts/Boska-Variable.woff2") format("woff2");font-weight:200 900;font-style:normal;font-display:swap}
+h1,h2,.e-cat,.cat-name,.pj-head h1,.pj-cta h2{font-family:"Boska",Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:-.015em}
+h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Boska",Georgia,serif;font-weight:600;letter-spacing:-.005em}
+.faq summary{font-size:1.2rem}
+.brand,.brand span,.brand b{font-family:"Boska",Georgia,serif}
+.job h3{font-size:1.3rem}
+
+/* ---------- Úvod s velkou fotkou ---------- */
+.hero-photo{position:relative;overflow:hidden;background:#cfcfcf}
+.hp-media img{display:block;width:100%;height:min(86vh,56.25vw);min-height:520px;object-fit:cover;object-position:70% 50%}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,245,243,.62) 0%,rgba(245,245,243,.38) 32%,rgba(245,245,243,0) 58%);pointer-events:none}
+.hp-text{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;padding-top:24px;padding-bottom:24px}
+.hp-text h1{font-size:clamp(3rem,6.6vw,6.4rem);line-height:.98;letter-spacing:-.025em;max-width:9.5em}
+.hp-text .hero-sub{color:#2b2b2b;margin-top:24px;max-width:34ch;font-size:1.12rem}
+.hp-text .actions{display:flex;flex-wrap:wrap;gap:28px;margin-top:28px}
+@media (max-width:700px){
+  .hp-media img{height:auto;min-height:0;aspect-ratio:4 / 5}
+  .hero-photo::after{display:none}
+  .hero-photo{background:none}
+  .hp-text{position:static;padding:28px 20px 36px}
+  .hp-text h1{font-size:clamp(2.6rem,12vw,3.4rem)}
+  .hp-text .hero-sub{margin-top:16px;font-size:1rem;color:var(--muted)}
+  .hp-text .actions{gap:22px;margin-top:22px}
+}
+.pj-cover img{width:auto;max-width:100%;max-height:86vh;margin:0 auto;display:block}
+.brand span{font-weight:500;letter-spacing:.1em}
+.brand b{font-weight:700;letter-spacing:.06em}
+=======
+>>>>>>> 8f81fade1f28f5f5b8893dbffbaaae217a5df1db

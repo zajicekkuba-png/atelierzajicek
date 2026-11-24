@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap">
+<link rel="preload" href="fonts/Boska-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 <script src="app.js" defer></script>
 </head>
@@ -42,18 +43,28 @@
 </header>
 
 <main>
+<<<<<<< HEAD
+<section id="uvod" class="hero-photo">
+  <!-- Úvodní fotka. Později ji lze nahradit videem (<video autoplay muted loop playsinline>) ve stejném místě. -->
+  <picture class="hp-media">
+    <source media="(max-width: 700px)" srcset="hero-m.jpg" width="1080" height="1350">
+    <img src="hero.jpg" width="2400" height="1350" alt="Jakub Zajíček sedí na betonových schodech" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap hp-text">
+    <h1>Dívám se<br>na svět po svém</h1>
+=======
 <section id="uvod" class="wrap hero">
   <div>
     <h1>Dívám se<br>na svět po svém</h1>
   </div>
   <div class="hero-side">
+>>>>>>> 8f81fade1f28f5f5b8893dbffbaaae217a5df1db
     <p class="hero-sub">Fotograf, videomaker a grafik z Ostravy. Kromě fotek točím videa a navrhuji vizuální identity značek.</p>
     <div class="actions">
       <a class="hero-link" href="#portfolio">Prohlédnout práci<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a class="hero-link" href="#kontakt">Napsat mi<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
-  <div class="hero-media" id="heroMedia" hidden></div>
 </section>
 <section class="film-sec" id="filmSec" hidden aria-label="Výběr z mé práce">
   <div class="film" id="film"></div>

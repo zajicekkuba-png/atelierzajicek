@@ -9,7 +9,7 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC, OUT = ROOT / "fotky", ROOT / "_site"
-SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg"]
+SITE_FILES = ["index.html", "style.css", "app.js", "profil.jpg", "og.jpg", "hero.jpg", "hero-m.jpg", "fonts/Boska-Variable.woff2"]
 KNOWN = {  # pořadí tady = pořadí kategorií na webu
     "portrety": ("Portréty a lidé", "Fotografie"),
     "produkt": ("Produkty a značky", "Fotografie"),
@@ -357,7 +357,7 @@ def build_projects(img_dir, css):
         # Rozložení: fotky na šířku přes celou šířku, ostatní (na výšku, čtverce) po dvou vedle sebe.
         # Osamocená fotka na výšku se vycentruje, aby vedle ní nezůstalo prázdné místo.
         rest = [p for p in pr["imgs"] if p is not cover]
-        kinds = ["wide" if p["w"] / p["h"] >= 1.25 else "half" for p in rest]
+        kinds = ["wide" if p["w"] / p["h"] >= 1.25 and p["w"] >= 1400 else "half" for p in rest]  # malé obrázky neroztahovat přes celou šířku
         cls, i = [], 0
         while i < len(rest):
             if kinds[i] == "wide":
@@ -437,6 +437,7 @@ def main():
     img_dir.mkdir(parents=True)
     for f in SITE_FILES:
         if (ROOT / f).exists():
+            (OUT / f).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / f, OUT / f)
     categories, photos, failed = [], [], []
     if SRC.exists():
