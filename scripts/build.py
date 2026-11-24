@@ -1,5 +1,6 @@
 import hashlib, json, re, shutil, subprocess, unicodedata
 from pathlib import Path
+from PIL import ImageStat
 from PIL import Image, ImageOps
 try:
     from pillow_heif import register_heif_opener
@@ -412,6 +413,23 @@ def build_projects(img_dir, css):
               "thumb": pr["cover"]["thumb"], "tw": pr["cover"]["tw"], "th": pr["cover"]["th"]} for pr in projects]
     return cards, failed
 
+def hero_tone():
+    """Podle jasu hero.jpg v místě textu (dole vlevo) nastaví světlý nebo tmavý text v úvodu."""
+    f, idx = ROOT / "hero.jpg", OUT / "index.html"
+    if not (f.exists() and idx.exists()):
+        return
+    try:
+        with Image.open(f) as im:
+            g = im.convert("L")
+            w, h = g.size
+            r = g.crop((0, int(h * 0.45), int(w * 0.5), h))
+            light = ImageStat.Stat(r).mean[0] / 255 > 0.55
+        s = idx.read_text("utf-8")
+        s = s.replace('class="hero-photo"', f'class="hero-photo {"tone-light" if light else "tone-dark"}"', 1)
+        idx.write_text(s, "utf-8")
+    except Exception:
+        pass
+
 def bust_cache():
     """style.css a app.js dostanou v názvu otisk obsahu, aby prohlížeče vždy načetly novou verzi."""
     names = {}
@@ -474,6 +492,7 @@ def main():
     photos.sort(key=lambda p: (p.get("o", BIG), -p["t"], p["proj"] or "", p["name"]))
     for p in photos:
         p.pop("name")
+    hero_tone()
     assets = bust_cache()
     projects, pfail = build_projects(img_dir, assets.get("style.css", "style.css"))
     failed += pfail
