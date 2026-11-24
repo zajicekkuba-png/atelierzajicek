@@ -546,12 +546,12 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 @media (max-width:640px){.e-cat{padding-inline:20px}}
 .hero-sub{margin:0;color:var(--muted);font-size:1.1rem;max-width:36ch}
 
-/* ---------- Písmo nadpisů: Boska (Indian Type Foundry, Fontshare, ITF Free Font License) ---------- */
-@font-face{font-family:"Boska";src:url("fonts/Boska-Variable.woff2") format("woff2");font-weight:200 900;font-style:normal;font-display:swap}
-h1,h2,.e-cat,.cat-name,.pj-head h1,.pj-cta h2{font-family:"Boska",Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:-.015em}
-h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Boska",Georgia,serif;font-weight:600;letter-spacing:-.005em}
+/* ---------- Písmo nadpisů: Neco (Indian Type Foundry, Fontshare, ITF Free Font License) ---------- */
+@font-face{font-family:"Neco";src:url("fonts/Neco-Variable.woff2") format("woff2");font-weight:400 900;font-style:normal;font-display:swap}
+h1,h2,.e-cat,.cat-name,.pj-head h1,.pj-cta h2{font-family:"Neco",Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:-.015em}
+h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weight:600;letter-spacing:-.005em}
 .faq summary{font-size:1.2rem}
-.brand,.brand span,.brand b{font-family:"Boska",Georgia,serif}
+.brand,.brand span,.brand b{font-family:"Neco",Georgia,serif}
 .job h3{font-size:1.3rem}
 
 /* ---------- Úvod s velkou fotkou ---------- */
