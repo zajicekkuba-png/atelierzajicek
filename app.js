@@ -332,3 +332,57 @@
   }
   if (img.complete && img.naturalWidth) tone(); else img.addEventListener("load", tone);
 })();
+
+/* Úvodní prezentace: fotky se střídají po 5 s, pruhy dole ukazují průběh a dají se kliknout, na mobilu jde i přejet prstem. */
+(function () {
+  var sec = document.querySelector(".hero-photo.has-slides");
+  if (!sec) return;
+  var slides = [].slice.call(sec.querySelectorAll(".hp-slide")),
+      dots = [].slice.call(sec.querySelectorAll(".hp-dot"));
+  if (slides.length < 2) return;
+  var TIME = 5000, cur = 0, timer = null, started = 0, left = TIME,
+      still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  sec.style.setProperty("--hp-time", TIME / 1000 + "s");
+  function show(i) {
+    cur = (i + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle("is-active", k === cur); });
+    dots.forEach(function (d, k) {
+      d.classList.remove("is-active");
+      d.classList.toggle("is-done", k < cur);
+      d.setAttribute("aria-current", k === cur ? "true" : "false");
+    });
+    void (dots[cur] && dots[cur].offsetWidth); /* restart animace pruhu */
+    if (dots[cur]) dots[cur].classList.add("is-active");
+    var light = slides[cur].getAttribute("data-tone") === "light";
+    sec.classList.toggle("tone-light", light);
+    sec.classList.toggle("tone-dark", !light);
+    var next = slides[(cur + 1) % slides.length].querySelector("img");
+    if (next && next.loading === "lazy") next.loading = "eager"; /* další fotku načíst dopředu */
+    schedule(TIME);
+  }
+  function schedule(ms) {
+    clearTimeout(timer);
+    if (still) return;
+    left = ms; started = Date.now();
+    timer = setTimeout(function () { show(cur + 1); }, ms);
+  }
+  function pause() {
+    if (sec.classList.contains("is-paused")) return;
+    clearTimeout(timer); left = Math.max(0, left - (Date.now() - started));
+    sec.classList.add("is-paused");
+  }
+  function resume() {
+    if (!sec.classList.contains("is-paused")) return;
+    sec.classList.remove("is-paused"); schedule(left);
+  }
+  dots.forEach(function (d, k) { d.addEventListener("click", function () { sec.classList.remove("is-paused"); show(k); }); });
+  document.addEventListener("visibilitychange", function () { document.hidden ? pause() : resume(); });
+  var x0 = null;
+  sec.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  sec.addEventListener("touchend", function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 45) show(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+  show(0);
+})();

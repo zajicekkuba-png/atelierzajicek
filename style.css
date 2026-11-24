@@ -616,3 +616,38 @@ h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weigh
   .hp-media img{height:min(78vh,39vw,780px);min-height:460px}
   .hp-text h1{font-size:clamp(2.6rem,4.3vw,4.6rem)}
 }
+
+/* ---------- Úvod jako prezentace několika fotek (uvod.txt) ---------- */
+.hero-photo.has-slides{background:#111}
+.hp-slides{position:relative;overflow:hidden}
+.hp-slide{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.1s ease;will-change:opacity}
+.hp-slide.is-active{opacity:1;z-index:1}
+.hp-slide:first-child{position:relative}
+.hp-slide img{display:block;width:100%;height:min(86vh,56.25vw);min-height:520px;object-fit:cover}
+.hero-photo.has-slides::after{display:block;z-index:1}
+.hero-photo.has-slides .hp-text{z-index:2}
+/* pruhy s průběhem */
+.hp-dots{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;display:flex;gap:8px}
+.hp-dot{all:unset;cursor:pointer;width:44px;height:16px;display:flex;align-items:center}
+.hp-dot span{position:relative;display:block;width:100%;height:4px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.4)}
+.hp-dot span::after{content:"";position:absolute;inset:0;width:0;border-radius:inherit;background:#fff}
+.hp-dot.is-done span::after{width:100%}
+.hp-dot.is-active span::after{animation:hp-fill var(--hp-time,5s) linear forwards}
+.hero-photo.is-paused .hp-dot.is-active span::after{animation-play-state:paused}
+.hero-photo.tone-light .hp-dot span{background:rgba(0,0,0,.18)}
+.hero-photo.tone-light .hp-dot span::after{background:var(--ink)}
+.hp-dot:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+@keyframes hp-fill{from{width:0}to{width:100%}}
+@media (prefers-reduced-motion:reduce){.hp-slide{transition:none}.hp-dot.is-active span::after{animation:none;width:100%}}
+@media (min-width:701px){
+  .hero-photo.has-slides .hp-text h1{font-size:clamp(3rem,6vw,6rem)}
+  .hero-photo.has-slides .hp-text{padding-bottom:clamp(56px,9vh,96px)}
+}
+@media (max-width:700px){
+  .hero-photo.has-slides{background:none}
+  .hp-slide img{height:auto;min-height:0;aspect-ratio:4 / 5}
+  .hero-photo.has-slides::after{display:none}
+  .hp-dots{bottom:14px}
+  .hero-photo .hp-dot span{background:rgba(255,255,255,.45)}
+  .hero-photo .hp-dot span::after{background:#fff}
+}
