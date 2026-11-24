@@ -597,3 +597,22 @@ h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weigh
 .hero-photo::after{background:linear-gradient(to top right,rgba(0,0,0,.66) 0%,rgba(0,0,0,.28) 35%,rgba(0,0,0,0) 60%)}
 .hero-photo.tone-light::after{background:linear-gradient(to top right,rgba(245,245,243,.78) 0%,rgba(245,245,243,.35) 35%,rgba(245,245,243,0) 60%)}
 @media (max-width:700px){.hero-photo::after,.hero-photo.tone-light::after{display:none}}
+
+/* Mezera mezi úvodní fotkou a pásem fotek (počítač) */
+@media (min-width:701px){.film-sec{margin-top:56px}}
+/* Úvodní fotka se nepřesahuje do stran: celá fotka vpravo, vlevo plynule navazuje barva jejího pozadí (--hero-bg nastaví build.py). */
+@media (min-width:701px){
+  .hero-photo{background:var(--hero-bg,#f4f4f4)}
+  .hp-media img{object-fit:contain;object-position:85% 50%;height:min(88vh,52vw)}
+  .hero-photo::after{display:none}
+}
+@media (min-width:701px){
+  .hp-media img{object-position:100% 50%}
+  .hp-text h1{font-size:clamp(2.6rem,4.3vw,5rem)}
+  .hp-text .hero-sub{max-width:30ch}
+}
+@media (min-width:701px){.hp-media img{height:min(80vh,44vw);min-height:460px}}
+@media (min-width:701px){
+  .hp-media img{height:min(78vh,39vw,780px);min-height:460px}
+  .hp-text h1{font-size:clamp(2.6rem,4.3vw,4.6rem)}
+}
