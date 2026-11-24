@@ -424,8 +424,13 @@ def hero_tone():
             w, h = g.size
             r = g.crop((0, int(h * 0.45), int(w * 0.5), h))
             light = ImageStat.Stat(r).mean[0] / 255 > 0.55
+        with Image.open(f) as im:
+            rgb = im.convert("RGB")
+            w, h = rgb.size
+            edge = ImageStat.Stat(rgb.crop((0, 0, max(1, w // 40), h))).mean  # barva levého okraje fotky
+        bg = "#%02x%02x%02x" % tuple(round(v) for v in edge[:3])
         s = idx.read_text("utf-8")
-        s = s.replace('class="hero-photo"', f'class="hero-photo {"tone-light" if light else "tone-dark"}"', 1)
+        s = s.replace('class="hero-photo"', f'class="hero-photo {"tone-light" if light else "tone-dark"}" style="--hero-bg:{bg}"', 1)
         idx.write_text(s, "utf-8")
     except Exception:
         pass
