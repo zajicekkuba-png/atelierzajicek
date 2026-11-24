@@ -546,21 +546,12 @@ fieldset{border:0;padding:0;margin:0 0 18px}
 @media (max-width:640px){.e-cat{padding-inline:20px}}
 .hero-sub{margin:0;color:var(--muted);font-size:1.1rem;max-width:36ch}
 
-<<<<<<< HEAD
 /* ---------- Písmo nadpisů: Gambarino (Indian Type Foundry, Fontshare, ITF Free Font License) ---------- */
 @font-face{font-family:"Gambarino";src:url("fonts/Gambarino-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 h1,h2,.e-cat,.cat-name,.pj-head h1,.pj-cta h2{font-family:"Gambarino",Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.01em}
 h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Gambarino",Georgia,serif;font-weight:400;letter-spacing:0}
 .faq summary{font-size:1.2rem}
 .brand,.brand span,.brand b{font-family:"Gambarino",Georgia,serif}
-=======
-/* ---------- Písmo nadpisů: Neco (Indian Type Foundry, Fontshare, ITF Free Font License) ---------- */
-@font-face{font-family:"Neco";src:url("fonts/Neco-Variable.woff2") format("woff2");font-weight:400 900;font-style:normal;font-display:swap}
-h1,h2,.e-cat,.cat-name,.pj-head h1,.pj-cta h2{font-family:"Neco",Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:-.015em}
-h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weight:600;letter-spacing:-.005em}
-.faq summary{font-size:1.2rem}
-.brand,.brand span,.brand b{font-family:"Neco",Georgia,serif}
->>>>>>> a0dafaa8455cd1d346938e6c684dd90d9c685993
 .job h3{font-size:1.3rem}
 
 /* ---------- Úvod s velkou fotkou ---------- */
@@ -675,7 +666,6 @@ h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Neco",Georgia,serif;font-weigh
 .rev figcaption{display:flex;align-items:center;gap:12px}
 /* Bez pásu fotek: portfolio začíná s odstupem pod úvodem */
 .gallery-sec{padding-top:clamp(56px,8vw,96px)}
-<<<<<<< HEAD
 
 /* Gambarino má jen jednu tloušťku: prohlížeč nesmí dělat umělé tučné, menší titulky o kousek větší */
 h1,h2,h3,.e-cat,.cat-name,.pj-head h1,.pj-cta h2,.pr-txt b,.pj-next b,.faq summary,.brand,.brand span,.brand b{font-synthesis:none}
@@ -683,5 +673,3 @@ h1,h2,h3,.e-cat,.cat-name,.pj-head h1,.pj-cta h2,.pr-txt b,.pj-next b,.faq summa
 .faq summary{font-size:1.3rem}
 .job h3{font-size:1.45rem}
 .brand span,.brand b{font-weight:400}
-=======
->>>>>>> a0dafaa8455cd1d346938e6c684dd90d9c685993
