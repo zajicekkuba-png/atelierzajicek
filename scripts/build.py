@@ -149,7 +149,7 @@ def load_reviews():
             try:
                 stars = max(1, min(5, int(stars)))
             except ValueError:
-                stars = 5
+                stars = 0  # bez hvězdiček (pole necháno prázdné)
             text = text.strip(' "„“”')
             if name and text:
                 out.append({"name": name, "stars": stars, "text": text})
@@ -494,10 +494,11 @@ def build_hero_slides():
         title = name_meta(find_name(load_names(f.parent), f))[0] or nice(split_order(f.stem)[1])
         first = i == 0
         load_attr = ' fetchpriority="high"' if first else ' loading="lazy"'
+        pos_attr = "" if side else f' style="object-position:{xpos}% 50%"'
         slides.append(
             f'<figure class="hp-slide{" is-active" if first else ""}{" is-side" if side else ""}" data-tone="{tone}"{extra}>'
             f'<picture><source media="(max-width: 700px)" srcset="hero/{key}-m.jpg" width="1080" height="1350">'
-            f'<img src="hero/{key}.jpg" width="{big.width}" height="{big.height}" alt="{esc(title)}" style="object-position:{xpos}% 50%"'
+            f'<img src="hero/{key}.jpg" width="{big.width}" height="{big.height}" alt="{esc(title)}"{pos_attr}'
             f'{load_attr} decoding="async"></picture></figure>')
         dots.append(f'<button type="button" class="hp-dot{" is-active" if first else ""}" aria-label="Fotka {i + 1}: {esc(title)}"><span></span></button>')
     first_tone = "tone-light" if 'data-tone="light"' in slides[0] else "tone-dark"
