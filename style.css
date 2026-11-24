@@ -574,3 +574,26 @@ h3,.pr-txt b,.pj-next b,.faq summary{font-family:"Boska",Georgia,serif;font-weig
 .pj-cover img{width:auto;max-width:100%;max-height:86vh;margin:0 auto;display:block}
 .brand span{font-weight:500;letter-spacing:.1em}
 .brand b{font-weight:700;letter-spacing:.06em}
+
+/* ---------- Úvod: fotka přes celou obrazovku, text dole vlevo ----------
+   Barva textu se řídí jasem fotky pod textem:
+   .tone-dark  = tmavé místo pod textem -> bílý text a jemné ztmavení
+   .tone-light = světlé místo pod textem -> tmavý text a jemné zesvětlení
+   Třídu nastaví build.py podle hero.jpg a app.js ji v prohlížeči ještě ověří. */
+.hp-text{justify-content:flex-end;padding-bottom:clamp(40px,7vh,80px)}
+.hero-photo::after{background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(0,0,0,.6) 100%)}
+.hero-photo .hp-text h1,.hero-photo .hp-text .hero-sub,.hero-photo .hp-text .hero-link{color:#fff}
+.hero-photo .hp-text .hero-link{border-color:#fff}
+.hero-photo.tone-light::after{background:linear-gradient(180deg,rgba(245,245,243,0) 38%,rgba(245,245,243,.72) 100%)}
+.hero-photo.tone-light .hp-text h1,.hero-photo.tone-light .hp-text .hero-link{color:var(--ink)}
+.hero-photo.tone-light .hp-text .hero-sub{color:#2b2b2b}
+.hero-photo.tone-light .hp-text .hero-link{border-color:var(--ink)}
+@media (min-width:701px){.hp-media img{height:min(92vh,56.25vw)}}
+@media (max-width:700px){
+  .hero-photo .hp-text h1,.hero-photo .hp-text .hero-link{color:var(--ink)}
+  .hero-photo .hp-text .hero-sub{color:var(--muted)}
+  .hero-photo .hp-text .hero-link{border-color:var(--ink)}
+}
+.hero-photo::after{background:linear-gradient(to top right,rgba(0,0,0,.66) 0%,rgba(0,0,0,.28) 35%,rgba(0,0,0,0) 60%)}
+.hero-photo.tone-light::after{background:linear-gradient(to top right,rgba(245,245,243,.78) 0%,rgba(245,245,243,.35) 35%,rgba(245,245,243,0) 60%)}
+@media (max-width:700px){.hero-photo::after,.hero-photo.tone-light::after{display:none}}

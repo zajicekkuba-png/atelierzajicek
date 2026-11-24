@@ -311,3 +311,24 @@
     DATA = d; CAT = {}; d.categories.forEach(function (c) { CAT[c.id] = c; }); renderAll();
   }).catch(function () { renderAll(); });
 })();
+
+/* Úvodní fotka: barva textu podle jasu fotky v místě, kde je text (dole vlevo). */
+(function () {
+  var sec = document.querySelector(".hero-photo");
+  var img = sec && sec.querySelector(".hp-media img");
+  if (!img) return;
+  function tone() {
+    try {
+      var W = 64, H = 36, c = document.createElement("canvas");
+      c.width = W; c.height = H;
+      var x = c.getContext("2d", { willReadFrequently: true });
+      x.drawImage(img, 0, 0, W, H);
+      var y0 = Math.round(H * 0.45), d = x.getImageData(0, y0, Math.round(W * 0.5), H - y0).data, s = 0, n = 0;
+      for (var i = 0; i < d.length; i += 4) { s += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]; n++; }
+      var light = s / n / 255 > 0.55;
+      sec.classList.toggle("tone-light", light);
+      sec.classList.toggle("tone-dark", !light);
+    } catch (e) {}
+  }
+  if (img.complete && img.naturalWidth) tone(); else img.addEventListener("load", tone);
+})();
