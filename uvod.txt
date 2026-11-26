@@ -16,6 +16,6 @@ id# Fotky v úvodní prezentaci na hlavní stránce (střídají se po 5 sekund�
 
 Kruh a prostor | vpravo
 Pod obloukem
-Detail sloupku
+Detail sloupku | vpravo
 Za plotem
 Plamen a barva
