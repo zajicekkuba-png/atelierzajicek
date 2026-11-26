@@ -1,4 +1,4 @@
-# Fotky v úvodní prezentaci na hlavní stránce (střídají se po 5 sekundách).
+d# Fotky v úvodní prezentaci na hlavní stránce (střídají se po 5 sekundách).
 # Jeden řádek = jedna fotka, pořadí = pořadí na webu. Ideálně 3–5 fotek na šířku.
 #
 # Napiš název fotky (jak je v nazvy.txt) nebo cestu k souboru, třeba:
@@ -16,6 +16,6 @@
 
 Kruh a prostor | vpravo
 Pod obloukem
-Bouřlivé moře
+Architektura a prostor
 Za plotem
 Plamen a barva
