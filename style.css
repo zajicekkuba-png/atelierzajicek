@@ -675,3 +675,30 @@ h1,h2,h3,.e-cat,.cat-name,.pj-head h1,.pj-cta h2,.pr-txt b,.pj-next b,.faq summa
 .brand,.brand span,.brand b{font-weight:900;letter-spacing:-.01em;text-transform:none}
 .hero h1,.hp-text h1,.pj-head h1,.pj-cta h2,.cat-name{font-weight:400}
 .pj-text h2{font-family:"Zodiak",Georgia,serif;font-weight:700}
+
+/* ===================== Typografická škála (sjednocení) =====================
+   Zodiak:  H1 úvod (Regular) · H2 sekce (Regular) · H3 titulky (Bold, jedna velikost) · jméno v hlavičce (Black)
+   DM Sans: 17 px úvodní text a odkazy · 16 px běžný text · 14 px popisky, tlačítka, formuláře · 12 px drobné štítky
+   Řezy DM Sans: jen Regular (400) a SemiBold (600) */
+.contact h2,.pj-cta h2{font-size:clamp(2rem,3.6vw,2.6rem);font-weight:400;letter-spacing:-.015em}
+.e-cat,.pr-txt b,.job h3,.who h3,.faq summary,.pj-text h2,.pj-next b,.disc h3{font-family:"Zodiak",Georgia,serif;font-size:1.3rem;font-weight:700;letter-spacing:-.005em;text-transform:none}
+.brand span,.brand b{font-size:inherit}
+.hero-sub,.hp-text .hero-sub{font-size:1.0625rem}
+.hero-link{font-size:1.0625rem;font-weight:600}
+blockquote,.rev blockquote,.c-rows dd,.c-rows a,.c-social a{font-weight:400}
+.filters .chip{font-size:1rem}
+.chip small{font-size:.75rem;font-weight:400}
+.btn,.btn-small,.pr-go,.skip-pf,.viewtog .vt,.field label,.f-body label{font-size:.875rem;font-weight:600}
+.viewtog .vt{font-weight:400}
+.viewtog .vt[aria-pressed="true"],.viewtog .vt.on{font-weight:600}
+figcaption b,.film-item b{font-size:.875rem;font-weight:600}
+figcaption span{font-size:.875rem}
+.pr-meta,.pj-meta dt{font-size:.75rem}
+.rev-av{font-size:.875rem;font-weight:600}
+.rev figcaption b{font-weight:600}
+.chip[aria-pressed="true"],.chip.on,.chip.active{font-weight:600}
+.e-item figcaption b{font-size:.875rem;font-weight:600}
+.e-item figcaption span,.pj-img figcaption{font-size:.875rem}
+.foot .wrap>span{font-size:.875rem;font-weight:400}
+.foot .brand,.foot .brand span,.foot .brand b{font-size:.95rem}
+.foot .wrap>*:nth-child(2){font-weight:400;font-size:.875rem}
