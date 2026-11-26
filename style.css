@@ -702,3 +702,4 @@ figcaption span{font-size:.875rem}
 .foot .wrap>span{font-size:.875rem;font-weight:400}
 .foot .brand,.foot .brand span,.foot .brand b{font-size:.95rem}
 .foot .wrap>*:nth-child(2){font-weight:400;font-size:.875rem}
+.nowrap{white-space:nowrap}
