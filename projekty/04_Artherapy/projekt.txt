@@ -1,0 +1,21 @@
+# PROJEKT: focení pro Ivanu a artherapy.cz
+# Pořadí fotek: číslo na začátku názvu (1_, 2_, 3_ …). První fotka je titulní.
+# Řádky začínající # se na webu nezobrazí. Text pod čárou --- klidně přepiš.
+#
+# DOPLŇ: rok focení (řádek „Rok:“). Pokud chceš, uprav název nebo podtitul.
+
+Název: Ivana · artherapy.cz
+Podtitul: Portréty pro web terapeutky Ivany
+Obor: Portrétní fotografie
+Klient: artherapy.cz
+Role: Koncept, focení v ateliéru a postprodukce
+Rok: 
+Obal: 1_titulni.jpg
+---
+Ivana se věnuje terapiím a potřebovala portréty pro svůj web artherapy.cz. Fotky měly působit přirozeně a autenticky, aby z nich byla cítit její osobnost a aby klientům, kteří ji ještě neznají, ukázaly, s kým budou mluvit.
+
+## Několik podob jedné osobnosti
+Focení proběhlo v ateliéru v několika stylech. Klidné portréty v saku pro web, uvolněnější westernový styl s kloboukem a džínovou bundou a na závěr kreativní portréty s barevným a tvarovaným světlem, kde jsme si mohli dovolit víc experimentovat.
+
+## Výsledek
+Vznikla sada portrétů pro web artherapy.cz. Jedna z nich, Kruh a prostor, je zároveň moje nejoblíbenější fotka vůbec.
