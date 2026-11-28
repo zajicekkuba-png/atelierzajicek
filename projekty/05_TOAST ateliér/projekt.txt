@@ -1,21 +1,22 @@
 # PROJEKT: TOAST ateliér
 # Pořadí fotek: číslo na začátku názvu (1_, 2_, 3_ …). První fotka je titulní.
+# Popisky pod fotkami jsou v souboru nazvy.txt.
 # Řádky začínající # se na webu nezobrazí. Text pod čárou --- klidně přepiš.
 #
-# DOPLŇ: rok focení (řádek „Rok:“), případně celé jméno Tomana.
+# DOPLŇ: rok focení (řádek „Rok:“).
 
 Název: TOAST ateliér
-Podtitul: Reportáž z ateliéru malířů Lukáše Staše a Tomana
+Podtitul: Reportáž z ateliéru Lukáše Staše a Miloše Tomana
 Obor: Reportážní fotografie
 Klient: TOAST ateliér
 Role: Focení a postprodukce
 Rok: 
 Obal: 1_titulni.jpg
 ---
-TOAST je ateliér malířů Lukáše Staše a Tomana. Fotil jsem je přímo při tvorbě i s hotovými obrazy. Cílem bylo zachytit, jak jejich práce vzniká, a ne jen to, jak vypadá na zdi.
+TOAST je ateliér Lukáše Staše a Miloše Tomana. Fotil jsem je přímo při tvorbě i s hotovými díly. Cílem bylo zachytit, jak jejich práce vzniká, a ne jen to, jak vypadá na zdi.
 
-## Při práci
-Malování na zemi, stříkání barvy a práce s ohněm. Ateliér je plný pohybu, a tak jsem se snažil zachytit energii a rytmus jejich tvorby, včetně detailů, které se na hotovém obraze ztratí.
+## Dva různé přístupy
+Lukáš maluje velkoformátové abstraktní obrazy, často přímo na zemi, s litím a stříkáním barvy. Miloš experimentuje s leptáním a opalováním kovů, takže v ateliéru se pracuje i s ohněm. Snažil jsem se zachytit energii a rytmus obou a detaily, které se na hotovém díle ztratí.
 
 ## Hotová díla
-Druhá část focení patřila obrazům samotným: detailům struktury a barvy, které vyniknou až při práci se světlem, a obrazům venku na denním světle.
+Druhá část focení patřila dílům samotným: struktuře barvy a kovu, která vynikne až při práci se světlem, a obrazům venku na denním světle.

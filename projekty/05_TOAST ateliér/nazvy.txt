@@ -1,0 +1,11 @@
+# Popisky fotek v projektu (zobrazí se malým šedým písmem pod fotkou).
+# soubor.jpg = Popisek    Titulní fotka (1_) se nepopisuje.
+2_atelier.jpg = Ateliér TOAST
+3_pred-obrazy.jpg = Lukáš Staš před svými obrazy
+4_horak.jpg = Miloš Toman při opalování
+5_rezava-stena.jpg = Miloš Toman – leptaný a opalovaný kov
+6_plamen.jpg = Opalování povrchu ohněm
+7_obrazy-ve-svetle.jpg = Obrazy v ateliéru
+8_detail-modra.jpg = Detail
+9_detail-fialova.jpg = Detail malby
+10_s-obrazem.jpg = Lukáš Staš s hotovým obrazem
