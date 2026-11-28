@@ -349,26 +349,35 @@ def build_projects(img_dir, css):
         sub = m.get("sub", "")
         desc = m.get("desc") or sub or f"Projekt {m['title']} – Jakub Zajíček, fotograf, videomaker a grafik."
         rows = [(k, m[v]) for k, v in (("Klient", "client"), ("Obor", "field"), ("Role", "role"), ("Rok", "year")) if m.get(v)]
-        # Rozložení: fotky na šířku přes celou šířku, ostatní (na výšku, čtverce) po dvou vedle sebe.
-        # Osamocená fotka na výšku se vycentruje, aby vedle ní nezůstalo prázdné místo.
+        # Rozložení „zarovnané řady“: fotky v jedné řadě mají vždy stejnou výšku a dohromady vyplní celou šířku.
+        # Výrazně široké fotky a videa mají řadu samy pro sebe, ostatní se skládají po 2–3,
+        # dokud řada nemá rozumnou výšku (součet poměrů stran aspoň ~1,6). Poslední neúplná řada se zmenší a vycentruje.
         rest = [p for p in pr["imgs"] if p is not cover]
-        kinds = ["wide" if p["w"] / p["h"] >= 1.25 and p["w"] >= 1400 else "half" for p in rest]  # malé obrázky neroztahovat přes celou šířku
-        cls, i = [], 0
-        while i < len(rest):
-            if kinds[i] == "wide":
-                cls.append("wide"); i += 1
-            elif i + 1 < len(rest) and kinds[i + 1] == "half":
-                cls += ["", ""]; i += 2
-            else:
-                cls.append("solo"); i += 1
+        grows, cur = [], []
+        def ar(p):
+            return max(0.3, p["w"] / p["h"])
+        for p in rest:
+            solo = p.get("kind") == "video" or (ar(p) >= 1.6 and p["w"] >= 1400)
+            if solo:
+                if cur: grows.append(cur); cur = []
+                grows.append([p]); continue
+            cur.append(p)
+            if sum(ar(x) for x in cur) >= 1.6 or len(cur) == 3:
+                grows.append(cur); cur = []
+        if cur: grows.append(cur)
         figs = []
-        for p, c in zip(rest, cls):
-            cap = f"<figcaption>{nb(p['cap'])}</figcaption>" if p["cap"] else ""
-            if p.get("kind") == "video":
-                media = f'<video src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" controls playsinline preload="metadata"></video>'
-            else:
-                media = f'<img src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" loading="lazy" decoding="async" alt="{esc(p["cap"] or m["title"])}">'
-            figs.append(f'<figure class="pj-img {c}">{media}{cap}</figure>')
+        for row in grows:
+            total = sum(ar(p) for p in row)
+            cells = []
+            for p in row:
+                cap = f"<figcaption>{nb(p['cap'])}</figcaption>" if p["cap"] else ""
+                if p.get("kind") == "video":
+                    media = f'<video src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" controls playsinline preload="metadata"></video>'
+                else:
+                    media = f'<img src="/{p["full"]}" width="{p["w"]}" height="{p["h"]}" loading="lazy" decoding="async" alt="{esc(p["cap"] or m["title"])}">'
+                cells.append(f'<figure class="pj-img" style="flex:{ar(p):.4f} 1 0%">{media}{cap}</figure>')
+            style = f' style="max-width:{total * 620:.0f}px"' if total < 1.4 else ""
+            figs.append(f'<div class="pj-row"{style}>{"".join(cells)}</div>')
         dl = "".join(f'<a class="pj-file" href="/{x["href"]}" download><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 2.5v9M5 8l4 4 4-4M3 15.5h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>{nb(x["label"])}</b><small>PDF · {x["size"]}</small></span></a>' for x in pr["files"])
         html = page_head(m["title"], desc, f"{SITE_URL}/{cover['full']}", f"{SITE_URL}/projekty/{pr['id']}/", css)
         html += f"""
