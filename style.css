@@ -708,3 +708,15 @@ figcaption span{font-size:.875rem}
 
 /* Jméno v hlavičce a v patičce: Satoshi Bold */
 .brand,.brand span,.brand b{font-family:"Satoshi",system-ui,sans-serif;font-weight:700;letter-spacing:-.01em;text-transform:none}
+
+/* ---------- Galerie v projektech: zarovnané řady (stejná výška fotek v řadě) ---------- */
+.pj-grid{display:flex;flex-direction:column;gap:20px;padding-top:40px}
+.pj-row{display:flex;gap:20px;width:100%;margin-inline:auto}
+.pj-row .pj-img{margin:0;min-width:0}
+.pj-row .pj-img img,.pj-row .pj-img video{display:block;width:100%;height:auto;border-radius:4px}
+.pj-row .pj-img img[src$=".gif"]{width:100%}
+@media (max-width:640px){
+  .pj-grid{gap:12px;padding-top:24px}
+  .pj-row{flex-direction:column;gap:12px;max-width:none!important}
+  .pj-row .pj-img{flex:none!important;width:100%}
+}
